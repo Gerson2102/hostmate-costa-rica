@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+@theme {
+  /* Dark Theme Colors - Matching Brand Assets */
+  --color-background: #0A0A0F;
+  --color-background-elevated: #12121A;
+  --color-background-glass: rgba(255, 255, 255, 0.05);
+
+  /* Primary: Coral/Red from mascot and logo */
+  --color-primary: #E85D4C;
+  --color-primary-glow: #FF6B5B;
+
+  /* Secondary: Blue from brand stickers */
+  --color-secondary: #2D5BFF;
+
+  /* Accent colors from brand assets */
+  --color-accent-purple: #9B8AC4;
+  --color-accent-pink: #F472B6;
+  --color-accent-gold: #D4A017;
+  --color-accent-magenta: #A03472;
+
+  --color-foreground: #FFFFFF;
+  --color-muted: #A1A1AA;
+  --color-border: rgba(255, 255, 255, 0.1);
+
+  /* Font families */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Animation easings */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Base body styles - NO RESETS */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Text selection with brand colors */
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-glow);
+}
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Glass-morphism utility classes */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Glow effects */
+.glow-primary {
+  box-shadow: 0 0 40px rgba(232, 93, 76, 0.3);
+}
+
+.glow-primary-intense {
+  box-shadow: 0 0 60px rgba(232, 93, 76, 0.5);
+}
+
+.shadow-glow-primary {
+  box-shadow: 0 0 30px rgba(232, 93, 76, 0.4);
+}
+
+.shadow-glow-primary-intense {
+  box-shadow: 0 0 50px rgba(232, 93, 76, 0.6);
+}
+
+/* Brand color glows */
+.glow-purple {
+  box-shadow: 0 0 40px rgba(155, 138, 196, 0.3);
+}
+
+.glow-pink {
+  box-shadow: 0 0 40px rgba(244, 114, 182, 0.3);
+}
+
+.glow-gold {
+  box-shadow: 0 0 40px rgba(212, 160, 23, 0.3);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-brand {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-purple) 50%, var(--color-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Line clamp utility */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Sticker float animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Subtle pulse for mascot */
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.95;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
