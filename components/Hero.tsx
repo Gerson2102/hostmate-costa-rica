@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ArrowRight, ChevronDown, Building2, Star, Clock } from 'lucide-react';
-import Image from 'next/image';
 
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -20,21 +19,12 @@ export function Hero() {
           duration: 1.5,
           stagger: 0.2,
         })
-        // Floating stickers animate in
-        .from('.floating-sticker', {
-          opacity: 0,
-          scale: 0,
-          rotation: -180,
-          duration: 1,
-          stagger: 0.15,
-          ease: 'back.out(1.7)',
-        }, '-=1')
         // Overline slides in
         .from('.hero-overline', {
           opacity: 0,
           x: -50,
           duration: 0.8,
-        }, '-=0.8')
+        }, '-=1')
         // Headline reveals
         .from('.hero-headline', {
           opacity: 0,
@@ -60,22 +50,11 @@ export function Hero() {
           stagger: 0.1,
           duration: 0.6,
         }, '-=0.3')
-        // Main characters bounce in
-        .from('.hero-characters', {
+        // Hero image appears
+        .from('.hero-image', {
           opacity: 0,
-          scale: 0.5,
-          y: 100,
+          scale: 0.9,
           duration: 1,
-          ease: 'back.out(1.4)',
-        }, '-=0.5')
-        // Destination cards fly in
-        .from('.destination-card', {
-          opacity: 0,
-          scale: 0,
-          rotation: -30,
-          duration: 0.6,
-          stagger: 0.15,
-          ease: 'back.out(1.7)',
         }, '-=0.5')
         // Scroll indicator
         .from('.scroll-indicator', {
@@ -83,43 +62,6 @@ export function Hero() {
           y: -20,
           duration: 0.5,
         });
-
-      // Floating animation for stickers
-      gsap.to('.floating-sticker', {
-        y: 'random(-10, 10)',
-        rotation: 'random(-5, 5)',
-        duration: 'random(2, 3)',
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        stagger: {
-          each: 0.5,
-          from: 'random',
-        },
-      });
-
-      // Characters subtle bounce
-      gsap.to('.hero-characters', {
-        y: -15,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
-
-      // Destination cards float
-      gsap.to('.destination-card', {
-        y: 'random(-8, 8)',
-        rotation: 'random(-3, 3)',
-        duration: 'random(2.5, 3.5)',
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        stagger: {
-          each: 0.3,
-          from: 'random',
-        },
-      });
     }, containerRef);
 
     return () => ctx.revert();
@@ -132,32 +74,18 @@ export function Hero() {
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient Orbs */}
-        <div className="gradient-orb absolute top-20 left-10 w-96 h-96 bg-primary/20 rounded-full blur-[100px]" />
-        <div className="gradient-orb absolute bottom-20 right-10 w-80 h-80 bg-secondary/20 rounded-full blur-[100px]" />
-        <div className="gradient-orb absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px]" />
+        {/* Soft Gradient Orbs */}
+        <div className="gradient-orb absolute top-20 left-10 w-96 h-96 bg-primary/10 rounded-full blur-[120px]" />
+        <div className="gradient-orb absolute bottom-20 right-10 w-80 h-80 bg-secondary/10 rounded-full blur-[120px]" />
+        <div className="gradient-orb absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]" />
 
-        {/* Floating Brand Stickers */}
-        <div className="floating-sticker absolute top-32 right-[15%] w-16 h-16 opacity-60">
-          <Image src="/assets/stickers/sticker.png" alt="" fill className="object-contain" />
-        </div>
-        <div className="floating-sticker absolute top-[40%] left-[8%] w-20 h-20 opacity-50">
-          <Image src="/assets/stickers/sticker_9.png" alt="" fill className="object-contain" />
-        </div>
-        <div className="floating-sticker absolute bottom-[30%] right-[8%] w-14 h-14 opacity-50">
-          <Image src="/assets/stickers/sticker_15.png" alt="" fill className="object-contain" />
-        </div>
-        <div className="floating-sticker absolute top-[20%] left-[20%] w-12 h-12 opacity-40">
-          <Image src="/assets/stickers/sticker_17.png" alt="" fill className="object-contain" />
-        </div>
-
-        {/* Grid Pattern */}
+        {/* Subtle Grid Pattern */}
         <div
-          className="absolute inset-0 opacity-[0.02]"
+          className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+              linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)
             `,
             backgroundSize: '50px 50px',
           }}
@@ -173,7 +101,7 @@ export function Hero() {
               Consulting & Property Management
             </span>
 
-            <h1 className="hero-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] tracking-tight">
+            <h1 className="hero-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] tracking-tight text-foreground">
               Tu Propiedad,
               <br />
               <span className="text-primary">Nuestra Pasión</span>
@@ -192,10 +120,10 @@ export function Hero() {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
 
-            {/* Stats Row - Clearly visible below CTA */}
+            {/* Stats Row */}
             <div className="flex flex-wrap gap-4 pt-4">
-              <div className="stat-card glass-strong rounded-xl px-5 py-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+              <div className="stat-card bg-white rounded-xl px-5 py-4 flex items-center gap-3 shadow-lg shadow-black/5 border border-black/5">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Building2 className="w-5 h-5 text-primary" />
                 </div>
                 <div>
@@ -204,8 +132,8 @@ export function Hero() {
                 </div>
               </div>
 
-              <div className="stat-card glass-strong rounded-xl px-5 py-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center">
+              <div className="stat-card bg-white rounded-xl px-5 py-4 flex items-center gap-3 shadow-lg shadow-black/5 border border-black/5">
+                <div className="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center">
                   <Star className="w-5 h-5 text-yellow-500" />
                 </div>
                 <div>
@@ -214,8 +142,8 @@ export function Hero() {
                 </div>
               </div>
 
-              <div className="stat-card glass-strong rounded-xl px-5 py-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
+              <div className="stat-card bg-white rounded-xl px-5 py-4 flex items-center gap-3 shadow-lg shadow-black/5 border border-black/5">
+                <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
                   <Clock className="w-5 h-5 text-green-500" />
                 </div>
                 <div>
@@ -226,62 +154,70 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right: Characters with Suitcases */}
-          <div className="relative hidden lg:flex items-center justify-center min-h-[500px]">
-            {/* Main Characters - Travelers with suitcases */}
-            <div className="hero-characters relative w-[400px] h-[400px]">
-              <Image
-                src="/assets/characters/suitcase.png"
-                alt="Hostmate Characters - Ready to travel"
-                fill
-                className="object-contain drop-shadow-2xl"
-                priority
-              />
-            </div>
+          {/* Right: Hero Image */}
+          <div className="hero-image relative hidden lg:flex items-center justify-center min-h-[500px]">
+            {/* Decorative card mockup */}
+            <div className="relative w-full max-w-md">
+              {/* Main card */}
+              <div className="bg-white rounded-3xl p-8 shadow-2xl shadow-black/10 border border-black/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Building2 className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">Tu Propiedad</p>
+                    <p className="text-sm text-muted">Guanacaste, Costa Rica</p>
+                  </div>
+                </div>
 
-            {/* Floating Destination Cards */}
-            <div className="destination-card absolute -top-4 -left-8 w-28 h-28 rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src="/assets/characters/beachcream.png"
-                alt="Beach destination"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="destination-card absolute top-8 -right-4 w-24 h-24 rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src="/assets/characters/citycream.png"
-                alt="City destination"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="destination-card absolute -bottom-4 right-8 w-26 h-26 rounded-2xl overflow-hidden shadow-2xl" style={{ width: '104px', height: '104px' }}>
-              <Image
-                src="/assets/characters/mountaincream.png"
-                alt="Mountain destination"
-                fill
-                className="object-cover"
-              />
-            </div>
+                {/* Stats preview */}
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center p-3 bg-background-elevated rounded-xl">
+                    <p className="text-2xl font-bold text-primary">95%</p>
+                    <p className="text-xs text-muted">Ocupación</p>
+                  </div>
+                  <div className="text-center p-3 bg-background-elevated rounded-xl">
+                    <p className="text-2xl font-bold text-foreground">4.9</p>
+                    <p className="text-xs text-muted">Rating</p>
+                  </div>
+                  <div className="text-center p-3 bg-background-elevated rounded-xl">
+                    <p className="text-2xl font-bold text-green-600">+40%</p>
+                    <p className="text-xs text-muted">Ingresos</p>
+                  </div>
+                </div>
 
-            {/* Decorative stickers */}
-            <div className="absolute -bottom-8 -left-4 w-20 h-20 z-10">
-              <Image
-                src="/assets/stickers/sticker_12.png"
-                alt=""
-                fill
-                className="object-contain"
-              />
+                {/* Action hint */}
+                <div className="flex items-center justify-between p-4 bg-primary/5 rounded-xl">
+                  <span className="text-sm text-foreground font-medium">Administrado por Hostmate</span>
+                  <div className="flex -space-x-2">
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">HM</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating accent cards */}
+              <div className="absolute -top-4 -right-4 bg-white rounded-xl p-3 shadow-lg shadow-black/10 border border-black/5">
+                <div className="flex items-center gap-2">
+                  <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                  <span className="text-sm font-medium text-foreground">Superhost</span>
+                </div>
+              </div>
+
+              <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-3 shadow-lg shadow-black/10 border border-black/5">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span className="text-sm font-medium text-foreground">24/7 Soporte</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator - With better visibility */}
+      {/* Scroll Indicator */}
       <div className="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
         <span className="text-sm uppercase tracking-widest text-muted">Descubre más</span>
-        <div className="w-10 h-10 rounded-full border border-muted/30 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center bg-white/50">
           <ChevronDown className="w-5 h-5 text-muted animate-bounce" />
         </div>
       </div>

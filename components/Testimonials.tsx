@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
-import Image from 'next/image';
 
 const testimonios = [
   {
@@ -57,27 +56,6 @@ export function Testimonials() {
       id="testimonios"
       className="py-32 bg-background-elevated relative overflow-hidden"
     >
-      {/* Decorative Characters */}
-      <motion.div
-        className="absolute top-20 left-[5%] w-40 h-40 hidden lg:block opacity-40"
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 0.4, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-      >
-        <Image src="/assets/characters/surf.png" alt="" fill className="object-contain" />
-      </motion.div>
-
-      <motion.div
-        className="absolute bottom-20 right-[5%] w-36 h-36 hidden lg:block opacity-40"
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 0.4, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3 }}
-      >
-        <Image src="/assets/characters/yoga.png" alt="" fill className="object-contain" />
-      </motion.div>
-
       {/* Header */}
       <div className="text-center mb-16 px-4">
         <motion.span
@@ -108,7 +86,7 @@ export function Testimonials() {
         {/* Marquee Track */}
         <div className="flex gap-6 animate-marquee">
           {[...testimonios, ...testimonios].map((t, i) => (
-            <div key={i} className="flex-shrink-0 glass rounded-2xl p-6 w-[350px]">
+            <div key={i} className="flex-shrink-0 bg-white rounded-2xl p-6 w-[350px] shadow-lg shadow-black/5 border border-black/5">
               <div className="flex gap-1 mb-3">
                 {[...Array(t.estrellas)].map((_, j) => (
                   <Star key={j} className="w-4 h-4 fill-primary text-primary" />
@@ -127,7 +105,7 @@ export function Testimonials() {
       {/* Featured Testimonial */}
       <div className="max-w-4xl mx-auto px-4">
         <motion.div
-          className="glass-strong rounded-3xl p-8 sm:p-12 relative overflow-hidden"
+          className="bg-white rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-xl shadow-black/5 border border-black/5"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -135,11 +113,6 @@ export function Testimonials() {
           {/* Large Quote Mark */}
           <div className="absolute top-4 sm:top-8 left-4 sm:left-8 text-7xl sm:text-9xl font-serif text-primary/10">
             &ldquo;
-          </div>
-
-          {/* Couple Characters - top right corner */}
-          <div className="absolute -top-4 -right-4 w-28 h-28 opacity-50 hidden sm:block">
-            <Image src="/assets/characters/couple.png" alt="" fill className="object-contain" />
           </div>
 
           <div className="relative z-10">
@@ -154,7 +127,7 @@ export function Testimonials() {
             </blockquote>
 
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-primary/20 flex items-center justify-center">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-primary/10 flex items-center justify-center">
                 <span className="text-xl sm:text-2xl font-bold text-primary">
                   {featuredTestimonio.iniciales}
                 </span>

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import Image from 'next/image';
 
 const navLinks = [
   { label: 'Nosotros', href: '#nosotros' },
@@ -30,26 +29,16 @@ export function Navigation() {
       transition={{ duration: 0.6 }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Always solid background - better contrast */}
         <div
-          className={`flex items-center justify-between rounded-2xl px-6 py-3 transition-all duration-300 bg-background-elevated border border-border ${
-            scrolled ? 'shadow-lg shadow-black/20' : ''
+          className={`flex items-center justify-between rounded-2xl px-6 py-3 transition-all duration-300 ${
+            scrolled
+              ? 'bg-white/95 backdrop-blur-lg shadow-lg shadow-black/5 border border-black/5'
+              : 'bg-white/80 backdrop-blur-md border border-black/5'
           }`}
         >
-          {/* Logo - HM Monogram + Text */}
-          <a href="#" className="flex items-center gap-3">
-            {/* Logo Icon - White version for dark background */}
-            <div className="relative w-9 h-9 flex-shrink-0">
-              <Image
-                src="/assets/logos/logo_643e.png"
-                alt="Hostmate"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-            {/* Logo Text */}
-            <span className="text-xl font-bold text-foreground tracking-tight hidden sm:block">
+          {/* Logo Text */}
+          <a href="#" className="flex items-center">
+            <span className="text-xl font-bold text-foreground tracking-tight">
               host<span className="text-primary">mate</span>
             </span>
           </a>
@@ -89,7 +78,7 @@ export function Navigation() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="md:hidden bg-background-elevated border border-border mt-2 mx-4 rounded-2xl overflow-hidden"
+            className="md:hidden bg-white border border-black/5 mt-2 mx-4 rounded-2xl overflow-hidden shadow-xl"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}

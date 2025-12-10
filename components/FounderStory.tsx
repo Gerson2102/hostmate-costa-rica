@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
-import Image from 'next/image';
 
 export function FounderStory() {
   return (
@@ -10,16 +9,6 @@ export function FounderStory() {
       {/* Background Elements */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[150px]" />
-
-      {/* Decorative Characters */}
-      <motion.div
-        className="absolute top-20 right-[5%] w-24 h-24 opacity-20 hidden lg:block"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 0.2 }}
-        viewport={{ once: true }}
-      >
-        <Image src="/assets/characters/yoga.png" alt="" fill className="object-contain" />
-      </motion.div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
@@ -58,26 +47,17 @@ export function FounderStory() {
               <div className="absolute -inset-4 border-2 border-primary/20 rounded-full" />
               <div className="absolute -inset-8 border border-primary/10 rounded-full hidden sm:block" />
 
-              {/* Photo container */}
+              {/* Photo container - placeholder */}
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden border-4 border-primary/30">
-                {/* Placeholder - replace src with actual photo */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                  {/* This will be replaced with the actual photo */}
-                  <Image
-                    src="/assets/characters/loney.png"
-                    alt="Vanessa - Fundadora de Hostmate"
-                    fill
-                    className="object-cover"
-                  />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+                  {/* Initials placeholder */}
+                  <span className="text-6xl font-bold text-primary/30">V</span>
                 </div>
-
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
               </div>
 
               {/* Name badge */}
               <motion.div
-                className="absolute -bottom-4 left-1/2 -translate-x-1/2 glass-strong px-6 py-3 rounded-full"
+                className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg shadow-black/10 border border-black/5"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -99,7 +79,7 @@ export function FounderStory() {
           >
             {/* Quote icon */}
             <div className="mb-6">
-              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                 <Quote className="w-6 h-6 text-primary" />
               </div>
             </div>
@@ -136,17 +116,7 @@ export function FounderStory() {
               transition={{ delay: 0.5 }}
             >
               <div className="h-px flex-1 bg-gradient-to-r from-primary/50 to-transparent" />
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 relative">
-                  <Image
-                    src="/assets/logos/logo_7cf9.png"
-                    alt=""
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-                <span className="text-muted text-sm">Hostmate Costa Rica</span>
-              </div>
+              <span className="text-muted text-sm">Hostmate Costa Rica</span>
             </motion.div>
           </motion.div>
         </div>

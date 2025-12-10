@@ -13,7 +13,6 @@ import {
   Camera,
   Sparkles,
 } from 'lucide-react';
-import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -86,15 +85,15 @@ function ServiceCard({
   const { icon: Icon, titulo, descripcion, color } = servicio;
 
   return (
-    <div className="service-card flex-shrink-0 w-[350px] sm:w-[400px] glass-strong rounded-3xl p-8 relative overflow-hidden group">
+    <div className="service-card flex-shrink-0 w-[350px] sm:w-[400px] bg-white rounded-3xl p-8 relative overflow-hidden group shadow-lg shadow-black/5 border border-black/5">
       {/* Glow Effect */}
       <div
-        className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[80px] opacity-30 group-hover:opacity-50 transition-opacity"
+        className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity"
         style={{ backgroundColor: color }}
       />
 
       {/* Number */}
-      <span className="text-8xl font-bold text-white/5 absolute top-4 right-4">
+      <span className="text-8xl font-bold text-black/[0.03] absolute top-4 right-4">
         {String(index + 1).padStart(2, '0')}
       </span>
 
@@ -102,7 +101,7 @@ function ServiceCard({
       <div className="relative z-10">
         <div
           className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
-          style={{ backgroundColor: `${color}20` }}
+          style={{ backgroundColor: `${color}15` }}
         >
           <Icon className="w-8 h-8" style={{ color }} />
         </div>
@@ -177,15 +176,6 @@ export function Services() {
           }
         );
       });
-
-      // Floating character animation
-      gsap.to('.service-character', {
-        y: -20,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -197,31 +187,15 @@ export function Services() {
       ref={sectionRef}
       className="relative bg-background-elevated overflow-hidden"
     >
-      {/* Map Character - Fixed position decoration */}
-      <div className="service-character absolute top-1/2 right-[3%] w-48 h-48 -translate-y-1/2 opacity-30 hidden xl:block z-10">
-        <Image src="/assets/characters/map.png" alt="" fill className="object-contain" />
-      </div>
-
-      {/* Lonely Red Character - bottom left */}
-      <div className="absolute bottom-32 left-[3%] w-32 h-32 opacity-20 hidden lg:block">
-        <Image src="/assets/characters/loney.png" alt="" fill className="object-contain" />
-      </div>
-
       {/* Header - Fixed while scrolling */}
       <div className="absolute top-0 left-0 right-0 z-20 py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background-elevated via-background-elevated to-transparent">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div>
-            <span className="text-primary font-medium text-sm uppercase tracking-wider">
-              Lo Que Hacemos
-            </span>
-            <h2 className="text-4xl lg:text-5xl font-bold mt-2 text-foreground">
-              Nuestros Servicios
-            </h2>
-          </div>
-          {/* Lonely Purple Character as decoration */}
-          <div className="hidden lg:block relative w-24 h-24 opacity-60">
-            <Image src="/assets/characters/loney_1.png" alt="" fill className="object-contain" />
-          </div>
+        <div className="max-w-7xl mx-auto">
+          <span className="text-primary font-medium text-sm uppercase tracking-wider">
+            Lo Que Hacemos
+          </span>
+          <h2 className="text-4xl lg:text-5xl font-bold mt-2 text-foreground">
+            Nuestros Servicios
+          </h2>
         </div>
       </div>
 
@@ -235,7 +209,7 @@ export function Services() {
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-8 left-8 right-8 h-1 bg-white/10 rounded-full overflow-hidden">
+      <div className="absolute bottom-8 left-8 right-8 h-1 bg-black/5 rounded-full overflow-hidden">
         <div
           ref={progressRef}
           className="h-full bg-primary origin-left rounded-full"

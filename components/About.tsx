@@ -3,7 +3,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Building2, Users, Star, Clock, ArrowUpRight } from 'lucide-react';
-import Image from 'next/image';
 
 const stats = [
   { icon: Building2, number: '+50', label: 'Propiedades', color: '#E85D4C' },
@@ -20,7 +19,6 @@ export function About() {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const characterY = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
   return (
     <section
@@ -31,14 +29,6 @@ export function About() {
       {/* Background Elements */}
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2" />
       <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[150px] -translate-y-1/2" />
-
-      {/* High-Five Characters - Left side decoration */}
-      <motion.div
-        className="absolute top-1/2 -left-20 lg:left-0 w-64 h-64 opacity-20 lg:opacity-30 -translate-y-1/2"
-        style={{ y: characterY }}
-      >
-        <Image src="/assets/characters/high five.png" alt="" fill className="object-contain" />
-      </motion.div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Two Column Layout */}
@@ -105,27 +95,16 @@ export function About() {
             </motion.a>
           </div>
 
-          {/* Right Column - Stats with Visual */}
+          {/* Right Column - Stats */}
           <motion.div className="relative" style={{ y }}>
-            {/* High-Five Characters - Top Right */}
-            <motion.div
-              className="absolute -top-16 -right-12 w-40 h-40 z-20"
-              initial={{ opacity: 0, scale: 0, rotate: -10 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, type: 'spring', stiffness: 200 }}
-            >
-              <Image src="/assets/characters/high five.png" alt="Partnership" fill className="object-contain drop-shadow-xl" />
-            </motion.div>
-
             {/* Main Stats Container */}
             <div className="relative">
               {/* Decorative Border */}
-              <div className="absolute -inset-4 border border-border/50 rounded-[2.5rem]" />
-              <div className="absolute -inset-8 border border-border/30 rounded-[3rem] hidden lg:block" />
+              <div className="absolute -inset-4 border border-black/5 rounded-[2.5rem]" />
+              <div className="absolute -inset-8 border border-black/[0.03] rounded-[3rem] hidden lg:block" />
 
               {/* Stats Grid */}
-              <div className="relative glass-strong rounded-3xl p-8 lg:p-10">
+              <div className="relative bg-white rounded-3xl p-8 lg:p-10 shadow-xl shadow-black/5 border border-black/5">
                 <div className="grid grid-cols-2 gap-6 lg:gap-8">
                   {stats.map((stat, index) => (
                     <motion.div
@@ -138,15 +117,15 @@ export function About() {
                     >
                       {/* Glow on hover */}
                       <div
-                        className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500"
+                        className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"
                         style={{ backgroundColor: stat.color }}
                       />
 
-                      <div className="relative bg-background/50 rounded-2xl p-6 border border-border/50 group-hover:border-border transition-colors">
+                      <div className="relative bg-background-elevated rounded-2xl p-6 border border-black/5 group-hover:border-black/10 transition-colors">
                         {/* Icon */}
                         <div
                           className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                          style={{ backgroundColor: `${stat.color}20` }}
+                          style={{ backgroundColor: `${stat.color}15` }}
                         >
                           <stat.icon
                             className="w-6 h-6"
@@ -171,7 +150,7 @@ export function About() {
 
                 {/* Bottom CTA inside stats box */}
                 <motion.div
-                  className="mt-8 pt-8 border-t border-border/50"
+                  className="mt-8 pt-8 border-t border-black/5"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
@@ -196,17 +175,6 @@ export function About() {
                 </motion.div>
               </div>
             </div>
-
-            {/* Couple/Hug Characters - Bottom Left - moved further left to not block text */}
-            <motion.div
-              className="absolute -bottom-8 -left-24 w-32 h-32 z-20"
-              initial={{ opacity: 0, scale: 0, rotate: 10 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, type: 'spring', stiffness: 200 }}
-            >
-              <Image src="/assets/characters/hug.png" alt="Together" fill className="object-contain drop-shadow-xl" />
-            </motion.div>
           </motion.div>
         </div>
       </div>

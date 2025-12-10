@@ -94,8 +94,8 @@ function PlanCard({
       ref={cardRef}
       className={`relative rounded-3xl p-8 flex flex-col ${
         isHighlighted
-          ? 'glass-strong border-primary/50 lg:scale-105 z-10'
-          : 'glass border-transparent'
+          ? 'bg-white shadow-2xl shadow-primary/10 border-2 border-primary/20 lg:scale-105 z-10'
+          : 'bg-white shadow-lg shadow-black/5 border border-black/5'
       }`}
       style={{
         transformStyle: 'preserve-3d',
@@ -120,7 +120,7 @@ function PlanCard({
 
       {/* Glow Effect for Highlighted */}
       {isHighlighted && (
-        <div className="absolute -inset-1 bg-primary/20 rounded-3xl blur-xl -z-10" />
+        <div className="absolute -inset-1 bg-primary/10 rounded-3xl blur-xl -z-10" />
       )}
 
       {/* Content with 3D depth */}
@@ -146,7 +146,7 @@ function PlanCard({
             >
               <div
                 className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                  isHighlighted ? 'bg-primary/20' : 'bg-white/10'
+                  isHighlighted ? 'bg-primary/20' : 'bg-black/5'
                 }`}
               >
                 <Check
@@ -163,7 +163,7 @@ function PlanCard({
           className={`block w-full py-4 rounded-xl font-semibold text-center transition-all ${
             isHighlighted
               ? 'bg-primary text-white hover:bg-primary-glow hover:shadow-glow-primary'
-              : 'bg-white/10 text-foreground hover:bg-white/20'
+              : 'bg-background-elevated text-foreground hover:bg-black/5'
           }`}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
@@ -177,10 +177,10 @@ function PlanCard({
 
 export function Plans() {
   return (
-    <section id="planes" className="py-32 bg-background relative overflow-hidden">
+    <section id="planes" className="py-32 bg-background-elevated relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

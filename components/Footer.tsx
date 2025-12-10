@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { Phone, Mail, Instagram, MapPin } from 'lucide-react';
-import Image from 'next/image';
 
 const contactLinks = [
   {
@@ -35,12 +34,7 @@ const quickLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-background-elevated border-t border-white/5 py-16 relative overflow-hidden">
-      {/* Decorative sticker in background */}
-      <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-10">
-        <Image src="/assets/stickers/sticker_3.png" alt="" fill className="object-contain" />
-      </div>
-
+    <footer className="bg-white border-t border-black/5 py-16 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Logo & Description */}
@@ -49,18 +43,8 @@ export function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            {/* Logo - HM Monogram + Text */}
+            {/* Logo Text */}
             <div className="flex items-center gap-3 mb-6">
-              {/* Logo Icon - White version for dark background */}
-              <div className="relative w-12 h-12 flex-shrink-0">
-                <Image
-                  src="/assets/logos/logo_643e.png"
-                  alt="Hostmate"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              {/* Logo Text */}
               <span className="text-2xl font-bold text-foreground tracking-tight">
                 host<span className="text-primary">mate</span>
               </span>
@@ -129,7 +113,7 @@ export function Footer() {
 
         {/* Copyright */}
         <motion.div
-          className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
+          className="border-t border-black/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -140,14 +124,6 @@ export function Footer() {
             reservados.
           </p>
           <div className="flex items-center gap-2">
-            <div className="relative w-6 h-6">
-              <Image
-                src="/assets/logos/logo_7cf9.png"
-                alt=""
-                fill
-                className="object-contain"
-              />
-            </div>
             <span className="text-muted text-sm">Pura Vida</span>
           </div>
         </motion.div>

@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Calendar, ArrowRight, MessageCircle, Mail } from 'lucide-react';
-import Image from 'next/image';
 
 const benefits = [
   'Consulta 100% gratuita',
@@ -45,12 +44,12 @@ export function Booking() {
       id="agendar"
       className="min-h-screen relative flex items-center justify-center overflow-hidden py-24"
     >
-      {/* Dramatic Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-secondary/20" />
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
 
       {/* Animated Orbs */}
       <motion.div
-        className="absolute top-20 left-20 w-64 h-64 bg-primary/30 rounded-full blur-[100px]"
+        className="absolute top-20 left-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px]"
         animate={{
           x: [0, 50, 0],
           y: [0, 30, 0],
@@ -63,7 +62,7 @@ export function Booking() {
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-20 w-80 h-80 bg-secondary/30 rounded-full blur-[100px]"
+        className="absolute bottom-20 right-20 w-80 h-80 bg-secondary/20 rounded-full blur-[100px]"
         animate={{
           x: [0, -30, 0],
           y: [0, -50, 0],
@@ -76,54 +75,11 @@ export function Booking() {
         }}
       />
 
-      {/* Character with Phone - Left Side */}
-      <motion.div
-        className="absolute left-[5%] top-1/2 -translate-y-1/2 w-64 h-64 hidden xl:block"
-        initial={{ opacity: 0, x: -100 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3, type: 'spring', stiffness: 100 }}
-      >
-        <Image src="/assets/characters/phone.png" alt="Contact us" fill className="object-contain" />
-      </motion.div>
-
-      {/* Yoga Character - Right Side (relaxation/peace of mind) */}
-      <motion.div
-        className="absolute right-[5%] top-1/2 -translate-y-1/2 w-56 h-56 hidden xl:block"
-        initial={{ opacity: 0, x: 100 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.4, type: 'spring', stiffness: 100 }}
-      >
-        <Image src="/assets/characters/yoga_1.png" alt="Peace of mind" fill className="object-contain" />
-      </motion.div>
-
-      {/* Floating Brand Stickers */}
-      <motion.div
-        className="absolute top-[15%] left-[15%] w-24 h-24 hidden lg:block xl:hidden"
-        initial={{ opacity: 0, x: -50, rotate: -20 }}
-        whileInView={{ opacity: 0.8, x: 0, rotate: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3, type: 'spring' }}
-      >
-        <Image src="/assets/stickers/sticker_18.png" alt="" fill className="object-contain" />
-      </motion.div>
-
-      <motion.div
-        className="absolute bottom-[20%] right-[15%] w-20 h-20 hidden lg:block xl:hidden"
-        initial={{ opacity: 0, x: 50, rotate: 20 }}
-        whileInView={{ opacity: 0.8, x: 0, rotate: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.4, type: 'spring' }}
-      >
-        <Image src="/assets/stickers/sticker_6.png" alt="" fill className="object-contain" />
-      </motion.div>
-
-      {/* Grid Pattern */}
+      {/* Subtle Grid Pattern */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: `radial-gradient(circle at center, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle at center, rgba(0,0,0,0.1) 1px, transparent 1px)`,
           backgroundSize: '30px 30px',
         }}
       />
@@ -197,7 +153,7 @@ export function Booking() {
 
         {/* Alternative Contact */}
         <motion.div
-          className="mt-12 pt-12 border-t border-white/10"
+          className="mt-12 pt-12 border-t border-black/10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -207,7 +163,7 @@ export function Booking() {
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="https://wa.me/50662609385"
-              className="glass hover:bg-white/10 px-6 py-3 rounded-full flex items-center gap-2 transition-colors"
+              className="bg-white hover:bg-background-elevated px-6 py-3 rounded-full flex items-center gap-2 transition-colors shadow-md shadow-black/5 border border-black/5"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -216,7 +172,7 @@ export function Booking() {
             </a>
             <a
               href="mailto:info@hostmatecr.com"
-              className="glass hover:bg-white/10 px-6 py-3 rounded-full flex items-center gap-2 transition-colors"
+              className="bg-white hover:bg-background-elevated px-6 py-3 rounded-full flex items-center gap-2 transition-colors shadow-md shadow-black/5 border border-black/5"
             >
               <Mail className="w-5 h-5 text-primary" />
               <span className="text-foreground">Email</span>
