@@ -13,8 +13,8 @@ const contactLinks = [
   },
   {
     icon: Mail,
-    label: 'info@hostmatecr.com',
-    href: 'mailto:info@hostmatecr.com',
+    label: 'info@hostmatecostarica.com',
+    href: 'mailto:info@hostmatecostarica.com',
     external: false,
   },
   {
@@ -33,7 +33,7 @@ export function Footer() {
     { label: t.footer.links.services, href: '#servicios' },
     { label: t.footer.links.properties, href: '#propiedades' },
     { label: t.footer.links.testimonials, href: '#testimonios' },
-    { label: t.footer.links.booking, href: '#agendar', highlight: true },
+    { label: t.footer.links.booking, href: 'https://calendly.com/hostmatecostarica-info/30min', highlight: true, external: true },
   ];
 
   return (
@@ -99,6 +99,8 @@ export function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
+                    target={'external' in link && link.external ? '_blank' : undefined}
+                    rel={'external' in link && link.external ? 'noopener noreferrer' : undefined}
                     className={`transition-colors ${
                       link.highlight
                         ? 'text-primary hover:text-primary-glow'

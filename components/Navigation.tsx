@@ -61,7 +61,9 @@ export function Navigation() {
             <LanguageSwitcher />
 
             <a
-              href="#agendar"
+              href="https://calendly.com/hostmatecostarica-info/30min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-primary hover:bg-primary-glow text-white px-6 py-2.5 rounded-full font-medium transition-all hover:shadow-glow-primary"
             >
               {t.nav.bookConsultation}
@@ -104,7 +106,9 @@ export function Navigation() {
                 </a>
               ))}
               <a
-                href="#agendar"
+                href="https://calendly.com/hostmatecostarica-info/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block bg-primary text-white px-6 py-3 rounded-full font-medium text-center"
                 onClick={() => setMobileOpen(false)}
               >

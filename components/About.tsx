@@ -163,7 +163,9 @@ export function About() {
                       </p>
                     </div>
                     <a
-                      href="#agendar"
+                      href="https://calendly.com/hostmatecostarica-info/30min"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="w-12 h-12 rounded-full bg-primary flex items-center justify-center hover:bg-primary-glow hover:shadow-glow-primary transition-all"
                     >
                       <ArrowUpRight className="w-5 h-5 text-white" />

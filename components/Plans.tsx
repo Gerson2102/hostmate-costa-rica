@@ -13,7 +13,7 @@ function PlanCard({
   plan: {
     name: string;
     description: string;
-    services: string[];
+    services: readonly string[];
     cta: string;
   };
   index: number;
@@ -101,7 +101,9 @@ function PlanCard({
         </ul>
 
         <motion.a
-          href="#agendar"
+          href="https://calendly.com/hostmatecostarica-info/30min"
+          target="_blank"
+          rel="noopener noreferrer"
           className={`block w-full py-4 rounded-xl font-semibold text-center transition-all ${
             isHighlighted
               ? 'bg-primary text-white hover:bg-primary-glow hover:shadow-glow-primary'

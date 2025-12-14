@@ -104,7 +104,9 @@ export function Hero() {
             </p>
 
             <a
-              href="#agendar"
+              href="https://calendly.com/hostmatecostarica-info/30min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hero-cta group inline-flex items-center gap-3 bg-primary hover:bg-primary-glow text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-glow-primary"
             >
               {t.hero.cta}

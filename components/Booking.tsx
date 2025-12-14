@@ -1,39 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Calendar, ArrowRight, MessageCircle, Mail } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export function Booking() {
   const { t } = useLanguage();
-
-  useEffect(() => {
-    // Load Calendly popup widget script
-    const script = document.createElement('script');
-    script.src = 'https://assets.calendly.com/assets/external/widget.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      const existingScript = document.querySelector(
-        'script[src="https://assets.calendly.com/assets/external/widget.js"]'
-      );
-      if (existingScript) {
-        document.body.removeChild(existingScript);
-      }
-    };
-  }, []);
-
-  const openCalendly = () => {
-    // @ts-expect-error - Calendly is loaded externally
-    if (typeof Calendly !== 'undefined') {
-      // @ts-expect-error - Calendly is loaded externally
-      Calendly.initPopupWidget({
-        url: 'https://calendly.com/hostmatecr/consulta-gratuita?hide_gdpr_banner=1&primary_color=e85d4c',
-      });
-    }
-  };
 
   return (
     <section
@@ -130,8 +102,10 @@ export function Booking() {
         </motion.div>
 
         {/* CTA Button */}
-        <motion.button
-          onClick={openCalendly}
+        <motion.a
+          href="https://calendly.com/hostmatecostarica-info/30min"
+          target="_blank"
+          rel="noopener noreferrer"
           className="group inline-flex items-center gap-3 bg-primary hover:bg-primary-glow text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg sm:text-xl transition-all duration-300 hover:shadow-glow-primary-intense"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -143,7 +117,7 @@ export function Booking() {
           <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
           {t.booking.cta}
           <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
-        </motion.button>
+        </motion.a>
 
         {/* Alternative Contact */}
         <motion.div
@@ -165,7 +139,7 @@ export function Booking() {
               <span className="text-foreground">WhatsApp</span>
             </a>
             <a
-              href="mailto:info@hostmatecr.com"
+              href="mailto:info@hostmatecostarica.com"
               className="bg-white hover:bg-background-elevated px-6 py-3 rounded-full flex items-center gap-2 transition-colors shadow-md shadow-black/5 border border-black/5"
             >
               <Mail className="w-5 h-5 text-primary" />

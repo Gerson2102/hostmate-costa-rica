@@ -560,4 +560,5 @@ export const translations = {
   },
 } as const;
 
-export type Translations = typeof translations.en;
+// Define Translations as a type that accepts either language's structure
+export type Translations = (typeof translations)[Language];
