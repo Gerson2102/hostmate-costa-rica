@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Phone, Mail, Instagram, MapPin } from 'lucide-react';
+import { useLanguage } from '@/lib/LanguageContext';
 
 const contactLinks = [
   {
@@ -24,15 +25,17 @@ const contactLinks = [
   },
 ];
 
-const quickLinks = [
-  { label: 'Sobre Nosotros', href: '#nosotros' },
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Planes', href: '#planes' },
-  { label: 'Testimonios', href: '#testimonios' },
-  { label: 'Agendar Consulta', href: '#agendar', highlight: true },
-];
-
 export function Footer() {
+  const { t } = useLanguage();
+
+  const quickLinks = [
+    { label: t.footer.links.about, href: '#nosotros' },
+    { label: t.footer.links.services, href: '#servicios' },
+    { label: t.footer.links.properties, href: '#propiedades' },
+    { label: t.footer.links.testimonials, href: '#testimonios' },
+    { label: t.footer.links.booking, href: '#agendar', highlight: true },
+  ];
+
   return (
     <footer className="bg-white border-t border-black/5 py-16 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -50,8 +53,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-muted leading-relaxed">
-              Tu socio de confianza para la administración de propiedades en
-              Costa Rica. Maximiza tu rentabilidad sin preocupaciones.
+              {t.footer.description}
             </p>
             <div className="flex items-center gap-2 mt-4 text-muted">
               <MapPin className="w-4 h-4 text-primary" />
@@ -66,7 +68,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <h4 className="font-semibold text-foreground mb-4">Contacto</h4>
+            <h4 className="font-semibold text-foreground mb-4">{t.footer.contact}</h4>
             <ul className="space-y-3">
               {contactLinks.map((link) => (
                 <li key={link.href}>
@@ -91,7 +93,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h4 className="font-semibold text-foreground mb-4">Enlaces</h4>
+            <h4 className="font-semibold text-foreground mb-4">{t.footer.linksTitle}</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -120,8 +122,7 @@ export function Footer() {
           transition={{ delay: 0.3 }}
         >
           <p className="text-muted text-sm">
-            © {new Date().getFullYear()} Hostmate Costa Rica. Todos los derechos
-            reservados.
+            © {new Date().getFullYear()} Hostmate Costa Rica. {t.footer.rights}
           </p>
           <div className="flex items-center gap-2">
             <span className="text-muted text-sm">Pura Vida</span>

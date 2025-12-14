@@ -3,7 +3,7 @@ import { Hero } from '@/components/Hero';
 import { About } from '@/components/About';
 import { FounderStory } from '@/components/FounderStory';
 import { Services } from '@/components/Services';
-import { Plans } from '@/components/Plans';
+import { Properties } from '@/components/Properties';
 import { Testimonials } from '@/components/Testimonials';
 import { Booking } from '@/components/Booking';
 import { Footer } from '@/components/Footer';
@@ -28,8 +28,8 @@ export default function Home() {
         {/* Services Section */}
         <Services />
 
-        {/* Plans Section */}
-        <Plans />
+        {/* Properties Section */}
+        <Properties />
 
         {/* Testimonials Section */}
         <Testimonials />

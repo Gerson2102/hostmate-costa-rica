@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { LanguageProvider } from "@/lib/LanguageContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -11,12 +12,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Hostmate Costa Rica - Premium Property Management",
-  description: "Administración profesional de alojamientos para Airbnb, Booking y más. Maximiza tu rentabilidad sin preocupaciones. Tu socio premium en Costa Rica.",
-  keywords: "Airbnb, Booking, administración de propiedades, Costa Rica, alquiler vacacional, co-anfitrión, property management, premium",
+  description: "Professional property management for Airbnb, Booking, and more. Maximize your revenue without the hassle. Your premium partner in Costa Rica.",
+  keywords: "Airbnb, Booking, property management, Costa Rica, vacation rental, co-host, property management, premium",
   openGraph: {
-    title: "Hostmate Costa Rica - Tu Propiedad, Nuestra Pasión",
-    description: "Administración profesional premium de alojamientos para Airbnb, Booking y más.",
-    locale: "es_CR",
+    title: "Hostmate Costa Rica - Your Property, Our Passion",
+    description: "Professional premium property management for Airbnb, Booking, and more.",
+    locale: "en_US",
     type: "website",
   },
 };
@@ -27,11 +28,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="en">
       <body className={`${inter.variable} antialiased`}>
-        <SmoothScroll>
-          {children}
-        </SmoothScroll>
+        <LanguageProvider>
+          <SmoothScroll>
+            {children}
+          </SmoothScroll>
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -2,55 +2,11 @@
 
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
-
-const testimonios = [
-  {
-    nombre: 'María González',
-    ubicacion: 'Propiedad en Guanacaste',
-    estrellas: 5,
-    texto:
-      'Desde que Hostmate administra mi propiedad, mis ingresos aumentaron un 40%. El equipo es muy profesional.',
-  },
-  {
-    nombre: 'Carlos Jiménez',
-    ubicacion: 'Apartamento en San José',
-    estrellas: 5,
-    texto:
-      'Excelente servicio. Me quitaron todo el estrés de administrar mi Airbnb. Las fotografías son increíbles.',
-  },
-  {
-    nombre: 'Ana Rodríguez',
-    ubicacion: 'Casa en La Fortuna',
-    estrellas: 5,
-    texto:
-      'El plan híbrido es perfecto. El housekeeping es impecable y los huéspedes siempre dejan excelentes reviews.',
-  },
-  {
-    nombre: 'Luis Vargas',
-    ubicacion: 'Villa en Tamarindo',
-    estrellas: 5,
-    texto:
-      'La comunicación con huéspedes es excelente. Responden rápido y siempre mantienen informados a los clientes.',
-  },
-  {
-    nombre: 'Patricia Mora',
-    ubicacion: 'Condominio en Jacó',
-    estrellas: 5,
-    texto:
-      'Profesionales de primera. Ahora tengo tiempo para disfrutar mientras ellos se encargan de todo.',
-  },
-];
-
-const featuredTestimonio = {
-  nombre: 'Roberto Mora',
-  ubicacion: 'Villa en Manuel Antonio',
-  iniciales: 'RM',
-  estrellas: 5,
-  texto:
-    'Profesionales de primera. La asesoría de decoración transformó mi propiedad y ahora tengo reservas todo el año. El equipo siempre está disponible y la comunicación es excelente.',
-};
+import { useLanguage } from '@/lib/LanguageContext';
 
 export function Testimonials() {
+  const { t } = useLanguage();
+
   return (
     <section
       id="testimonios"
@@ -64,7 +20,7 @@ export function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          Testimonios
+          {t.testimonials.overline}
         </motion.span>
         <motion.h2
           className="text-4xl lg:text-5xl font-bold mt-2 text-foreground"
@@ -73,7 +29,7 @@ export function Testimonials() {
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
         >
-          Lo Que Dicen Nuestros Clientes
+          {t.testimonials.headline}
         </motion.h2>
       </div>
 
@@ -85,17 +41,17 @@ export function Testimonials() {
 
         {/* Marquee Track */}
         <div className="flex gap-6 animate-marquee">
-          {[...testimonios, ...testimonios].map((t, i) => (
+          {[...t.testimonials.items, ...t.testimonials.items].map((testimonial, i) => (
             <div key={i} className="flex-shrink-0 bg-white rounded-2xl p-6 w-[350px] shadow-lg shadow-black/5 border border-black/5">
               <div className="flex gap-1 mb-3">
-                {[...Array(t.estrellas)].map((_, j) => (
+                {[...Array(testimonial.stars)].map((_, j) => (
                   <Star key={j} className="w-4 h-4 fill-primary text-primary" />
                 ))}
               </div>
-              <p className="text-muted text-sm line-clamp-3">&ldquo;{t.texto}&rdquo;</p>
+              <p className="text-muted text-sm line-clamp-3">&ldquo;{testimonial.text}&rdquo;</p>
               <div className="mt-4">
-                <p className="text-foreground font-medium text-sm">{t.nombre}</p>
-                <p className="text-muted text-xs">{t.ubicacion}</p>
+                <p className="text-foreground font-medium text-sm">{testimonial.name}</p>
+                <p className="text-muted text-xs">{testimonial.location}</p>
               </div>
             </div>
           ))}
@@ -117,26 +73,26 @@ export function Testimonials() {
 
           <div className="relative z-10">
             <div className="flex gap-1 mb-6">
-              {[...Array(featuredTestimonio.estrellas)].map((_, i) => (
+              {[...Array(t.testimonials.featured.stars)].map((_, i) => (
                 <Star key={i} className="w-6 h-6 fill-primary text-primary" />
               ))}
             </div>
 
             <blockquote className="text-xl sm:text-2xl lg:text-3xl text-foreground leading-relaxed mb-8">
-              &ldquo;{featuredTestimonio.texto}&rdquo;
+              &ldquo;{t.testimonials.featured.text}&rdquo;
             </blockquote>
 
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-primary/10 flex items-center justify-center">
                 <span className="text-xl sm:text-2xl font-bold text-primary">
-                  {featuredTestimonio.iniciales}
+                  {t.testimonials.featured.initials}
                 </span>
               </div>
               <div>
                 <p className="font-semibold text-foreground text-lg">
-                  {featuredTestimonio.nombre}
+                  {t.testimonials.featured.name}
                 </p>
-                <p className="text-muted">{featuredTestimonio.ubicacion}</p>
+                <p className="text-muted">{t.testimonials.featured.location}</p>
               </div>
             </div>
           </div>

@@ -3,62 +3,19 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
-
-const planes = [
-  {
-    nombre: 'HOSTMATE VIRTUAL',
-    descripcion: 'Gestión digital completa',
-    destacado: false,
-    servicios: [
-      'Publicación de la propiedad',
-      'Comunicación con los huéspedes',
-      'Estudio de mercado y actualización de precios',
-      'Administración de calendarios',
-      'Publicidad del alojamiento',
-      'Gestión de reviews',
-      'Reportes de reservas mensuales',
-    ],
-    cta: 'Elegir Virtual',
-  },
-  {
-    nombre: 'HOSTMATE HÍBRIDO',
-    descripcion: 'Servicio completo - Digital + Presencial',
-    destacado: true,
-    servicios: [
-      'Publicación de la propiedad',
-      'Comunicación con los huéspedes',
-      'Estudio de mercado y actualización de precios',
-      'Administración de calendarios',
-      'Publicidad del alojamiento',
-      'Gestión de reviews',
-      'Reportes de reservas mensuales',
-      'Asesoría de decoración',
-      'Fotografías profesionales',
-      'Housekeeping',
-      'Welcome Kit',
-    ],
-    cta: 'Elegir Híbrido',
-  },
-  {
-    nombre: 'HOSTMATE PERSONALIZADO',
-    descripcion: 'Plan a tu medida',
-    destacado: false,
-    servicios: [
-      'Agenda una sesión 1:1 gratuita',
-      'Definimos tus necesidades específicas',
-      'Creamos un plan personalizado',
-      'Flexibilidad total en servicios',
-    ],
-    cta: 'Agendar Sesión',
-  },
-];
+import { useLanguage } from '@/lib/LanguageContext';
 
 function PlanCard({
   plan,
   index,
   isHighlighted,
 }: {
-  plan: (typeof planes)[0];
+  plan: {
+    name: string;
+    description: string;
+    services: string[];
+    cta: string;
+  };
   index: number;
   isHighlighted: boolean;
 }) {
@@ -76,7 +33,6 @@ function PlanCard({
     const mouseX = e.clientX - centerX;
     const mouseY = e.clientY - centerY;
 
-    // Max rotation of 8 degrees
     const rotateXValue = (mouseY / (rect.height / 2)) * -8;
     const rotateYValue = (mouseX / (rect.width / 2)) * 8;
 
@@ -109,20 +65,6 @@ function PlanCard({
       viewport={{ once: true }}
       transition={{ delay: index * 0.15, duration: 0.5 }}
     >
-      {/* Popular Badge */}
-      {isHighlighted && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-          <span className="bg-primary text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-glow-primary">
-            Más Popular
-          </span>
-        </div>
-      )}
-
-      {/* Glow Effect for Highlighted */}
-      {isHighlighted && (
-        <div className="absolute -inset-1 bg-primary/10 rounded-3xl blur-xl -z-10" />
-      )}
-
       {/* Content with 3D depth */}
       <div style={{ transform: 'translateZ(20px)' }}>
         <h3
@@ -130,12 +72,12 @@ function PlanCard({
             isHighlighted ? 'text-primary' : 'text-foreground'
           }`}
         >
-          {plan.nombre}
+          {plan.name}
         </h3>
-        <p className="text-muted text-center mb-8">{plan.descripcion}</p>
+        <p className="text-muted text-center mb-8">{plan.description}</p>
 
         <ul className="space-y-4 flex-grow mb-8">
-          {plan.servicios.map((servicio, i) => (
+          {plan.services.map((service, i) => (
             <motion.li
               key={i}
               className="flex items-start gap-3"
@@ -153,7 +95,7 @@ function PlanCard({
                   className={`w-3 h-3 ${isHighlighted ? 'text-primary' : 'text-muted'}`}
                 />
               </div>
-              <span className="text-muted text-sm">{servicio}</span>
+              <span className="text-muted text-sm">{service}</span>
             </motion.li>
           ))}
         </ul>
@@ -176,6 +118,15 @@ function PlanCard({
 }
 
 export function Plans() {
+  const { t } = useLanguage();
+
+  const plans = t.plans.items.map((item) => ({
+    name: item.name,
+    description: item.description,
+    services: item.services,
+    cta: item.cta,
+  }));
+
   return (
     <section id="planes" className="py-32 bg-background-elevated relative overflow-hidden">
       {/* Background */}
@@ -192,7 +143,7 @@ export function Plans() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Planes
+            {t.plans.overline}
           </motion.span>
           <motion.h2
             className="text-4xl lg:text-5xl font-bold mt-2 text-foreground"
@@ -201,7 +152,7 @@ export function Plans() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Elige el Plan Perfecto para Ti
+            {t.plans.headline}
           </motion.h2>
           <motion.p
             className="text-muted mt-4 max-w-2xl mx-auto"
@@ -210,20 +161,28 @@ export function Plans() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            Elige el plan que más se ajuste a las necesidades tuyas y de tu
-            alojamiento.
+            {t.plans.subtitle}
           </motion.p>
         </div>
 
         {/* Plans Grid */}
         <div className="grid lg:grid-cols-3 gap-8 items-start">
-          {planes.map((plan, index) => (
-            <PlanCard
-              key={plan.nombre}
-              plan={plan}
-              index={index}
-              isHighlighted={index === 1}
-            />
+          {plans.map((plan, index) => (
+            <div key={plan.name} className="relative">
+              {/* Popular Badge */}
+              {index === 1 && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                  <span className="bg-primary text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-glow-primary">
+                    {t.plans.mostPopular}
+                  </span>
+                </div>
+              )}
+              <PlanCard
+                plan={plan}
+                index={index}
+                isHighlighted={index === 1}
+              />
+            </div>
           ))}
         </div>
       </div>

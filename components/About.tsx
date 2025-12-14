@@ -3,15 +3,10 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Building2, Users, Star, Clock, ArrowUpRight } from 'lucide-react';
-
-const stats = [
-  { icon: Building2, number: '+50', label: 'Propiedades', color: '#E85D4C' },
-  { icon: Users, number: '98%', label: 'Satisfacción', color: '#2D5BFF' },
-  { icon: Star, number: '5.0', label: 'Rating', color: '#F59E0B' },
-  { icon: Clock, number: '24/7', label: 'Soporte', color: '#10B981' },
-];
+import { useLanguage } from '@/lib/LanguageContext';
 
 export function About() {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -19,6 +14,13 @@ export function About() {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
+  const stats = [
+    { icon: Building2, number: '+50', label: t.about.stats.properties, color: '#E85D4C' },
+    { icon: Users, number: '98%', label: t.about.stats.satisfaction, color: '#2D5BFF' },
+    { icon: Star, number: '5.0', label: t.about.stats.rating, color: '#F59E0B' },
+    { icon: Clock, number: '24/7', label: t.about.stats.support, color: '#10B981' },
+  ];
 
   return (
     <section
@@ -41,7 +43,7 @@ export function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              Quiénes Somos
+              {t.about.overline}
             </motion.span>
 
             <motion.h2
@@ -51,9 +53,9 @@ export function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              Tu Socio de
+              {t.about.headline1}
               <br />
-              <span className="text-primary">Confianza</span>
+              <span className="text-primary">{t.about.headline2}</span>
             </motion.h2>
 
             <motion.div
@@ -64,21 +66,16 @@ export function About() {
               transition={{ delay: 0.2 }}
             >
               <p className="text-muted text-lg leading-relaxed">
-                Somos una empresa dedicada a la administración de alojamientos
-                para Airbnb, Booking y otras aplicaciones. Nuestro principal
-                objetivo es brindarle a inversionistas inmobiliarios y dueños
-                independientes la oportunidad de{' '}
+                {t.about.paragraph1}{' '}
                 <span className="text-foreground font-medium">
-                  generar rentabilidad
+                  {t.about.paragraph1Highlight}
                 </span>{' '}
-                con sus inversiones.
+                {t.about.paragraph1End}
               </p>
               <p className="text-muted text-lg leading-relaxed">
-                En Hostmate te brindamos el mejor co-anfitrión para tus
-                propiedades, además te asesoramos en cómo llegar a ser un{' '}
-                <span className="text-foreground font-medium">súper anfitrión</span>{' '}
-                y te brindamos una variedad de servicios para que las propiedades
-                se encuentren siempre en buen estado.
+                {t.about.paragraph2}{' '}
+                <span className="text-foreground font-medium">{t.about.paragraph2Highlight}</span>{' '}
+                {t.about.paragraph2End}
               </p>
             </motion.div>
 
@@ -90,7 +87,7 @@ export function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              Conoce nuestros servicios
+              {t.about.link}
               <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </motion.a>
           </div>
@@ -159,10 +156,10 @@ export function About() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-foreground font-semibold">
-                        ¿Listo para empezar?
+                        {t.about.cta.title}
                       </p>
                       <p className="text-sm text-muted">
-                        Agenda una consulta gratuita
+                        {t.about.cta.subtitle}
                       </p>
                     </div>
                     <a

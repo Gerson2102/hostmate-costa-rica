@@ -2,8 +2,11 @@
 
 import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
+import { useLanguage } from '@/lib/LanguageContext';
 
 export function FounderStory() {
+  const { t } = useLanguage();
+
   return (
     <section className="py-24 lg:py-32 bg-background relative overflow-hidden">
       {/* Background Elements */}
@@ -19,7 +22,7 @@ export function FounderStory() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Nuestra Historia
+            {t.founder.overline}
           </motion.span>
           <motion.h2
             className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 text-foreground"
@@ -28,7 +31,7 @@ export function FounderStory() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Conoce a la <span className="text-primary">Fundadora</span>
+            {t.founder.headline} <span className="text-primary">{t.founder.headlineHighlight}</span>
           </motion.h2>
         </div>
 
@@ -64,7 +67,7 @@ export function FounderStory() {
                 transition={{ delay: 0.4 }}
               >
                 <p className="text-foreground font-bold text-lg">Vane</p>
-                <p className="text-primary text-sm text-center">Fundadora</p>
+                <p className="text-primary text-sm text-center">{t.founder.role}</p>
               </motion.div>
             </div>
           </motion.div>
@@ -87,23 +90,23 @@ export function FounderStory() {
             {/* Story text */}
             <div className="space-y-6 text-muted text-lg leading-relaxed">
               <p>
-                <span className="text-foreground font-semibold">Hola, mi nombre es Vane.</span> Más allá de los estudios y la formación que he realizado, lo que realmente me marcó desde niña fue crecer en una casa llena de libros de decoración y arquitectura. Pasaba horas hojeándolos, fascinada por los diseños y los espacios, y descubrí que allí encontraba un mundo de{' '}
-                <span className="text-primary font-medium">creatividad sin límites</span>.
+                <span className="text-foreground font-semibold">{t.founder.story.intro}</span> {t.founder.story.paragraph1}{' '}
+                <span className="text-primary font-medium">{t.founder.story.paragraph1Highlight}</span>{t.founder.story.paragraph1End}
               </p>
 
               <p>
-                Mis papás siempre fueron emprendedores y amantes de los libros, y aunque quizá nunca imaginaron el impacto que tendría en mí, esa exposición despertó una{' '}
-                <span className="text-foreground font-medium">pasión que hoy guía mi vida</span>.
+                {t.founder.story.paragraph2}{' '}
+                <span className="text-foreground font-medium">{t.founder.story.paragraph2Highlight}</span>{t.founder.story.paragraph2End}
               </p>
 
               <p>
-                Este proyecto nace con el propósito de ayudar a las personas a gestionar sus propiedades, hacerlas más atractivas y rentables, y al mismo tiempo{' '}
-                <span className="text-primary font-medium">inspirar a quienes sueñan con emprender</span>{' '}
-                en el sector de bienes raíces y turismo. Para mí, cada nuevo proyecto es también una oportunidad de darle voz a mi niña interior y seguir explorando la creatividad que tanto disfruto.
+                {t.founder.story.paragraph3}{' '}
+                <span className="text-primary font-medium">{t.founder.story.paragraph3Highlight}</span>{' '}
+                {t.founder.story.paragraph3End}
               </p>
 
               <p className="text-foreground font-medium italic">
-                Me encanta descubrir alojamientos, estructuras, diseños y detalles, y compartir lo mejor de lo que he aprendido sin reservas. ¡Acompáñenme en este viaje!
+                {t.founder.story.closing}
               </p>
             </div>
 

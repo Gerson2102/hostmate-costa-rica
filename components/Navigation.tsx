@@ -3,17 +3,20 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-
-const navLinks = [
-  { label: 'Nosotros', href: '#nosotros' },
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Planes', href: '#planes' },
-  { label: 'Testimonios', href: '#testimonios' },
-];
+import { useLanguage } from '@/lib/LanguageContext';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 export function Navigation() {
+  const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { label: t.nav.about, href: '#nosotros' },
+    { label: t.nav.services, href: '#servicios' },
+    { label: t.nav.properties, href: '#propiedades' },
+    { label: t.nav.testimonials, href: '#testimonios' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -44,7 +47,7 @@ export function Navigation() {
           </a>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -55,22 +58,27 @@ export function Navigation() {
               </a>
             ))}
 
+            <LanguageSwitcher />
+
             <a
               href="#agendar"
               className="bg-primary hover:bg-primary-glow text-white px-6 py-2.5 rounded-full font-medium transition-all hover:shadow-glow-primary"
             >
-              Agendar Consulta
+              {t.nav.bookConsultation}
             </a>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-foreground"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="md:hidden flex items-center gap-3">
+            <LanguageSwitcher />
+            <button
+              className="text-foreground"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -100,7 +108,7 @@ export function Navigation() {
                 className="block bg-primary text-white px-6 py-3 rounded-full font-medium text-center"
                 onClick={() => setMobileOpen(false)}
               >
-                Agendar Consulta
+                {t.nav.bookConsultation}
               </a>
             </div>
           </motion.div>

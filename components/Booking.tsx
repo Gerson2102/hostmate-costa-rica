@@ -3,15 +3,11 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Calendar, ArrowRight, MessageCircle, Mail } from 'lucide-react';
-
-const benefits = [
-  'Consulta 100% gratuita',
-  'Análisis de tu propiedad',
-  'Plan personalizado',
-  'Sin compromiso',
-];
+import { useLanguage } from '@/lib/LanguageContext';
 
 export function Booking() {
+  const { t } = useLanguage();
+
   useEffect(() => {
     // Load Calendly popup widget script
     const script = document.createElement('script');
@@ -92,7 +88,7 @@ export function Booking() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          Comienza Ahora
+          {t.booking.overline}
         </motion.span>
 
         <motion.h2
@@ -102,9 +98,9 @@ export function Booking() {
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
         >
-          Agenda tu Consulta
+          {t.booking.headline}
           <br />
-          <span className="text-primary">Gratuita</span>
+          <span className="text-primary">{t.booking.headlineHighlight}</span>
         </motion.h2>
 
         <motion.p
@@ -114,9 +110,7 @@ export function Booking() {
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
         >
-          Agenda una sesión 1:1 gratuita para definir tus necesidades y hacerte
-          un plan a la medida. Sin compromiso, solo conversamos sobre cómo
-          podemos ayudarte.
+          {t.booking.subtitle}
         </motion.p>
 
         {/* Benefits */}
@@ -127,7 +121,7 @@ export function Booking() {
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
-          {benefits.map((item) => (
+          {t.booking.benefits.map((item) => (
             <div key={item} className="flex items-center gap-2">
               <Check className="w-5 h-5 text-primary" />
               <span className="text-muted">{item}</span>
@@ -147,7 +141,7 @@ export function Booking() {
           whileTap={{ scale: 0.95 }}
         >
           <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
-          Agendar Consulta
+          {t.booking.cta}
           <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
         </motion.button>
 
@@ -159,7 +153,7 @@ export function Booking() {
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          <p className="text-muted mb-4">¿Prefieres contactarnos directamente?</p>
+          <p className="text-muted mb-4">{t.booking.altContact}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="https://wa.me/50662609385"

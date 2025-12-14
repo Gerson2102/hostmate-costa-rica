@@ -12,78 +12,47 @@ import {
   TrendingUp,
   Camera,
   Sparkles,
+  LucideIcon,
 } from 'lucide-react';
+import { useLanguage } from '@/lib/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const servicios = [
-  {
-    icon: Globe,
-    titulo: 'Publicación de la Propiedad',
-    descripcion:
-      'Tu alojamiento estará publicado en las aplicaciones adecuadas para obtener la mayor cantidad de reservas.',
-    color: '#E85D4C',
-  },
-  {
-    icon: Calendar,
-    titulo: 'Administración de Calendarios',
-    descripcion:
-      'El calendario de tu alojamiento estará siempre actualizado y sincronizado.',
-    color: '#2D5BFF',
-  },
-  {
-    icon: Palette,
-    titulo: 'Asesoría de Decoración',
-    descripcion:
-      'Vamos a tu alojamiento y hacemos un diagnóstico personalizado para mejorar la decoración y elementos básicos.',
-    color: '#10B981',
-  },
-  {
-    icon: Megaphone,
-    titulo: 'Publicidad del Alojamiento',
-    descripcion:
-      'Tu alojamiento recibirá publicidad adicional en redes sociales y en nuestra página web para mayor visibilidad.',
-    color: '#F59E0B',
-  },
-  {
-    icon: MessageCircle,
-    titulo: 'Comunicación con Huéspedes',
-    descripcion:
-      'Respuesta de consultas de huéspedes diariamente por medio de la plataforma.',
-    color: '#8B5CF6',
-  },
-  {
-    icon: TrendingUp,
-    titulo: 'Estudio de Mercado',
-    descripcion:
-      'Revisión del mercado según la zona para definir el mejor precio posible del alojamiento.',
-    color: '#EC4899',
-  },
-  {
-    icon: Camera,
-    titulo: 'Fotografías Profesionales',
-    descripcion:
-      'Fotografías profesionales del alojamiento para una mejor presentación y publicidad.',
-    color: '#06B6D4',
-  },
-  {
-    icon: Sparkles,
-    titulo: 'Housekeeping',
-    descripcion:
-      'Personal de limpieza con altos estándares de calidad y servicio al cliente.',
-    color: '#84CC16',
-  },
+const serviceIcons: LucideIcon[] = [
+  Globe,
+  Calendar,
+  Palette,
+  Megaphone,
+  MessageCircle,
+  TrendingUp,
+  Camera,
+  Sparkles,
+];
+
+const serviceColors = [
+  '#E85D4C',
+  '#2D5BFF',
+  '#10B981',
+  '#F59E0B',
+  '#8B5CF6',
+  '#EC4899',
+  '#06B6D4',
+  '#84CC16',
 ];
 
 function ServiceCard({
-  servicio,
+  title,
+  description,
+  icon: Icon,
+  color,
   index,
 }: {
-  servicio: (typeof servicios)[0];
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  color: string;
   index: number;
 }) {
-  const { icon: Icon, titulo, descripcion, color } = servicio;
-
   return (
     <div className="service-card flex-shrink-0 w-[350px] sm:w-[400px] bg-white rounded-3xl p-8 relative overflow-hidden group shadow-lg shadow-black/5 border border-black/5">
       {/* Glow Effect */}
@@ -106,15 +75,16 @@ function ServiceCard({
           <Icon className="w-8 h-8" style={{ color }} />
         </div>
 
-        <h3 className="text-2xl font-bold text-foreground mb-4">{titulo}</h3>
+        <h3 className="text-2xl font-bold text-foreground mb-4">{title}</h3>
 
-        <p className="text-muted leading-relaxed">{descripcion}</p>
+        <p className="text-muted leading-relaxed">{description}</p>
       </div>
     </div>
   );
 }
 
 export function Services() {
+  const { t, language } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -126,60 +96,66 @@ export function Services() {
 
     if (!section || !track || !progress) return;
 
-    const ctx = gsap.context(() => {
-      // Calculate scroll distance
-      const totalWidth = track.scrollWidth - window.innerWidth + 100;
+    // Small delay to ensure DOM has updated with new content
+    const timeoutId = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        const totalWidth = track.scrollWidth - window.innerWidth + 100;
 
-      // Horizontal scroll animation
-      const scrollTween = gsap.to(track, {
-        x: -totalWidth,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: () => `+=${totalWidth}`,
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+        const scrollTween = gsap.to(track, {
+          x: -totalWidth,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: () => `+=${totalWidth}`,
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
 
-      // Progress bar
-      gsap.to(progress, {
-        scaleX: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: () => `+=${totalWidth}`,
-          scrub: 1,
-        },
-      });
+        gsap.to(progress, {
+          scaleX: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: () => `+=${totalWidth}`,
+            scrub: 1,
+          },
+        });
 
-      // Individual card animations
-      const cards = gsap.utils.toArray<HTMLElement>('.service-card');
-      cards.forEach((card) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0.5, scale: 0.9 },
-          {
-            opacity: 1,
-            scale: 1,
-            scrollTrigger: {
-              trigger: card,
-              containerAnimation: scrollTween,
-              start: 'left 80%',
-              end: 'left 20%',
-              scrub: 1,
-            },
-          }
-        );
-      });
-    }, sectionRef);
+        const cards = gsap.utils.toArray<HTMLElement>('.service-card');
+        cards.forEach((card) => {
+          gsap.fromTo(
+            card,
+            { opacity: 0.5, scale: 0.9 },
+            {
+              opacity: 1,
+              scale: 1,
+              scrollTrigger: {
+                trigger: card,
+                containerAnimation: scrollTween,
+                start: 'left 80%',
+                end: 'left 20%',
+                scrub: 1,
+              },
+            }
+          );
+        });
+      }, sectionRef);
 
-    return () => ctx.revert();
-  }, []);
+      // Store context for cleanup
+      (section as HTMLElement & { _gsapCtx?: gsap.Context })._gsapCtx = ctx;
+    }, 50);
+
+    return () => {
+      clearTimeout(timeoutId);
+      const ctx = (section as HTMLElement & { _gsapCtx?: gsap.Context })._gsapCtx;
+      if (ctx) ctx.revert();
+    };
+  }, [language]);
 
   return (
     <section
@@ -191,10 +167,10 @@ export function Services() {
       <div className="absolute top-0 left-0 right-0 z-20 py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background-elevated via-background-elevated to-transparent">
         <div className="max-w-7xl mx-auto">
           <span className="text-primary font-medium text-sm uppercase tracking-wider">
-            Lo Que Hacemos
+            {t.services.overline}
           </span>
           <h2 className="text-4xl lg:text-5xl font-bold mt-2 text-foreground">
-            Nuestros Servicios
+            {t.services.headline}
           </h2>
         </div>
       </div>
@@ -202,8 +178,15 @@ export function Services() {
       {/* Horizontal Track */}
       <div className="h-screen flex items-center pt-32">
         <div ref={trackRef} className="flex gap-8 px-8 pl-8 lg:pl-[calc(50vw-300px)]">
-          {servicios.map((servicio, index) => (
-            <ServiceCard key={servicio.titulo} servicio={servicio} index={index} />
+          {t.services.items.map((service, index) => (
+            <ServiceCard
+              key={index}
+              title={service.title}
+              description={service.description}
+              icon={serviceIcons[index]}
+              color={serviceColors[index]}
+              index={index}
+            />
           ))}
         </div>
       </div>
