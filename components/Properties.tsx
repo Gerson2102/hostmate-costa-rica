@@ -251,7 +251,7 @@ function FilterButton({
 }
 
 export function Properties() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<AccommodationType | 'all'>('all');
 
   const filteredProperties =
