@@ -196,7 +196,9 @@ export function Services() {
           className="mt-12 sm:mt-16 text-center"
         >
           <a
-            href="#booking"
+            href="https://calendly.com/hostmatecostarica-info/30min"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-full hover:bg-primary-glow transition-colors shadow-lg shadow-primary/25"
           >
             {t.about.cta.subtitle}

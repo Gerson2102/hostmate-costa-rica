@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Building2, Users, Star, Clock, ArrowUpRight } from 'lucide-react';
+import { Users, Clock, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export function About() {
@@ -16,9 +16,7 @@ export function About() {
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   const stats = [
-    { icon: Building2, number: '+50', label: t.about.stats.properties, color: '#E85D4C' },
     { icon: Users, number: '98%', label: t.about.stats.satisfaction, color: '#2D5BFF' },
-    { icon: Star, number: '5.0', label: t.about.stats.rating, color: '#F59E0B' },
     { icon: Clock, number: '24/7', label: t.about.stats.support, color: '#10B981' },
   ];
 

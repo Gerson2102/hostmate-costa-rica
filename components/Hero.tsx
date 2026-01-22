@@ -108,54 +108,56 @@ export function Hero() {
             </a>
           </div>
 
-          {/* Right: Hero Image */}
-          <div className="hero-image relative hidden lg:flex items-center justify-center min-h-[500px]">
-            <div className="relative w-full max-w-md">
-              <div className="bg-white rounded-3xl p-8 shadow-2xl shadow-black/10 border border-black/5">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-primary" aria-hidden="true" />
+          {/* Right: Property Stats Card - Visible on all devices */}
+          <div className="hero-image relative flex items-center justify-center min-h-[280px] sm:min-h-[350px] lg:min-h-[500px] mt-8 lg:mt-0">
+            <div className="relative w-full max-w-sm sm:max-w-md">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 shadow-2xl shadow-black/10 border border-black/5">
+                <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary" aria-hidden="true" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">{t.hero.card.yourProperty}</p>
-                    <p className="text-sm text-muted">{t.hero.card.location}</p>
+                    <p className="font-semibold text-foreground text-sm sm:text-base">{t.hero.card.yourProperty}</p>
+                    <p className="text-xs sm:text-sm text-muted">{t.hero.card.location}</p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="text-center p-3 bg-background-elevated rounded-xl">
-                    <p className="text-2xl font-bold text-primary">95%</p>
-                    <p className="text-xs text-muted">{t.hero.card.occupancy}</p>
+                <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
+                  <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
+                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-primary">95%</p>
+                    <p className="text-[10px] sm:text-xs text-muted">{t.hero.card.occupancy}</p>
                   </div>
-                  <div className="text-center p-3 bg-background-elevated rounded-xl">
-                    <p className="text-2xl font-bold text-foreground">4.9</p>
-                    <p className="text-xs text-muted">{t.hero.card.rating}</p>
+                  <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
+                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground">4.9</p>
+                    <p className="text-[10px] sm:text-xs text-muted">{t.hero.card.rating}</p>
                   </div>
-                  <div className="text-center p-3 bg-background-elevated rounded-xl">
-                    <p className="text-2xl font-bold text-green-600">+40%</p>
-                    <p className="text-xs text-muted">{t.hero.card.income}</p>
+                  <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
+                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">+40%</p>
+                    <p className="text-[10px] sm:text-xs text-muted">{t.hero.card.income}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-primary/5 rounded-xl">
-                  <span className="text-sm text-foreground font-medium">{t.hero.card.managedBy}</span>
+                <div className="flex items-center justify-between p-3 sm:p-4 bg-primary/5 rounded-lg sm:rounded-xl">
+                  <span className="text-xs sm:text-sm text-foreground font-medium">{t.hero.card.managedBy}</span>
                   <div className="flex -space-x-2">
-                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">HM</div>
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">HM</div>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute -top-4 -right-4 bg-white rounded-xl p-3 shadow-lg shadow-black/10 border border-black/5">
-                <div className="flex items-center gap-2">
-                  <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" aria-hidden="true" />
-                  <span className="text-sm font-medium text-foreground">{t.hero.card.superhost}</span>
+              {/* Superhost Badge */}
+              <div className="absolute -top-3 -right-2 sm:-top-4 sm:-right-4 bg-white rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-lg shadow-black/10 border border-black/5">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500 fill-yellow-500" aria-hidden="true" />
+                  <span className="text-xs sm:text-sm font-medium text-foreground">{t.hero.card.superhost}</span>
                 </div>
               </div>
 
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-3 shadow-lg shadow-black/10 border border-black/5">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" aria-hidden="true" />
-                  <span className="text-sm font-medium text-foreground">24/7 {t.hero.card.support}</span>
+              {/* 24/7 Support Badge */}
+              <div className="absolute -bottom-3 -left-2 sm:-bottom-4 sm:-left-4 bg-white rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-lg shadow-black/10 border border-black/5">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-500 animate-pulse" aria-hidden="true" />
+                  <span className="text-xs sm:text-sm font-medium text-foreground">24/7 {t.hero.card.support}</span>
                 </div>
               </div>
             </div>
