@@ -27,6 +27,7 @@ export interface Property {
   externalPlatform: ExternalPlatform;
   features?: {
     bedrooms?: number;
+    beds?: number;
     bathrooms?: number;
     guests?: number;
   };
@@ -81,6 +82,7 @@ export const properties: Property[] = [
       es: '+ electricidad',
     },
     images: [
+      '/images/properties/casa-mafuaye-piscina.png',
       '/images/properties/casa-mafuaye-1.png',
       '/images/properties/casa-mafuaye-2.png',
       '/images/properties/casa-mafuaye-3.png',
@@ -93,7 +95,10 @@ export const properties: Property[] = [
     externalUrl: 'https://www.airbnb.es/rooms/778490681170620001',
     externalPlatform: 'airbnb',
     features: {
-      guests: 3,
+      guests: 6,
+      bedrooms: 3,
+      beds: 3,
+      bathrooms: 2,
     },
     rating: 4.96,
     reviewCount: 25,

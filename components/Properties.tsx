@@ -202,19 +202,8 @@ function PropertyCard({ property, index }: { property: Property; index: number }
           </div>
         )}
 
-        {/* Price and CTA */}
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="text-2xl font-bold text-foreground">
-              {property.monthlyPrice}
-            </span>
-            <span className="text-muted text-sm">{t.properties.perMonth}</span>
-            {property.priceNotes && (
-              <p className="text-xs text-muted mt-0.5">
-                {property.priceNotes[language]}
-              </p>
-            )}
-          </div>
+        {/* CTA Button */}
+        <div className="flex justify-center">
           <a
             href={property.externalUrl}
             target="_blank"

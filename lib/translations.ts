@@ -17,18 +17,15 @@ export const translations = {
       headline2: 'Our Passion',
       subtitle: 'Professional property management for Airbnb, Booking, and more. Maximize your revenue without the hassle.',
       cta: 'Book Your Free Consultation',
-      stats: {
-        properties: 'Properties',
-        rating: 'Rating',
-        support: 'Support',
-      },
       card: {
         yourProperty: 'Your Property',
         location: 'Guanacaste, Costa Rica',
         occupancy: 'Occupancy',
+        rating: 'Rating',
         income: 'Income',
         managedBy: 'Managed by Hostmate',
         superhost: 'Superhost',
+        support: 'Support',
       },
       scrollMore: 'Discover more',
     },
@@ -57,24 +54,20 @@ export const translations = {
       },
     },
 
-    // Founder Story Section
-    founder: {
-      overline: 'Our Story',
-      headline: 'Meet the',
-      headlineHighlight: 'Founder',
-      role: 'Founder',
-      story: {
-        intro: "Hi, my name is Vane.",
-        paragraph1: "Beyond my studies and training, what really shaped me since childhood was growing up in a house full of design and architecture books. I spent hours flipping through them, fascinated by the designs and spaces, and discovered a world of",
-        paragraph1Highlight: 'limitless creativity',
-        paragraph1End: '.',
-        paragraph2: "My parents were always entrepreneurs and book lovers, and although they may have never imagined the impact it would have on me, that exposure awakened a",
-        paragraph2Highlight: 'passion that guides my life today',
-        paragraph2End: '.',
-        paragraph3: "This project was born with the purpose of helping people manage their properties, make them more attractive and profitable, while also",
-        paragraph3Highlight: 'inspiring those who dream of entrepreneurship',
-        paragraph3End: 'in real estate and tourism. For me, each new project is also an opportunity to give voice to my inner child and continue exploring the creativity I enjoy so much.',
-        closing: "I love discovering accommodations, structures, designs, and details, and sharing the best of what I've learned without reservation. Join me on this journey!",
+    // Team Section
+    team: {
+      overline: 'THE TEAM',
+      headline: 'Know the',
+      headlineHighlight: 'Team',
+      vanessa: {
+        name: 'Vanessa',
+        greeting: 'Hello, my name is Vanessa.',
+        bio: 'Based in Costa Rica, with a strong connection to Guanacaste, I am inspired by the region\'s lifestyle and culture.\n\nMy professional background includes systems configuration, finance, and customer experience. I personally manage your listings to ensure operational efficiency, high quality, and profit improvement.\n\nFor me, every property is more than an asset—it is an opportunity to blend strategy, creativity, and genuine hospitality into meaningful guest experiences, creating value and purpose for you, your guests, and Hostmate.',
+      },
+      julian: {
+        name: 'Julian',
+        greeting: 'Hi, I\'m Julian.',
+        bio: 'I manage homes the way I\'d expect mine to be managed.\n\nI was raised in Nosara and have built my professional career here. That means I don\'t just know the area; I understand how it works, who to call, and how things get done on the ground.\n\nAt the same time, my background in marketing and sales has connected me with high-level networks locally and internationally. Hostmate sits at that intersection: local presence with global-level standards.',
       },
     },
 
@@ -249,18 +242,15 @@ export const translations = {
       headline2: 'Nuestra Pasión',
       subtitle: 'Administración profesional de alojamientos para Airbnb, Booking y más. Maximiza tu rentabilidad sin preocupaciones.',
       cta: 'Agenda tu Consulta Gratis',
-      stats: {
-        properties: 'Propiedades',
-        rating: 'Rating',
-        support: 'Soporte',
-      },
       card: {
         yourProperty: 'Tu Propiedad',
         location: 'Guanacaste, Costa Rica',
         occupancy: 'Ocupación',
+        rating: 'Rating',
         income: 'Ingresos',
         managedBy: 'Administrado por Hostmate',
         superhost: 'Superhost',
+        support: 'Soporte',
       },
       scrollMore: 'Descubre más',
     },
@@ -289,24 +279,20 @@ export const translations = {
       },
     },
 
-    // Founder Story Section
-    founder: {
-      overline: 'Nuestra Historia',
-      headline: 'Conoce a la',
-      headlineHighlight: 'Fundadora',
-      role: 'Fundadora',
-      story: {
-        intro: 'Hola, mi nombre es Vane.',
-        paragraph1: 'Más allá de los estudios y la formación que he realizado, lo que realmente me marcó desde niña fue crecer en una casa llena de libros de decoración y arquitectura. Pasaba horas hojeándolos, fascinada por los diseños y los espacios, y descubrí que allí encontraba un mundo de',
-        paragraph1Highlight: 'creatividad sin límites',
-        paragraph1End: '.',
-        paragraph2: 'Mis papás siempre fueron emprendedores y amantes de los libros, y aunque quizá nunca imaginaron el impacto que tendría en mí, esa exposición despertó una',
-        paragraph2Highlight: 'pasión que hoy guía mi vida',
-        paragraph2End: '.',
-        paragraph3: 'Este proyecto nace con el propósito de ayudar a las personas a gestionar sus propiedades, hacerlas más atractivas y rentables, y al mismo tiempo',
-        paragraph3Highlight: 'inspirar a quienes sueñan con emprender',
-        paragraph3End: 'en el sector de bienes raíces y turismo. Para mí, cada nuevo proyecto es también una oportunidad de darle voz a mi niña interior y seguir explorando la creatividad que tanto disfruto.',
-        closing: 'Me encanta descubrir alojamientos, estructuras, diseños y detalles, y compartir lo mejor de lo que he aprendido sin reservas. ¡Acompáñenme en este viaje!',
+    // Team Section
+    team: {
+      overline: 'EL EQUIPO',
+      headline: 'Conozca a Nuestro',
+      headlineHighlight: 'Equipo',
+      vanessa: {
+        name: 'Vanessa',
+        greeting: 'Hola, mi nombre es Vanessa.',
+        bio: 'Resido en Costa Rica, con una fuerte conexión con Guanacaste, me inspira el estilo de vida y la cultura de la región.\n\nMi experiencia profesional incluye configuración de sistemas, finanzas y experiencia del cliente. Gestiono personalmente sus listados para garantizar eficiencia operativa, alta calidad y mejora de rentabilidad.\n\nPara mí, cada propiedad es más que un activo—es una oportunidad de combinar estrategia, creatividad y hospitalidad genuina en experiencias significativas para los huéspedes, creando valor y propósito para usted, sus huéspedes y Hostmate.',
+      },
+      julian: {
+        name: 'Julián',
+        greeting: 'Hola, soy Julián.',
+        bio: 'Gestiono hogares de la manera en que esperaría que gestionaran el mío.\n\nCrecí en Nosara y he construido mi carrera profesional aquí. Eso significa que no solo conozco la zona; entiendo cómo funciona, a quién llamar y cómo se hacen las cosas en el terreno.\n\nAl mismo tiempo, mi experiencia en marketing y ventas me ha conectado con redes de alto nivel local e internacionalmente. Hostmate se encuentra en esa intersección: presencia local con estándares de nivel global.',
       },
     },
 

@@ -130,13 +130,22 @@ export function Booking() {
           <p className="text-muted mb-4">{t.booking.altContact}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="https://wa.me/50662609385"
+              href="https://wa.me/50683083634"
               className="bg-white hover:bg-background-elevated px-6 py-3 rounded-full flex items-center gap-2 transition-colors shadow-md shadow-black/5 border border-black/5"
               target="_blank"
               rel="noopener noreferrer"
             >
               <MessageCircle className="w-5 h-5 text-green-500" />
-              <span className="text-foreground">WhatsApp</span>
+              <span className="text-foreground">Vanessa</span>
+            </a>
+            <a
+              href="https://wa.me/50686216929"
+              className="bg-white hover:bg-background-elevated px-6 py-3 rounded-full flex items-center gap-2 transition-colors shadow-md shadow-black/5 border border-black/5"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <MessageCircle className="w-5 h-5 text-green-500" />
+              <span className="text-foreground">Julian</span>
             </a>
             <a
               href="mailto:info@hostmatecostarica.com"

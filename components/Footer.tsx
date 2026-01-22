@@ -7,9 +7,17 @@ import { useLanguage } from '@/lib/LanguageContext';
 const contactLinks = [
   {
     icon: Phone,
-    label: '+506 6260 9385',
-    href: 'https://wa.me/50662609385',
-    external: true,
+    label: '+506 8308 3634',
+    sublabel: 'Vanessa',
+    href: 'tel:+50683083634',
+    external: false,
+  },
+  {
+    icon: Phone,
+    label: '+506 8621 6929',
+    sublabel: 'Julián',
+    href: 'tel:+50686216929',
+    external: false,
   },
   {
     icon: Mail,
@@ -77,8 +85,13 @@ export function Footer() {
                     target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
                   >
-                    <link.icon className="w-5 h-5" aria-hidden="true" />
-                    {link.label}
+                    <link.icon className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+                    <span className="flex flex-col">
+                      <span>{link.label}</span>
+                      {'sublabel' in link && link.sublabel && (
+                        <span className="text-xs text-muted/70">{link.sublabel}</span>
+                      )}
+                    </span>
                   </a>
                 </li>
               ))}

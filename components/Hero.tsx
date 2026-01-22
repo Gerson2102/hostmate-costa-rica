@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ArrowRight, ChevronDown, Building2, Star, Clock } from 'lucide-react';
+import { ArrowRight, ChevronDown, Building2, Star } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export function Hero() {
@@ -40,12 +40,6 @@ export function Hero() {
           scale: 0.8,
           duration: 0.6,
         }, '-=0.4')
-        .from('.stat-card', {
-          opacity: 0,
-          y: 30,
-          stagger: 0.1,
-          duration: 0.6,
-        }, '-=0.3')
         .from('.hero-image', {
           opacity: 0,
           scale: 0.9,
@@ -112,39 +106,6 @@ export function Hero() {
               {t.hero.cta}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </a>
-
-            {/* Stats Row */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              <div className="stat-card bg-white rounded-xl px-5 py-4 flex items-center gap-3 shadow-lg shadow-black/5 border border-black/5">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Building2 className="w-5 h-5 text-primary" aria-hidden="true" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-foreground">+50</div>
-                  <div className="text-xs text-muted">{t.hero.stats.properties}</div>
-                </div>
-              </div>
-
-              <div className="stat-card bg-white rounded-xl px-5 py-4 flex items-center gap-3 shadow-lg shadow-black/5 border border-black/5">
-                <div className="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center">
-                  <Star className="w-5 h-5 text-yellow-500" aria-hidden="true" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-foreground">5.0</div>
-                  <div className="text-xs text-muted">{t.hero.stats.rating}</div>
-                </div>
-              </div>
-
-              <div className="stat-card bg-white rounded-xl px-5 py-4 flex items-center gap-3 shadow-lg shadow-black/5 border border-black/5">
-                <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-green-500" aria-hidden="true" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-foreground">24/7</div>
-                  <div className="text-xs text-muted">{t.hero.stats.support}</div>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Right: Hero Image */}
@@ -168,7 +129,7 @@ export function Hero() {
                   </div>
                   <div className="text-center p-3 bg-background-elevated rounded-xl">
                     <p className="text-2xl font-bold text-foreground">4.9</p>
-                    <p className="text-xs text-muted">{t.hero.stats.rating}</p>
+                    <p className="text-xs text-muted">{t.hero.card.rating}</p>
                   </div>
                   <div className="text-center p-3 bg-background-elevated rounded-xl">
                     <p className="text-2xl font-bold text-green-600">+40%</p>
@@ -194,7 +155,7 @@ export function Hero() {
               <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-3 shadow-lg shadow-black/10 border border-black/5">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" aria-hidden="true" />
-                  <span className="text-sm font-medium text-foreground">24/7 {t.hero.stats.support}</span>
+                  <span className="text-sm font-medium text-foreground">24/7 {t.hero.card.support}</span>
                 </div>
               </div>
             </div>

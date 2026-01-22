@@ -1,7 +1,7 @@
 import { Navigation } from '@/components/Navigation';
 import { Hero } from '@/components/Hero';
 import { About } from '@/components/About';
-import { FounderStory } from '@/components/FounderStory';
+import { TeamSection } from '@/components/TeamSection';
 import { Services } from '@/components/Services';
 import { Properties } from '@/components/Properties';
 import { Booking } from '@/components/Booking';
@@ -28,8 +28,8 @@ export default function Home() {
         {/* About Section */}
         <About />
 
-        {/* Founder Story Section */}
-        <FounderStory />
+        {/* Team Section */}
+        <TeamSection />
 
         {/* Services Section */}
         <Services />
