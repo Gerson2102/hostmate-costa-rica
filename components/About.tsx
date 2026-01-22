@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Users, Clock, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
@@ -8,12 +8,24 @@ import { useLanguage } from '@/lib/LanguageContext';
 export function About() {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLElement>(null);
+  const [isMobile, setIsMobile] = useState(true); // Default to mobile
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  // Only use scroll-linked animation on desktop
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start end', 'end start'],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  // Reduced parallax effect (disable on mobile by returning 0)
+  const y = useTransform(
+    scrollYProgress,
+    [0, 1],
+    isMobile ? [0, 0] : [50, -50] // Reduced range for better performance
+  );
 
   const stats = [
     { icon: Users, number: '98%', label: t.about.stats.satisfaction, color: '#2D5BFF' },

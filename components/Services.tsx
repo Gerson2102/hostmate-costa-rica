@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Globe,
@@ -15,6 +15,15 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+
+// Mobile-optimized animation variants
+const getMobileOptimizedVariants = (isMobile: boolean, index: number) => ({
+  initial: isMobile ? { opacity: 0 } : { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: isMobile
+    ? { duration: 0.2 } // Faster on mobile
+    : { delay: index * 0.05, duration: 0.4, ease: 'easeOut' },
+});
 
 const serviceIcons: LucideIcon[] = [
   Globe,
@@ -46,6 +55,7 @@ function ServiceAccordionItem({
   index,
   isExpanded,
   onToggle,
+  isMobile,
 }: {
   title: string;
   description: string;
@@ -54,13 +64,16 @@ function ServiceAccordionItem({
   index: number;
   isExpanded: boolean;
   onToggle: () => void;
+  isMobile: boolean;
 }) {
+  const variants = getMobileOptimizedVariants(isMobile, index);
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.05, duration: 0.4, ease: 'easeOut' }}
+      initial={variants.initial}
+      whileInView={variants.whileInView}
+      viewport={{ once: true, margin: isMobile ? '0px' : '-100px' }}
+      transition={variants.transition}
       className="group"
     >
       <div
@@ -144,6 +157,11 @@ function ServiceAccordionItem({
 export function Services() {
   const { t } = useLanguage();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(true); // Default to mobile for SSR
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   const handleToggle = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -157,10 +175,10 @@ export function Services() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          transition={{ duration: isMobile ? 0.3 : 0.6, ease: 'easeOut' }}
           className="text-center mb-12 sm:mb-16"
         >
           <span className="text-primary font-medium text-sm uppercase tracking-wider">
@@ -183,16 +201,17 @@ export function Services() {
               index={index}
               isExpanded={expandedIndex === index}
               onToggle={() => handleToggle(index)}
+              isMobile={isMobile}
             />
           ))}
         </div>
 
         {/* Bottom CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6, ease: 'easeOut' }}
+          transition={{ delay: isMobile ? 0 : 0.3, duration: isMobile ? 0.3 : 0.6, ease: 'easeOut' }}
           className="mt-12 sm:mt-16 text-center"
         >
           <a

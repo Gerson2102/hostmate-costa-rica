@@ -23,9 +23,10 @@ import {
   accommodationTypeLabels,
 } from '@/lib/properties';
 
-// Image carousel component for each property
+// Image carousel component for each property with lazy loading
 function ImageCarousel({ images, propertyName }: { images: string[]; propertyName: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -39,6 +40,10 @@ function ImageCarousel({ images, propertyName }: { images: string[]; propertyNam
 
   return (
     <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-gray-100">
+      {/* Loading placeholder */}
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+      )}
       <AnimatePresence mode="sync">
         <motion.img
           key={currentIndex}
@@ -49,6 +54,9 @@ function ImageCarousel({ images, propertyName }: { images: string[]; propertyNam
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setIsLoaded(true)}
         />
       </AnimatePresence>
 

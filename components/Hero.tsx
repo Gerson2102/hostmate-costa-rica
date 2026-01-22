@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ArrowRight, ChevronDown, Building2, Star } from 'lucide-react';
+import { ChevronDown, Building2, Star } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export function Hero() {
@@ -10,49 +9,64 @@ export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    // Check if we should run animations
+    const isMobile = window.innerWidth < 768;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      tl
-        .from('.gradient-orb', {
-          opacity: 0,
-          scale: 0.5,
-          duration: 1.5,
-          stagger: 0.2,
-        })
-        .from('.hero-overline', {
-          opacity: 0,
-          x: -50,
-          duration: 0.8,
-        }, '-=1')
-        .from('.hero-headline', {
-          opacity: 0,
-          y: 100,
-          duration: 1,
-        }, '-=0.5')
-        .from('.hero-subtitle', {
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-        }, '-=0.5')
-        .from('.hero-cta', {
-          opacity: 0,
-          scale: 0.8,
-          duration: 0.6,
-        }, '-=0.4')
-        .from('.hero-image', {
-          opacity: 0,
-          scale: 0.9,
-          duration: 1,
-        }, '-=0.5')
-        .from('.scroll-indicator', {
-          opacity: 0,
-          y: -20,
-          duration: 0.5,
-        });
-    }, containerRef);
+    // On mobile or reduced motion: skip animations
+    if (isMobile || prefersReducedMotion) {
+      return;
+    }
 
-    return () => ctx.revert();
+    // Desktop: load GSAP dynamically and run animations
+    let ctx: { revert: () => void } | null = null;
+
+    const initAnimations = async () => {
+      const { gsap } = await import('gsap');
+
+      ctx = gsap.context(() => {
+        const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+        tl
+          .from('.gradient-orb', {
+            opacity: 0,
+            scale: 0.5,
+            duration: 1.5,
+            stagger: 0.2,
+          })
+          .from('.hero-overline', {
+            opacity: 0,
+            x: -50,
+            duration: 0.8,
+          }, '-=1')
+          .from('.hero-headline', {
+            opacity: 0,
+            y: 100,
+            duration: 1,
+          }, '-=0.5')
+          .from('.hero-subtitle', {
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+          }, '-=0.5')
+          .from('.hero-image', {
+            opacity: 0,
+            scale: 0.9,
+            duration: 1,
+          }, '-=0.5')
+          .from('.scroll-indicator', {
+            opacity: 0,
+            y: -20,
+            duration: 0.5,
+          });
+      }, containerRef);
+    };
+
+    initAnimations();
+
+    return () => {
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   return (
@@ -97,15 +111,6 @@ export function Hero() {
               {t.hero.subtitle}
             </p>
 
-            <a
-              href="https://calendly.com/hostmatecostarica-info/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-cta group inline-flex items-center gap-3 bg-primary hover:bg-primary-glow text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-glow-primary"
-            >
-              {t.hero.cta}
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-            </a>
           </div>
 
           {/* Right: Property Stats Card - Visible on all devices */}
@@ -128,7 +133,7 @@ export function Hero() {
                     <p className="text-[10px] sm:text-xs text-muted">{t.hero.card.occupancy}</p>
                   </div>
                   <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
-                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground">4.9</p>
+                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground">5.0</p>
                     <p className="text-[10px] sm:text-xs text-muted">{t.hero.card.rating}</p>
                   </div>
                   <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">

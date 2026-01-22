@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useCallback } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -10,6 +9,7 @@ export function Navigation() {
   const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const navLinks = [
     { label: t.nav.about, href: '#nosotros' },
@@ -17,18 +17,40 @@ export function Navigation() {
     { label: t.nav.properties, href: '#propiedades' },
   ];
 
+  // Animate in on mount
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    // Small delay for smoother entrance
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Throttled scroll handler for better performance
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const closeMobileMenu = useCallback(() => {
+    setMobileOpen(false);
+  }, []);
+
   return (
-    <motion.nav
-      className="fixed top-0 left-0 right-0 z-50 py-4"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 py-4 transition-transform duration-500 ${
+        isVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
@@ -84,40 +106,36 @@ export function Navigation() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            className="md:hidden bg-white border border-black/5 mt-2 mx-4 rounded-2xl overflow-hidden shadow-xl"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="p-6 space-y-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="block text-muted hover:text-foreground font-medium py-2"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
+      {/* Mobile Menu - CSS-only animation for better performance */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
+          mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="bg-white border border-black/5 mt-2 mx-4 rounded-2xl shadow-xl">
+          <div className="p-6 space-y-4">
+            {navLinks.map((link) => (
               <a
-                href="https://calendly.com/hostmatecostarica-info/30min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-primary text-white px-6 py-3 rounded-full font-medium text-center"
-                onClick={() => setMobileOpen(false)}
+                key={link.href}
+                href={link.href}
+                className="block text-muted hover:text-foreground font-medium py-2"
+                onClick={closeMobileMenu}
               >
-                {t.nav.bookConsultation}
+                {link.label}
               </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+            ))}
+            <a
+              href="https://calendly.com/hostmatecostarica-info/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-primary text-white px-6 py-3 rounded-full font-medium text-center"
+              onClick={closeMobileMenu}
+            >
+              {t.nav.bookConsultation}
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 }

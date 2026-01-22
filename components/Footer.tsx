@@ -1,8 +1,10 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Phone, Mail, Instagram, MapPin } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+
+// Removed Framer Motion from Footer for performance
+// Footer animations provide minimal UX value but add to bundle size and CPU usage
 
 const contactLinks = [
   {
@@ -48,11 +50,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Logo & Description */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <div>
             {/* Logo Text */}
             <div className="flex items-center gap-3 mb-6">
               <span className="text-2xl font-bold text-foreground tracking-tight">
@@ -66,15 +64,10 @@ export function Footer() {
               <MapPin className="w-4 h-4 text-primary" aria-hidden="true" />
               <span>Costa Rica</span>
             </div>
-          </motion.div>
+          </div>
 
           {/* Contact */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
+          <div>
             <h3 className="font-semibold text-foreground mb-4">{t.footer.contact}</h3>
             <ul className="space-y-3">
               {contactLinks.map((link) => (
@@ -96,15 +89,10 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
           {/* Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
+          <div>
             <h3 className="font-semibold text-foreground mb-4">{t.footer.linksTitle}</h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
@@ -124,24 +112,18 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
         </div>
 
         {/* Copyright */}
-        <motion.div
-          className="border-t border-black/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
+        <div className="border-t border-black/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-muted text-sm">
             © {new Date().getFullYear()} Hostmate Costa Rica. {t.footer.rights}
           </p>
           <div className="flex items-center gap-2">
             <span className="text-muted text-sm">Pura Vida</span>
           </div>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );

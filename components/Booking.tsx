@@ -1,11 +1,17 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Calendar, ArrowRight, MessageCircle, Mail } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export function Booking() {
   const { t } = useLanguage();
+  const [isMobile, setIsMobile] = useState(true); // Default to mobile (no animations)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   return (
     <section
@@ -15,33 +21,42 @@ export function Booking() {
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
 
-      {/* Animated Orbs */}
-      <motion.div
-        className="absolute top-20 left-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px]"
-        animate={{
-          x: [0, 50, 0],
-          y: [0, 30, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-20 w-80 h-80 bg-secondary/20 rounded-full blur-[100px]"
-        animate={{
-          x: [0, -30, 0],
-          y: [0, -50, 0],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
+      {/* Animated Orbs - Only animate on desktop to save battery/CPU on mobile */}
+      {isMobile ? (
+        <>
+          <div className="absolute top-20 left-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px]" />
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-secondary/20 rounded-full blur-[100px]" />
+        </>
+      ) : (
+        <>
+          <motion.div
+            className="absolute top-20 left-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px]"
+            animate={{
+              x: [0, 50, 0],
+              y: [0, 30, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-20 w-80 h-80 bg-secondary/20 rounded-full blur-[100px]"
+            animate={{
+              x: [0, -30, 0],
+              y: [0, -50, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        </>
+      )}
 
       {/* Subtle Grid Pattern */}
       <div
