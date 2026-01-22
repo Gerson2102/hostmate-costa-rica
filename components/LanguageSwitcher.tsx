@@ -9,9 +9,15 @@ export function LanguageSwitcher() {
   const id = useId();
 
   return (
-    <div className="flex items-center gap-1 bg-background-elevated rounded-full p-1 border border-black/5">
+    <div
+      className="flex items-center gap-1 bg-background-elevated rounded-full p-1 border border-black/5"
+      role="group"
+      aria-label="Language selection"
+    >
       <button
         onClick={() => setLanguage('en')}
+        aria-pressed={language === 'en'}
+        aria-label="Switch to English"
         className={`relative px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${
           language === 'en' ? 'text-white' : 'text-muted hover:text-foreground'
         }`}
@@ -27,6 +33,8 @@ export function LanguageSwitcher() {
       </button>
       <button
         onClick={() => setLanguage('es')}
+        aria-pressed={language === 'es'}
+        aria-label="Switch to Spanish"
         className={`relative px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${
           language === 'es' ? 'text-white' : 'text-muted hover:text-foreground'
         }`}

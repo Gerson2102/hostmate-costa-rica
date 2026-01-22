@@ -110,14 +110,14 @@ export function Hero() {
               className="hero-cta group inline-flex items-center gap-3 bg-primary hover:bg-primary-glow text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-glow-primary"
             >
               {t.hero.cta}
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </a>
 
             {/* Stats Row */}
             <div className="flex flex-wrap gap-4 pt-4">
               <div className="stat-card bg-white rounded-xl px-5 py-4 flex items-center gap-3 shadow-lg shadow-black/5 border border-black/5">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Building2 className="w-5 h-5 text-primary" />
+                  <Building2 className="w-5 h-5 text-primary" aria-hidden="true" />
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-foreground">+50</div>
@@ -127,7 +127,7 @@ export function Hero() {
 
               <div className="stat-card bg-white rounded-xl px-5 py-4 flex items-center gap-3 shadow-lg shadow-black/5 border border-black/5">
                 <div className="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center">
-                  <Star className="w-5 h-5 text-yellow-500" />
+                  <Star className="w-5 h-5 text-yellow-500" aria-hidden="true" />
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-foreground">5.0</div>
@@ -137,7 +137,7 @@ export function Hero() {
 
               <div className="stat-card bg-white rounded-xl px-5 py-4 flex items-center gap-3 shadow-lg shadow-black/5 border border-black/5">
                 <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-green-500" />
+                  <Clock className="w-5 h-5 text-green-500" aria-hidden="true" />
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-foreground">24/7</div>
@@ -153,7 +153,7 @@ export function Hero() {
               <div className="bg-white rounded-3xl p-8 shadow-2xl shadow-black/10 border border-black/5">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-primary" />
+                    <Building2 className="w-6 h-6 text-primary" aria-hidden="true" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">{t.hero.card.yourProperty}</p>
@@ -186,14 +186,14 @@ export function Hero() {
 
               <div className="absolute -top-4 -right-4 bg-white rounded-xl p-3 shadow-lg shadow-black/10 border border-black/5">
                 <div className="flex items-center gap-2">
-                  <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                  <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" aria-hidden="true" />
                   <span className="text-sm font-medium text-foreground">{t.hero.card.superhost}</span>
                 </div>
               </div>
 
               <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-3 shadow-lg shadow-black/10 border border-black/5">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" aria-hidden="true" />
                   <span className="text-sm font-medium text-foreground">24/7 {t.hero.stats.support}</span>
                 </div>
               </div>
@@ -202,13 +202,17 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-        <span className="text-sm uppercase tracking-widest text-muted">{t.hero.scrollMore}</span>
-        <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center bg-white/50">
-          <ChevronDown className="w-5 h-5 text-muted animate-bounce" />
+      {/* Scroll Indicator - z-20 to appear above content container */}
+      <a
+        href="#nosotros"
+        className="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 group"
+        aria-label="Scroll to About section"
+      >
+        <span className="text-sm uppercase tracking-widest text-muted group-hover:text-foreground transition-colors">{t.hero.scrollMore}</span>
+        <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center bg-white/50 group-hover:bg-white group-hover:border-primary/20 transition-all">
+          <ChevronDown className="w-5 h-5 text-muted animate-bounce group-hover:text-primary" aria-hidden="true" />
         </div>
-      </div>
+      </a>
     </section>
   );
 }

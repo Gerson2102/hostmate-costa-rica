@@ -7,7 +7,6 @@ export const translations = {
       about: 'About',
       services: 'Services',
       properties: 'Properties',
-      testimonials: 'Testimonials',
       bookConsultation: 'Book Consultation',
     },
 
@@ -197,51 +196,6 @@ export const translations = {
       ],
     },
 
-    // Testimonials Section
-    testimonials: {
-      overline: 'Testimonials',
-      headline: 'What Our Clients Say',
-      items: [
-        {
-          name: 'Maria Gonzalez',
-          location: 'Property in Guanacaste',
-          stars: 5,
-          text: "Since Hostmate manages my property, my income has increased by 40%. The team is very professional.",
-        },
-        {
-          name: 'Carlos Jimenez',
-          location: 'Apartment in San Jose',
-          stars: 5,
-          text: 'Excellent service. They took away all the stress of managing my Airbnb. The photos are amazing.',
-        },
-        {
-          name: 'Ana Rodriguez',
-          location: 'House in La Fortuna',
-          stars: 5,
-          text: 'The hybrid plan is perfect. The housekeeping is impeccable and guests always leave excellent reviews.',
-        },
-        {
-          name: 'Luis Vargas',
-          location: 'Villa in Tamarindo',
-          stars: 5,
-          text: 'Guest communication is excellent. They respond quickly and always keep clients informed.',
-        },
-        {
-          name: 'Patricia Mora',
-          location: 'Condo in Jaco',
-          stars: 5,
-          text: 'Top-notch professionals. Now I have time to enjoy while they take care of everything.',
-        },
-      ],
-      featured: {
-        name: 'Roberto Mora',
-        location: 'Villa in Manuel Antonio',
-        initials: 'RM',
-        stars: 5,
-        text: 'Top-notch professionals. The decoration consulting transformed my property and now I have bookings all year round. The team is always available and communication is excellent.',
-      },
-    },
-
     // Booking Section
     booking: {
       overline: 'Get Started Now',
@@ -267,7 +221,6 @@ export const translations = {
         about: 'About Us',
         services: 'Services',
         properties: 'Properties',
-        testimonials: 'Testimonials',
         booking: 'Book Consultation',
       },
       rights: 'All rights reserved.',
@@ -286,7 +239,6 @@ export const translations = {
       about: 'Nosotros',
       services: 'Servicios',
       properties: 'Propiedades',
-      testimonials: 'Testimonios',
       bookConsultation: 'Agendar Consulta',
     },
 
@@ -476,51 +428,6 @@ export const translations = {
       ],
     },
 
-    // Testimonials Section
-    testimonials: {
-      overline: 'Testimonios',
-      headline: 'Lo Que Dicen Nuestros Clientes',
-      items: [
-        {
-          name: 'María González',
-          location: 'Propiedad en Guanacaste',
-          stars: 5,
-          text: 'Desde que Hostmate administra mi propiedad, mis ingresos aumentaron un 40%. El equipo es muy profesional.',
-        },
-        {
-          name: 'Carlos Jiménez',
-          location: 'Apartamento en San José',
-          stars: 5,
-          text: 'Excelente servicio. Me quitaron todo el estrés de administrar mi Airbnb. Las fotografías son increíbles.',
-        },
-        {
-          name: 'Ana Rodríguez',
-          location: 'Casa en La Fortuna',
-          stars: 5,
-          text: 'El plan híbrido es perfecto. El housekeeping es impecable y los huéspedes siempre dejan excelentes reviews.',
-        },
-        {
-          name: 'Luis Vargas',
-          location: 'Villa en Tamarindo',
-          stars: 5,
-          text: 'La comunicación con huéspedes es excelente. Responden rápido y siempre mantienen informados a los clientes.',
-        },
-        {
-          name: 'Patricia Mora',
-          location: 'Condominio en Jacó',
-          stars: 5,
-          text: 'Profesionales de primera. Ahora tengo tiempo para disfrutar mientras ellos se encargan de todo.',
-        },
-      ],
-      featured: {
-        name: 'Roberto Mora',
-        location: 'Villa en Manuel Antonio',
-        initials: 'RM',
-        stars: 5,
-        text: 'Profesionales de primera. La asesoría de decoración transformó mi propiedad y ahora tengo reservas todo el año. El equipo siempre está disponible y la comunicación es excelente.',
-      },
-    },
-
     // Booking Section
     booking: {
       overline: 'Comienza Ahora',
@@ -546,7 +453,6 @@ export const translations = {
         about: 'Sobre Nosotros',
         services: 'Servicios',
         properties: 'Propiedades',
-        testimonials: 'Testimonios',
         booking: 'Agendar Consulta',
       },
       rights: 'Todos los derechos reservados.',

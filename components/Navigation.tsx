@@ -15,7 +15,6 @@ export function Navigation() {
     { label: t.nav.about, href: '#nosotros' },
     { label: t.nav.services, href: '#servicios' },
     { label: t.nav.properties, href: '#propiedades' },
-    { label: t.nav.testimonials, href: '#testimonios' },
   ];
 
   useEffect(() => {
@@ -64,7 +63,7 @@ export function Navigation() {
               href="https://calendly.com/hostmatecostarica-info/30min"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-primary hover:bg-primary-glow text-white px-6 py-2.5 rounded-full font-medium transition-all hover:shadow-glow-primary"
+              className="bg-primary-dark hover:bg-primary text-white px-6 py-2.5 rounded-full font-medium transition-all hover:shadow-glow-primary"
             >
               {t.nav.bookConsultation}
             </a>
@@ -74,11 +73,12 @@ export function Navigation() {
           <div className="md:hidden flex items-center gap-3">
             <LanguageSwitcher />
             <button
-              className="text-foreground"
+              className="text-foreground p-2"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
             </button>
           </div>
         </div>

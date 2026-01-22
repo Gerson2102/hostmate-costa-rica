@@ -88,7 +88,7 @@ export function About() {
               transition={{ delay: 0.3 }}
             >
               {t.about.link}
-              <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true" />
             </motion.a>
           </div>
 
@@ -166,9 +166,10 @@ export function About() {
                       href="https://calendly.com/hostmatecostarica-info/30min"
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label="Book a free consultation on Calendly"
                       className="w-12 h-12 rounded-full bg-primary flex items-center justify-center hover:bg-primary-glow hover:shadow-glow-primary transition-all"
                     >
-                      <ArrowUpRight className="w-5 h-5 text-white" />
+                      <ArrowUpRight className="w-5 h-5 text-white" aria-hidden="true" />
                     </a>
                   </div>
                 </motion.div>

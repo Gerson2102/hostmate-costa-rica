@@ -32,7 +32,6 @@ export function Footer() {
     { label: t.footer.links.about, href: '#nosotros' },
     { label: t.footer.links.services, href: '#servicios' },
     { label: t.footer.links.properties, href: '#propiedades' },
-    { label: t.footer.links.testimonials, href: '#testimonios' },
     { label: t.footer.links.booking, href: 'https://calendly.com/hostmatecostarica-info/30min', highlight: true, external: true },
   ];
 
@@ -56,7 +55,7 @@ export function Footer() {
               {t.footer.description}
             </p>
             <div className="flex items-center gap-2 mt-4 text-muted">
-              <MapPin className="w-4 h-4 text-primary" />
+              <MapPin className="w-4 h-4 text-primary" aria-hidden="true" />
               <span>Costa Rica</span>
             </div>
           </motion.div>
@@ -68,7 +67,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <h4 className="font-semibold text-foreground mb-4">{t.footer.contact}</h4>
+            <h3 className="font-semibold text-foreground mb-4">{t.footer.contact}</h3>
             <ul className="space-y-3">
               {contactLinks.map((link) => (
                 <li key={link.href}>
@@ -78,7 +77,7 @@ export function Footer() {
                     target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
                   >
-                    <link.icon className="w-5 h-5" />
+                    <link.icon className="w-5 h-5" aria-hidden="true" />
                     {link.label}
                   </a>
                 </li>
@@ -93,7 +92,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h4 className="font-semibold text-foreground mb-4">{t.footer.linksTitle}</h4>
+            <h3 className="font-semibold text-foreground mb-4">{t.footer.linksTitle}</h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>

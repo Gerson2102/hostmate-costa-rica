@@ -39,7 +39,7 @@ function ImageCarousel({ images, propertyName }: { images: string[]; propertyNam
 
   return (
     <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-gray-100">
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         <motion.img
           key={currentIndex}
           src={displayImages[currentIndex]}
@@ -58,31 +58,37 @@ function ImageCarousel({ images, propertyName }: { images: string[]; propertyNam
           <button
             onClick={goToPrevious}
             className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100"
-            aria-label="Previous image"
+            aria-label={`Previous image of ${propertyName}`}
           >
-            <ChevronLeft className="w-5 h-5 text-gray-700" />
+            <ChevronLeft className="w-5 h-5 text-gray-700" aria-hidden="true" />
           </button>
           <button
             onClick={goToNext}
             className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100"
-            aria-label="Next image"
+            aria-label={`Next image of ${propertyName}`}
           >
-            <ChevronRight className="w-5 h-5 text-gray-700" />
+            <ChevronRight className="w-5 h-5 text-gray-700" aria-hidden="true" />
           </button>
         </>
       )}
 
       {/* Dots indicator */}
       {displayImages.length > 1 && (
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+        <div
+          className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5"
+          role="tablist"
+          aria-label={`Image gallery for ${propertyName}`}
+        >
           {displayImages.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
+              role="tab"
+              aria-selected={index === currentIndex}
               className={`w-2 h-2 rounded-full transition-all ${
                 index === currentIndex ? 'bg-white w-4' : 'bg-white/60 hover:bg-white/80'
               }`}
-              aria-label={`Go to image ${index + 1}`}
+              aria-label={`View image ${index + 1} of ${displayImages.length} for ${propertyName}`}
             />
           ))}
         </div>
@@ -134,12 +140,12 @@ function PropertyCard({ property, index }: { property: Property; index: number }
         {/* Accommodation Type Badge */}
         <div className="flex items-center gap-2 mb-3">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
-            <AccommodationIcon className="w-3.5 h-3.5" />
+            <AccommodationIcon className="w-3.5 h-3.5" aria-hidden="true" />
             {accommodationLabel}
           </span>
           {property.rating && (
             <span className="inline-flex items-center gap-1 text-sm text-muted">
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" aria-hidden="true" />
               {property.rating}
               {property.reviewCount && (
                 <span className="text-xs">
@@ -157,7 +163,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
 
         {/* Location */}
         <div className="flex items-center gap-2 text-muted mb-4">
-          <MapPin className="w-4 h-4 text-primary" />
+          <MapPin className="w-4 h-4 text-primary" aria-hidden="true" />
           <span className="text-sm">{property.location[language]}</span>
         </div>
 
@@ -171,7 +177,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
           <div className="flex flex-wrap gap-4 mb-4 pb-4 border-b border-black/5">
             {property.features.bedrooms && (
               <div className="flex items-center gap-1.5 text-sm text-muted">
-                <Bed className="w-4 h-4" />
+                <Bed className="w-4 h-4" aria-hidden="true" />
                 <span>
                   {property.features.bedrooms} {t.properties.bedrooms}
                 </span>
@@ -179,7 +185,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
             )}
             {property.features.bathrooms && (
               <div className="flex items-center gap-1.5 text-sm text-muted">
-                <Bath className="w-4 h-4" />
+                <Bath className="w-4 h-4" aria-hidden="true" />
                 <span>
                   {property.features.bathrooms} {t.properties.bathrooms}
                 </span>
@@ -187,7 +193,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
             )}
             {property.features.guests && (
               <div className="flex items-center gap-1.5 text-sm text-muted">
-                <Users className="w-4 h-4" />
+                <Users className="w-4 h-4" aria-hidden="true" />
                 <span>
                   {property.features.guests} {t.properties.guests}
                 </span>
@@ -218,7 +224,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
             {property.externalPlatform === 'airbnb'
               ? t.properties.viewOnAirbnb
               : t.properties.viewListing}
-            <ExternalLink className="w-4 h-4" />
+            <ExternalLink className="w-4 h-4" aria-hidden="true" />
           </a>
         </div>
       </div>
@@ -349,7 +355,7 @@ export function Properties() {
 
         {/* Properties Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="popLayout">
             {filteredProperties.length > 0 ? (
               filteredProperties.map((property, index) => (
                 <PropertyCard key={property.id} property={property} index={index} />
