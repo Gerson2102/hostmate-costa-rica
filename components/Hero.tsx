@@ -25,6 +25,8 @@ export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showVideo, setShowVideo] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const userInteractionHandledRef = useRef(false);
 
   // ============================================
   // VIDEO EVENT HANDLERS
@@ -60,6 +62,7 @@ export function Hero() {
   useEffect(() => {
     // Only disable on very small screens (older phones, small viewports)
     const isVerySmallScreen = window.innerWidth < 480;
+    const isMobileDevice = window.innerWidth < 768;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Check connection quality (if API available)
@@ -72,11 +75,15 @@ export function Hero() {
     logVideo('Evaluating video display conditions', {
       screenWidth: window.innerWidth,
       isVerySmallScreen,
+      isMobileDevice,
       prefersReducedMotion,
       connectionType: connection?.effectiveType,
       isSlowConnection,
       saveData,
     });
+
+    // Track mobile state for preload strategy
+    setIsMobile(isMobileDevice);
 
     // Show video on most devices, respecting user preferences and connection quality
     // - Disabled on very small screens (<480px) for performance
@@ -92,31 +99,58 @@ export function Hero() {
   }, []);
 
   // ============================================
-  // VIEWPORT-BASED PLAYBACK
+  // VIEWPORT-BASED PLAYBACK WITH RETRY LOGIC
   // Pause video when scrolled out of view
+  // Includes retry logic for mobile devices
   // ============================================
   useEffect(() => {
     if (!showVideo || !videoRef.current) return;
 
     const video = videoRef.current;
+    let retryCount = 0;
+    const maxRetries = 3;
+    const retryDelay = 500; // ms
+
+    // Attempt to play video with retry logic
+    const attemptPlay = () => {
+      // Check if video is ready (readyState >= 2 means HAVE_CURRENT_DATA)
+      if (video.readyState >= 2) {
+        video.play().catch((error: Error) => {
+          logVideo('Autoplay blocked or failed', {
+            name: error.name,
+            message: error.message,
+            readyState: video.readyState,
+            retryCount,
+          });
+
+          if (error.name === 'NotAllowedError') {
+            logVideo('Autoplay not allowed by browser policy, waiting for user interaction');
+          }
+        });
+      } else if (retryCount < maxRetries) {
+        retryCount++;
+        logVideo(`Video not ready (readyState: ${video.readyState}), retrying in ${retryDelay}ms (attempt ${retryCount}/${maxRetries})`);
+        setTimeout(attemptPlay, retryDelay);
+      } else {
+        logVideo('Max retries reached, video not ready. Waiting for loadedmetadata event.');
+      }
+    };
+
+    // Backup trigger: loadedmetadata event
+    const handleLoadedMetadata = () => {
+      logVideo('loadedmetadata event fired', { readyState: video.readyState });
+      if (video.paused && video.readyState >= 1) {
+        attemptPlay();
+      }
+    };
+
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch((error: Error) => {
-            // Log autoplay failures in development for debugging
-            logVideo('Autoplay blocked or failed', {
-              name: error.name,
-              message: error.message,
-              // Common reasons: NotAllowedError (user interaction required),
-              // AbortError (play() interrupted), NotSupportedError (format issue)
-            });
-
-            // If autoplay is blocked, fall back to poster
-            if (error.name === 'NotAllowedError') {
-              logVideo('Autoplay not allowed by browser policy, consider user interaction');
-            }
-          });
+          retryCount = 0; // Reset retry count when coming into view
+          attemptPlay();
         } else {
           video.pause();
           logVideo('Video paused (out of viewport)');
@@ -127,7 +161,49 @@ export function Hero() {
 
     observer.observe(video);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+    };
+  }, [showVideo]);
+
+  // ============================================
+  // USER INTERACTION FALLBACK FOR iOS
+  // iOS Safari requires user gesture for autoplay
+  // ============================================
+  useEffect(() => {
+    if (!showVideo || !videoRef.current) return;
+
+    const video = videoRef.current;
+
+    const handleUserInteraction = () => {
+      if (userInteractionHandledRef.current) return;
+      userInteractionHandledRef.current = true;
+
+      logVideo('User interaction detected, attempting to play video');
+
+      if (video.paused) {
+        video.play().catch((error: Error) => {
+          logVideo('Play after user interaction failed', {
+            name: error.name,
+            message: error.message,
+          });
+        });
+      }
+    };
+
+    // Listen for first user interaction (touchstart, click, pointerdown)
+    const interactionEvents = ['touchstart', 'click', 'pointerdown'] as const;
+
+    interactionEvents.forEach((event) => {
+      document.addEventListener(event, handleUserInteraction, { once: true, passive: true });
+    });
+
+    return () => {
+      interactionEvents.forEach((event) => {
+        document.removeEventListener(event, handleUserInteraction);
+      });
+    };
   }, [showVideo]);
 
   // ============================================
@@ -259,7 +335,7 @@ export function Hero() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload={isMobile ? "metadata" : "auto"}
             aria-hidden="true"
             tabIndex={-1}
             poster="/images/hero-poster.webp"

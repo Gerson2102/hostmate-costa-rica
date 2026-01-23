@@ -49,6 +49,7 @@ export default function RootLayout({
           href="/videos/VideoCostaRica-optimized.mp4"
           as="video"
           type="video/mp4"
+          media="(min-width: 768px)"
         />
 
         {/* Preload hero poster for immediate display */}
