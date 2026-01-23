@@ -25,8 +25,6 @@ export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showVideo, setShowVideo] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const userInteractionHandledRef = useRef(false);
 
   // ============================================
   // VIDEO EVENT HANDLERS
@@ -56,13 +54,11 @@ export function Hero() {
   // ============================================
   // VIDEO DISPLAY LOGIC
   // Determines whether to show video or poster
-  // Video enabled on mobile (768px+) and tablets
-  // Only disabled on very small screens (<480px)
+  // Video only enabled on desktop (768px+)
+  // Disabled on mobile for performance/battery
   // ============================================
   useEffect(() => {
-    // Only disable on very small screens (older phones, small viewports)
-    const isVerySmallScreen = window.innerWidth < 480;
-    const isMobileDevice = window.innerWidth < 768;
+    const isMobile = window.innerWidth < 768;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Check connection quality (if API available)
@@ -74,83 +70,44 @@ export function Hero() {
 
     logVideo('Evaluating video display conditions', {
       screenWidth: window.innerWidth,
-      isVerySmallScreen,
-      isMobileDevice,
+      isMobile,
       prefersReducedMotion,
       connectionType: connection?.effectiveType,
       isSlowConnection,
       saveData,
     });
 
-    // Track mobile state for preload strategy
-    setIsMobile(isMobileDevice);
-
-    // Show video on most devices, respecting user preferences and connection quality
-    // - Disabled on very small screens (<480px) for performance
+    // Show video only on desktop, respecting user preferences and connection quality
+    // - Disabled on mobile (<768px) for performance and battery life
     // - Disabled when user prefers reduced motion
     // - Disabled on slow connections (2g/slow-2g)
     // - Disabled when Data Saver is enabled
-    if (!isVerySmallScreen && !prefersReducedMotion && !isSlowConnection && !saveData) {
+    if (!isMobile && !prefersReducedMotion && !isSlowConnection && !saveData) {
       setShowVideo(true);
-      logVideo('Video enabled');
+      logVideo('Video enabled (desktop)');
     } else {
       logVideo('Video disabled, showing poster fallback');
     }
   }, []);
 
   // ============================================
-  // VIEWPORT-BASED PLAYBACK WITH RETRY LOGIC
-  // Pause video when scrolled out of view
-  // Includes retry logic for mobile devices
+  // VIEWPORT-BASED PLAYBACK
+  // Pause video when scrolled out of view (saves battery/resources)
   // ============================================
   useEffect(() => {
     if (!showVideo || !videoRef.current) return;
 
     const video = videoRef.current;
-    let retryCount = 0;
-    const maxRetries = 3;
-    const retryDelay = 500; // ms
-
-    // Attempt to play video with retry logic
-    const attemptPlay = () => {
-      // Check if video is ready (readyState >= 2 means HAVE_CURRENT_DATA)
-      if (video.readyState >= 2) {
-        video.play().catch((error: Error) => {
-          logVideo('Autoplay blocked or failed', {
-            name: error.name,
-            message: error.message,
-            readyState: video.readyState,
-            retryCount,
-          });
-
-          if (error.name === 'NotAllowedError') {
-            logVideo('Autoplay not allowed by browser policy, waiting for user interaction');
-          }
-        });
-      } else if (retryCount < maxRetries) {
-        retryCount++;
-        logVideo(`Video not ready (readyState: ${video.readyState}), retrying in ${retryDelay}ms (attempt ${retryCount}/${maxRetries})`);
-        setTimeout(attemptPlay, retryDelay);
-      } else {
-        logVideo('Max retries reached, video not ready. Waiting for loadedmetadata event.');
-      }
-    };
-
-    // Backup trigger: loadedmetadata event
-    const handleLoadedMetadata = () => {
-      logVideo('loadedmetadata event fired', { readyState: video.readyState });
-      if (video.paused && video.readyState >= 1) {
-        attemptPlay();
-      }
-    };
-
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          retryCount = 0; // Reset retry count when coming into view
-          attemptPlay();
+          video.play().catch((error: Error) => {
+            logVideo('Autoplay blocked or failed', {
+              name: error.name,
+              message: error.message,
+            });
+          });
         } else {
           video.pause();
           logVideo('Video paused (out of viewport)');
@@ -161,49 +118,7 @@ export function Hero() {
 
     observer.observe(video);
 
-    return () => {
-      observer.disconnect();
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-    };
-  }, [showVideo]);
-
-  // ============================================
-  // USER INTERACTION FALLBACK FOR iOS
-  // iOS Safari requires user gesture for autoplay
-  // ============================================
-  useEffect(() => {
-    if (!showVideo || !videoRef.current) return;
-
-    const video = videoRef.current;
-
-    const handleUserInteraction = () => {
-      if (userInteractionHandledRef.current) return;
-      userInteractionHandledRef.current = true;
-
-      logVideo('User interaction detected, attempting to play video');
-
-      if (video.paused) {
-        video.play().catch((error: Error) => {
-          logVideo('Play after user interaction failed', {
-            name: error.name,
-            message: error.message,
-          });
-        });
-      }
-    };
-
-    // Listen for first user interaction (touchstart, click, pointerdown)
-    const interactionEvents = ['touchstart', 'click', 'pointerdown'] as const;
-
-    interactionEvents.forEach((event) => {
-      document.addEventListener(event, handleUserInteraction, { once: true, passive: true });
-    });
-
-    return () => {
-      interactionEvents.forEach((event) => {
-        document.removeEventListener(event, handleUserInteraction);
-      });
-    };
+    return () => observer.disconnect();
   }, [showVideo]);
 
   // ============================================
@@ -335,7 +250,7 @@ export function Hero() {
             muted
             loop
             playsInline
-            preload={isMobile ? "metadata" : "auto"}
+            preload="auto"
             aria-hidden="true"
             tabIndex={-1}
             poster="/images/hero-poster.webp"
@@ -350,7 +265,7 @@ export function Hero() {
             <source src="/videos/VideoCostaRica-optimized.webm" type="video/webm" />
           </video>
         ) : (
-          /* POSTER FALLBACK (very small screens <480px, reduced motion, slow connection, data saver) */
+          /* POSTER FALLBACK (mobile <768px, reduced motion, slow connection, data saver) */
           <div
             className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: 'url(/images/hero-poster.webp)' }}
