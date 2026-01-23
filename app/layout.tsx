@@ -44,12 +44,13 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://calendly.com" />
 
         {/* Preload hero video (MP4 prioritized - smaller file size: 4.4MB vs 7.2MB WebM) */}
+        {/* Only preload on desktop (1024px+) to save bandwidth on mobile/tablet */}
         <link
           rel="preload"
           href="/videos/VideoCostaRica-optimized.mp4"
           as="video"
           type="video/mp4"
-          media="(min-width: 768px)"
+          media="(min-width: 1024px)"
         />
 
         {/* Preload hero poster for immediate display */}

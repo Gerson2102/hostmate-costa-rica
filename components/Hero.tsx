@@ -20,12 +20,18 @@ const logVideo = (message: string, data?: unknown) => {
   }
 };
 
+// Desktop breakpoint - matches Tailwind's lg: (1024px)
+// Video is ONLY shown on desktop (1024px and above)
+const DESKTOP_BREAKPOINT = 1024;
+
 export function Hero() {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [showVideo, setShowVideo] = useState(false);
-  const [isMobileDevice, setIsMobileDevice] = useState(true); // Default to mobile to prevent video flash
+  // Single state to control video rendering
+  // Defaults to false - video will NOT render/download until client-side check confirms desktop
+  // This prevents video download on mobile devices (saves bandwidth)
+  const [shouldRenderVideo, setShouldRenderVideo] = useState(false);
 
   // ============================================
   // VIDEO EVENT HANDLERS
@@ -54,45 +60,49 @@ export function Hero() {
 
   // ============================================
   // VIDEO DISPLAY LOGIC
-  // Determines whether to show video or poster
-  // Video only enabled on desktop (768px+)
-  // Disabled on mobile for performance/battery
+  // Determines whether to render and show video
+  // Video ONLY enabled on desktop (1024px+)
+  // Disabled on mobile/tablet for performance/battery
   // ============================================
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const checkShouldRenderVideo = () => {
+      const isDesktop = window.innerWidth >= DESKTOP_BREAKPOINT;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Check connection quality (if API available)
-    const nav = navigator as NavigatorWithConnection;
-    const connection = nav.connection;
-    const isSlowConnection = connection?.effectiveType === '2g' ||
-                             connection?.effectiveType === 'slow-2g';
-    const saveData = connection?.saveData;
+      // Check connection quality (if API available)
+      const nav = navigator as NavigatorWithConnection;
+      const connection = nav.connection;
+      const isSlowConnection = connection?.effectiveType === '2g' ||
+                               connection?.effectiveType === 'slow-2g';
+      const saveData = connection?.saveData;
 
-    logVideo('Evaluating video display conditions', {
-      screenWidth: window.innerWidth,
-      isMobile,
-      prefersReducedMotion,
-      connectionType: connection?.effectiveType,
-      isSlowConnection,
-      saveData,
-    });
+      logVideo('Evaluating video display conditions', {
+        screenWidth: window.innerWidth,
+        isDesktop,
+        prefersReducedMotion,
+        connectionType: connection?.effectiveType,
+        isSlowConnection,
+        saveData,
+      });
 
-    // Update mobile state for conditional rendering
-    setIsMobileDevice(isMobile);
+      // Show video ONLY on desktop, respecting user preferences and connection quality
+      // Conditions that DISABLE video:
+      // - Mobile/tablet viewport (<1024px)
+      // - User prefers reduced motion
+      // - Slow connection (2g/slow-2g)
+      // - Data Saver is enabled
+      const shouldShow = isDesktop && !prefersReducedMotion && !isSlowConnection && !saveData;
 
-    // Show video only on desktop, respecting user preferences and connection quality
-    // - Disabled on mobile (<768px) for performance and battery life
-    // - Disabled when user prefers reduced motion
-    // - Disabled on slow connections (2g/slow-2g)
-    // - Disabled when Data Saver is enabled
-    if (!isMobile && !prefersReducedMotion && !isSlowConnection && !saveData) {
-      setShowVideo(true);
-      logVideo('Video enabled (desktop)');
-    } else {
-      setShowVideo(false);
-      logVideo('Video disabled, showing poster fallback');
-    }
+      setShouldRenderVideo(shouldShow);
+      logVideo(shouldShow ? 'Video enabled (desktop)' : 'Video disabled, showing poster fallback');
+    };
+
+    // Initial check
+    checkShouldRenderVideo();
+
+    // Re-check on resize (handles orientation changes and window resize)
+    window.addEventListener('resize', checkShouldRenderVideo);
+    return () => window.removeEventListener('resize', checkShouldRenderVideo);
   }, []);
 
   // ============================================
@@ -100,7 +110,7 @@ export function Hero() {
   // Pause video when scrolled out of view (saves battery/resources)
   // ============================================
   useEffect(() => {
-    if (!showVideo || !videoRef.current) return;
+    if (!shouldRenderVideo || !videoRef.current) return;
 
     const video = videoRef.current;
 
@@ -124,14 +134,14 @@ export function Hero() {
     observer.observe(video);
 
     return () => observer.disconnect();
-  }, [showVideo]);
+  }, [shouldRenderVideo]);
 
   // ============================================
   // VIDEO ERROR HANDLING
   // Fallback to poster if video fails to load
   // ============================================
   useEffect(() => {
-    if (!videoRef.current) return;
+    if (!shouldRenderVideo || !videoRef.current) return;
 
     const video = videoRef.current;
 
@@ -147,20 +157,20 @@ export function Hero() {
         readyState: videoElement.readyState,
       });
 
-      setShowVideo(false);
+      setShouldRenderVideo(false);
     };
 
     video.addEventListener('error', handleError);
 
     return () => video.removeEventListener('error', handleError);
-  }, []);
+  }, [shouldRenderVideo]);
 
   // ============================================
   // GSAP ANIMATIONS
-  // Entrance animations for desktop only
+  // Entrance animations for desktop only (1024px+)
   // ============================================
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
+    const isMobile = window.innerWidth < DESKTOP_BREAKPOINT;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (isMobile || prefersReducedMotion) {
@@ -247,9 +257,15 @@ export function Hero() {
           ======================================== */}
       <div className="absolute inset-0 overflow-hidden">
 
-        {/* VIDEO BACKGROUND (z-0) - Only rendered on desktop when showVideo is true */}
-        {/* Conditional rendering prevents video download on mobile devices */}
-        {showVideo && !isMobileDevice && (
+        {/* VIDEO BACKGROUND (z-0) - DESKTOP ONLY (1024px+)
+            Two layers of protection:
+            1. JavaScript: shouldRenderVideo is false on mobile (prevents download)
+            2. CSS: hidden lg:block ensures video is visually hidden below 1024px
+            This double protection handles edge cases like:
+            - Window resize from desktop to mobile
+            - Any JavaScript execution delays
+        */}
+        {shouldRenderVideo && (
           <video
             ref={videoRef}
             autoPlay
@@ -260,7 +276,7 @@ export function Hero() {
             aria-hidden="true"
             tabIndex={-1}
             poster="/images/hero-poster.webp"
-            className="absolute inset-0 w-full h-full object-cover z-0"
+            className="hidden lg:block absolute inset-0 w-full h-full object-cover z-0"
             onLoadedData={handleVideoLoadedData}
             onCanPlayThrough={handleVideoCanPlay}
             onPlaying={handleVideoPlaying}
@@ -272,10 +288,18 @@ export function Hero() {
           </video>
         )}
 
-        {/* POSTER FALLBACK - Always rendered, hidden on desktop when video is active */}
-        {/* Visible on: mobile (<768px), reduced motion, slow connection, data saver, or before JS hydration */}
+        {/* POSTER FALLBACK - Always rendered, fades out on desktop when video is active
+            Visible on:
+            - Mobile/tablet (<1024px) - always
+            - Desktop with reduced motion preference
+            - Desktop with slow connection
+            - Desktop with Data Saver enabled
+            - Before JavaScript hydration completes
+        */}
         <div
-          className={`absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500 ${showVideo && !isMobileDevice ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          className={`absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500 ${
+            shouldRenderVideo ? 'lg:opacity-0 lg:pointer-events-none' : 'opacity-100'
+          }`}
           style={{ backgroundImage: 'url(/images/hero-poster.webp)' }}
           aria-hidden="true"
         />
