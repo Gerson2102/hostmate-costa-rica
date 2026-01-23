@@ -63,6 +63,10 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     };
   }, []);
 
+  // Store references for cleanup
+  const gsapModuleRef = useRef<typeof import('gsap').gsap | null>(null);
+  const tickerCallbackRef = useRef<((time: number) => void) | null>(null);
+
   async function initLenis() {
     try {
       // Dynamically import Lenis and GSAP only when needed
@@ -73,6 +77,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       ]);
 
       gsap.registerPlugin(ScrollTrigger);
+      gsapModuleRef.current = gsap;
 
       const lenis = new Lenis({
         duration: 1.2,
@@ -88,10 +93,14 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       // Sync Lenis with GSAP ScrollTrigger
       lenis.on('scroll', ScrollTrigger.update);
 
-      // Use gsap ticker for smooth animation loop
-      gsap.ticker.add((time: number) => {
+      // Create ticker callback and store reference for cleanup
+      const tickerCallback = (time: number) => {
         lenis.raf(time * 1000);
-      });
+      };
+      tickerCallbackRef.current = tickerCallback;
+
+      // Use gsap ticker for smooth animation loop
+      gsap.ticker.add(tickerCallback);
 
       gsap.ticker.lagSmoothing(0);
     } catch (error) {
@@ -100,6 +109,13 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
   }
 
   function destroyLenis() {
+    // Remove GSAP ticker callback to prevent memory leaks
+    if (gsapModuleRef.current && tickerCallbackRef.current) {
+      gsapModuleRef.current.ticker.remove(tickerCallbackRef.current);
+      tickerCallbackRef.current = null;
+    }
+
+    // Destroy Lenis instance
     if (lenisRef.current) {
       lenisRef.current.destroy();
       lenisRef.current = null;

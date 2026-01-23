@@ -1,24 +1,102 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, Building2, Star } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+
+// Type extension for Navigator with connection API
+interface NavigatorWithConnection extends Navigator {
+  connection?: {
+    effectiveType?: string;
+    saveData?: boolean;
+  };
+}
 
 export function Hero() {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [showVideo, setShowVideo] = useState(false);
 
+  // ============================================
+  // VIDEO DISPLAY LOGIC
+  // Determines whether to show video or poster
+  // ============================================
   useEffect(() => {
-    // Check if we should run animations
     const isMobile = window.innerWidth < 768;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // On mobile or reduced motion: skip animations
+    // Check connection quality (if API available)
+    const nav = navigator as NavigatorWithConnection;
+    const connection = nav.connection;
+    const isSlowConnection = connection?.effectiveType === '2g' ||
+                             connection?.effectiveType === 'slow-2g';
+    const saveData = connection?.saveData;
+
+    // Show video only on desktop with good conditions
+    if (!isMobile && !prefersReducedMotion && !isSlowConnection && !saveData) {
+      setShowVideo(true);
+    }
+  }, []);
+
+  // ============================================
+  // VIEWPORT-BASED PLAYBACK
+  // Pause video when scrolled out of view
+  // ============================================
+  useEffect(() => {
+    if (!showVideo || !videoRef.current) return;
+
+    const video = videoRef.current;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {
+            // Autoplay blocked - fail silently
+          });
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(video);
+
+    return () => observer.disconnect();
+  }, [showVideo]);
+
+  // ============================================
+  // VIDEO ERROR HANDLING
+  // Fallback to poster if video fails to load
+  // ============================================
+  useEffect(() => {
+    if (!videoRef.current) return;
+
+    const video = videoRef.current;
+
+    const handleError = () => {
+      console.warn('[Hero Video] Failed to load, showing poster fallback');
+      setShowVideo(false);
+    };
+
+    video.addEventListener('error', handleError);
+
+    return () => video.removeEventListener('error', handleError);
+  }, []);
+
+  // ============================================
+  // GSAP ANIMATIONS
+  // Entrance animations for desktop only
+  // ============================================
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     if (isMobile || prefersReducedMotion) {
       return;
     }
 
-    // Desktop: load GSAP dynamically and run animations
     let ctx: { revert: () => void } | null = null;
 
     const initAnimations = async () => {
@@ -27,38 +105,57 @@ export function Hero() {
       ctx = gsap.context(() => {
         const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
-        tl
-          .from('.gradient-orb', {
+        // Video fade-in with subtle zoom
+        if (videoRef.current) {
+          tl.from(videoRef.current, {
             opacity: 0,
-            scale: 0.5,
-            duration: 1.5,
-            stagger: 0.2,
-          })
-          .from('.hero-overline', {
-            opacity: 0,
-            x: -50,
-            duration: 0.8,
-          }, '-=1')
-          .from('.hero-headline', {
-            opacity: 0,
-            y: 100,
-            duration: 1,
-          }, '-=0.5')
-          .from('.hero-subtitle', {
-            opacity: 0,
-            y: 30,
-            duration: 0.8,
-          }, '-=0.5')
-          .from('.hero-image', {
-            opacity: 0,
-            scale: 0.9,
-            duration: 1,
-          }, '-=0.5')
-          .from('.scroll-indicator', {
-            opacity: 0,
-            y: -20,
-            duration: 0.5,
+            scale: 1.05,
+            duration: 2,
           });
+        }
+
+        // Gradient orbs (overlap with video)
+        tl.from('.gradient-orb', {
+          opacity: 0,
+          scale: 0.5,
+          duration: 1.5,
+          stagger: 0.2,
+        }, '-=1.5');
+
+        // Overline text
+        tl.from('.hero-overline', {
+          opacity: 0,
+          x: -50,
+          duration: 0.8,
+        }, '-=1');
+
+        // Headline
+        tl.from('.hero-headline', {
+          opacity: 0,
+          y: 100,
+          duration: 1,
+        }, '-=0.5');
+
+        // Subtitle
+        tl.from('.hero-subtitle', {
+          opacity: 0,
+          y: 30,
+          duration: 0.8,
+        }, '-=0.5');
+
+        // Property card
+        tl.from('.hero-image', {
+          opacity: 0,
+          scale: 0.9,
+          duration: 1,
+        }, '-=0.5');
+
+        // Scroll indicator
+        tl.from('.scroll-indicator', {
+          opacity: 0,
+          y: -20,
+          duration: 0.5,
+        });
       }, containerRef);
     };
 
@@ -74,14 +171,49 @@ export function Hero() {
       ref={containerRef}
       className="relative min-h-screen bg-background overflow-hidden"
     >
-      {/* Animated Background Elements */}
+      {/* ========================================
+          BACKGROUND LAYER
+          Z-Index: 0 (video) -> 5 (overlay) -> 10 (orbs)
+          ======================================== */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="gradient-orb absolute top-20 left-10 w-96 h-96 bg-primary/10 rounded-full blur-[120px]" />
-        <div className="gradient-orb absolute bottom-20 right-10 w-80 h-80 bg-secondary/10 rounded-full blur-[120px]" />
-        <div className="gradient-orb absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]" />
 
+        {/* VIDEO BACKGROUND (z-0) */}
+        {showVideo ? (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            tabIndex={-1}
+            poster="/images/hero-poster.webp"
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          >
+            <source src="/videos/VideoCostaRica-optimized.webm" type="video/webm" />
+            <source src="/videos/VideoCostaRica-optimized.mp4" type="video/mp4" />
+          </video>
+        ) : (
+          /* POSTER FALLBACK (mobile, reduced motion, slow connection) */
+          <div
+            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: 'url(/images/hero-poster.webp)' }}
+            aria-hidden="true"
+          />
+        )}
+
+        {/* OVERLAY FOR TEXT READABILITY (z-5) */}
+        <div className="absolute inset-0 z-[5] bg-gradient-to-r from-white/90 via-white/70 to-white/40 lg:from-white/85 lg:via-white/50 lg:to-transparent" />
+
+        {/* ANIMATED GRADIENT ORBS (z-10) - reduced opacity to complement video */}
+        <div className="gradient-orb absolute top-20 left-10 w-96 h-96 bg-primary/5 rounded-full blur-[120px] z-10" />
+        <div className="gradient-orb absolute bottom-20 right-10 w-80 h-80 bg-secondary/5 rounded-full blur-[120px] z-10" />
+        <div className="gradient-orb absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] z-10" />
+
+        {/* GRID PATTERN (z-10) */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.03] z-10"
           style={{
             backgroundImage: `
               linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
@@ -92,8 +224,10 @@ export function Hero() {
         />
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
+      {/* ========================================
+          MAIN CONTENT (z-20)
+          ======================================== */}
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Content */}
           <div className="space-y-8">
@@ -170,10 +304,12 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator - z-20 to appear above content container */}
+      {/* ========================================
+          SCROLL INDICATOR (z-30)
+          ======================================== */}
       <a
         href="#nosotros"
-        className="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 group"
+        className="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 group"
         aria-label="Scroll to About section"
       >
         <span className="text-sm uppercase tracking-widest text-muted group-hover:text-foreground transition-colors">{t.hero.scrollMore}</span>
