@@ -42,6 +42,22 @@ export default function RootLayout({
         {/* Preconnect to critical third-party origins */}
         <link rel="preconnect" href="https://calendly.com" />
         <link rel="dns-prefetch" href="https://calendly.com" />
+
+        {/* Preload hero video (MP4 prioritized - smaller file size: 4.4MB vs 7.2MB WebM) */}
+        <link
+          rel="preload"
+          href="/videos/VideoCostaRica-optimized.mp4"
+          as="video"
+          type="video/mp4"
+        />
+
+        {/* Preload hero poster for immediate display */}
+        <link
+          rel="preload"
+          href="/images/hero-poster.webp"
+          as="image"
+          type="image/webp"
+        />
       </head>
       <body className={`${inter.variable} antialiased`}>
         <LanguageProvider>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { ChevronDown, Building2, Star } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
@@ -12,6 +12,14 @@ interface NavigatorWithConnection extends Navigator {
   };
 }
 
+// Development logging helper
+const isDev = process.env.NODE_ENV === 'development';
+const logVideo = (message: string, data?: unknown) => {
+  if (isDev) {
+    console.log(`[Hero Video] ${message}`, data ?? '');
+  }
+};
+
 export function Hero() {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLElement>(null);
@@ -19,11 +27,39 @@ export function Hero() {
   const [showVideo, setShowVideo] = useState(false);
 
   // ============================================
+  // VIDEO EVENT HANDLERS
+  // Callbacks for debugging video playback state
+  // ============================================
+  const handleVideoLoadedData = useCallback(() => {
+    logVideo('Video data loaded successfully', {
+      duration: videoRef.current?.duration,
+      videoWidth: videoRef.current?.videoWidth,
+      videoHeight: videoRef.current?.videoHeight,
+      currentSrc: videoRef.current?.currentSrc,
+    });
+  }, []);
+
+  const handleVideoCanPlay = useCallback(() => {
+    logVideo('Video can play through');
+  }, []);
+
+  const handleVideoPlaying = useCallback(() => {
+    logVideo('Video playback started');
+  }, []);
+
+  const handleVideoWaiting = useCallback(() => {
+    logVideo('Video buffering...');
+  }, []);
+
+  // ============================================
   // VIDEO DISPLAY LOGIC
   // Determines whether to show video or poster
+  // Video enabled on mobile (768px+) and tablets
+  // Only disabled on very small screens (<480px)
   // ============================================
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
+    // Only disable on very small screens (older phones, small viewports)
+    const isVerySmallScreen = window.innerWidth < 480;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Check connection quality (if API available)
@@ -33,9 +69,25 @@ export function Hero() {
                              connection?.effectiveType === 'slow-2g';
     const saveData = connection?.saveData;
 
-    // Show video only on desktop with good conditions
-    if (!isMobile && !prefersReducedMotion && !isSlowConnection && !saveData) {
+    logVideo('Evaluating video display conditions', {
+      screenWidth: window.innerWidth,
+      isVerySmallScreen,
+      prefersReducedMotion,
+      connectionType: connection?.effectiveType,
+      isSlowConnection,
+      saveData,
+    });
+
+    // Show video on most devices, respecting user preferences and connection quality
+    // - Disabled on very small screens (<480px) for performance
+    // - Disabled when user prefers reduced motion
+    // - Disabled on slow connections (2g/slow-2g)
+    // - Disabled when Data Saver is enabled
+    if (!isVerySmallScreen && !prefersReducedMotion && !isSlowConnection && !saveData) {
       setShowVideo(true);
+      logVideo('Video enabled');
+    } else {
+      logVideo('Video disabled, showing poster fallback');
     }
   }, []);
 
@@ -51,11 +103,23 @@ export function Hero() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => {
-            // Autoplay blocked - fail silently
+          video.play().catch((error: Error) => {
+            // Log autoplay failures in development for debugging
+            logVideo('Autoplay blocked or failed', {
+              name: error.name,
+              message: error.message,
+              // Common reasons: NotAllowedError (user interaction required),
+              // AbortError (play() interrupted), NotSupportedError (format issue)
+            });
+
+            // If autoplay is blocked, fall back to poster
+            if (error.name === 'NotAllowedError') {
+              logVideo('Autoplay not allowed by browser policy, consider user interaction');
+            }
           });
         } else {
           video.pause();
+          logVideo('Video paused (out of viewport)');
         }
       },
       { threshold: 0.1 }
@@ -75,8 +139,18 @@ export function Hero() {
 
     const video = videoRef.current;
 
-    const handleError = () => {
-      console.warn('[Hero Video] Failed to load, showing poster fallback');
+    const handleError = (event: Event) => {
+      const videoElement = event.target as HTMLVideoElement;
+      const error = videoElement.error;
+
+      console.warn('[Hero Video] Failed to load, showing poster fallback', {
+        errorCode: error?.code,
+        errorMessage: error?.message,
+        currentSrc: videoElement.currentSrc,
+        networkState: videoElement.networkState,
+        readyState: videoElement.readyState,
+      });
+
       setShowVideo(false);
     };
 
@@ -185,17 +259,22 @@ export function Hero() {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
             aria-hidden="true"
             tabIndex={-1}
             poster="/images/hero-poster.webp"
             className="absolute inset-0 w-full h-full object-cover z-0"
+            onLoadedData={handleVideoLoadedData}
+            onCanPlayThrough={handleVideoCanPlay}
+            onPlaying={handleVideoPlaying}
+            onWaiting={handleVideoWaiting}
           >
-            <source src="/videos/VideoCostaRica-optimized.webm" type="video/webm" />
+            {/* MP4 first: smaller file (4.4MB vs 7.2MB WebM) and better compatibility */}
             <source src="/videos/VideoCostaRica-optimized.mp4" type="video/mp4" />
+            <source src="/videos/VideoCostaRica-optimized.webm" type="video/webm" />
           </video>
         ) : (
-          /* POSTER FALLBACK (mobile, reduced motion, slow connection) */
+          /* POSTER FALLBACK (very small screens <480px, reduced motion, slow connection, data saver) */
           <div
             className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: 'url(/images/hero-poster.webp)' }}
