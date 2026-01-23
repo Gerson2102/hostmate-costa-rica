@@ -25,6 +25,7 @@ export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showVideo, setShowVideo] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(true); // Default to mobile to prevent video flash
 
   // ============================================
   // VIDEO EVENT HANDLERS
@@ -77,6 +78,9 @@ export function Hero() {
       saveData,
     });
 
+    // Update mobile state for conditional rendering
+    setIsMobileDevice(isMobile);
+
     // Show video only on desktop, respecting user preferences and connection quality
     // - Disabled on mobile (<768px) for performance and battery life
     // - Disabled when user prefers reduced motion
@@ -86,6 +90,7 @@ export function Hero() {
       setShowVideo(true);
       logVideo('Video enabled (desktop)');
     } else {
+      setShowVideo(false);
       logVideo('Video disabled, showing poster fallback');
     }
   }, []);
@@ -242,8 +247,9 @@ export function Hero() {
           ======================================== */}
       <div className="absolute inset-0 overflow-hidden">
 
-        {/* VIDEO BACKGROUND (z-0) */}
-        {showVideo ? (
+        {/* VIDEO BACKGROUND (z-0) - Only rendered on desktop when showVideo is true */}
+        {/* Conditional rendering prevents video download on mobile devices */}
+        {showVideo && !isMobileDevice && (
           <video
             ref={videoRef}
             autoPlay
@@ -264,14 +270,15 @@ export function Hero() {
             <source src="/videos/VideoCostaRica-optimized.mp4" type="video/mp4" />
             <source src="/videos/VideoCostaRica-optimized.webm" type="video/webm" />
           </video>
-        ) : (
-          /* POSTER FALLBACK (mobile <768px, reduced motion, slow connection, data saver) */
-          <div
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: 'url(/images/hero-poster.webp)' }}
-            aria-hidden="true"
-          />
         )}
+
+        {/* POSTER FALLBACK - Always rendered, hidden on desktop when video is active */}
+        {/* Visible on: mobile (<768px), reduced motion, slow connection, data saver, or before JS hydration */}
+        <div
+          className={`absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500 ${showVideo && !isMobileDevice ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          style={{ backgroundImage: 'url(/images/hero-poster.webp)' }}
+          aria-hidden="true"
+        />
 
         {/* OVERLAY FOR TEXT READABILITY (z-5) */}
         <div className="absolute inset-0 z-[5] bg-gradient-to-r from-white/90 via-white/70 to-white/40 lg:from-white/85 lg:via-white/50 lg:to-transparent" />
