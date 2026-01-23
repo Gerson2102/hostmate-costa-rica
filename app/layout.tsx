@@ -53,12 +53,14 @@ export default function RootLayout({
           media="(min-width: 1024px)"
         />
 
-        {/* Preload hero poster for immediate display */}
+        {/* Preload hero poster for immediate display - DESKTOP ONLY
+            Video and poster are NOT shown on mobile (<1024px) */}
         <link
           rel="preload"
           href="/images/hero-poster.webp"
           as="image"
           type="image/webp"
+          media="(min-width: 1024px)"
         />
       </head>
       <body className={`${inter.variable} antialiased`}>

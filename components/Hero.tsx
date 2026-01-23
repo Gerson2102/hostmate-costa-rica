@@ -288,17 +288,16 @@ export function Hero() {
           </video>
         )}
 
-        {/* POSTER FALLBACK - Always rendered, fades out on desktop when video is active
-            Visible on:
-            - Mobile/tablet (<1024px) - always
-            - Desktop with reduced motion preference
-            - Desktop with slow connection
-            - Desktop with Data Saver enabled
+        {/* POSTER FALLBACK - DESKTOP ONLY (1024px+)
+            Hidden on mobile/tablet - user requested NO video-related content on mobile
+            Visible on desktop when:
+            - Video is disabled (reduced motion, slow connection, Data Saver)
             - Before JavaScript hydration completes
+            - Video fails to load
         */}
         <div
-          className={`absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500 ${
-            shouldRenderVideo ? 'lg:opacity-0 lg:pointer-events-none' : 'opacity-100'
+          className={`hidden lg:block absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500 ${
+            shouldRenderVideo ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
           style={{ backgroundImage: 'url(/images/hero-poster.webp)' }}
           aria-hidden="true"
