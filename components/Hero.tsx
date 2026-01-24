@@ -275,16 +275,16 @@ export function Hero() {
             preload="auto"
             aria-hidden="true"
             tabIndex={-1}
-            poster="/images/hero-poster.webp"
+            poster="/images/hero-poster-new.webp"
             className="hidden lg:block absolute inset-0 w-full h-full object-cover z-0"
             onLoadedData={handleVideoLoadedData}
             onCanPlayThrough={handleVideoCanPlay}
             onPlaying={handleVideoPlaying}
             onWaiting={handleVideoWaiting}
           >
-            {/* MP4 first: smaller file (4.4MB vs 7.2MB WebM) and better compatibility */}
-            <source src="/videos/VideoCostaRica-optimized.mp4" type="video/mp4" />
-            <source src="/videos/VideoCostaRica-optimized.webm" type="video/webm" />
+            {/* MP4 first: smaller file (9.6MB vs 26MB WebM) and better compatibility */}
+            <source src="/videos/Bg-video-optimized.mp4" type="video/mp4" />
+            <source src="/videos/Bg-video-optimized.webm" type="video/webm" />
           </video>
         )}
 
@@ -299,7 +299,7 @@ export function Hero() {
           className={`hidden lg:block absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500 ${
             shouldRenderVideo ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
-          style={{ backgroundImage: 'url(/images/hero-poster.webp)' }}
+          style={{ backgroundImage: 'url(/images/hero-poster-new.webp)' }}
           aria-hidden="true"
         />
 
