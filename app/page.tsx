@@ -29,6 +29,11 @@ const Booking = dynamic(() => import('@/components/Booking').then(mod => ({ defa
   ssr: true,
 });
 
+const WorkWithUs = dynamic(() => import('@/components/WorkWithUs').then(mod => ({ default: mod.WorkWithUs })), {
+  loading: () => <SectionSkeleton id="trabaja-con-nosotros" minHeight="400px" />,
+  ssr: true,
+});
+
 const Footer = dynamic(() => import('@/components/Footer').then(mod => ({ default: mod.Footer })), {
   loading: () => <div className="h-64 bg-white" />,
   ssr: true,
@@ -87,6 +92,9 @@ export default function Home() {
 
         {/* Booking/Calendly Section */}
         <Booking />
+
+        {/* Work With Us Section */}
+        <WorkWithUs />
       </main>
 
       {/* Footer */}

@@ -205,6 +205,14 @@ export const translations = {
       altContact: 'Prefer to contact us directly?',
     },
 
+    // Work With Us Section
+    workWithUs: {
+      overline: 'Join Our Team',
+      headline: 'Work With Us',
+      subtitle: 'Are you passionate about hospitality and property management? We are looking for talented individuals to join our growing team. Apply today and become part of the Hostmate family.',
+      buttonText: 'Apply Now',
+    },
+
     // Footer
     footer: {
       description: 'Your trusted partner for property management in Costa Rica. Maximize your revenue without the hassle.',
@@ -428,6 +436,14 @@ export const translations = {
       ],
       cta: 'Agendar Consulta',
       altContact: '¿Prefieres contactarnos directamente?',
+    },
+
+    // Work With Us Section
+    workWithUs: {
+      overline: 'Únete a Nuestro Equipo',
+      headline: 'Trabaja con Nosotros',
+      subtitle: '¿Te apasiona la hospitalidad y la administración de propiedades? Estamos buscando personas talentosas para unirse a nuestro equipo en crecimiento. Aplica hoy y forma parte de la familia Hostmate.',
+      buttonText: 'Aplicar Ahora',
     },
 
     // Footer
