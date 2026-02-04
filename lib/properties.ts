@@ -76,7 +76,7 @@ export const properties: Property[] = [
       en: 'Nosara, Guanacaste',
       es: 'Nosara, Guanacaste',
     },
-    monthlyPrice: '$2,500',
+    monthlyPrice: '$2,300',
     priceNotes: {
       en: '+ electricity',
       es: '+ electricidad',
