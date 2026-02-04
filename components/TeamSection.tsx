@@ -91,7 +91,7 @@ function TeamMemberCard({ member, index, isMobile }: TeamMemberCardProps) {
         {/* Name badge overlay - no animation on mobile */}
         {isMobile ? (
           <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg shadow-black/10 border border-black/5">
-            <p className="text-foreground font-bold text-lg">{memberTranslation.name}</p>
+            <p className="text-foreground font-bold text-lg" suppressHydrationWarning>{memberTranslation.name}</p>
           </div>
         ) : (
           <motion.div
@@ -101,18 +101,18 @@ function TeamMemberCard({ member, index, isMobile }: TeamMemberCardProps) {
             viewport={{ once: true }}
             transition={{ delay: index * 0.15 + 0.3 }}
           >
-            <p className="text-foreground font-bold text-lg">{memberTranslation.name}</p>
+            <p className="text-foreground font-bold text-lg" suppressHydrationWarning>{memberTranslation.name}</p>
           </motion.div>
         )}
       </div>
 
       {/* Greeting - simplified on mobile */}
-      <p className="text-foreground font-semibold text-lg mt-8 mb-4">
+      <p className="text-foreground font-semibold text-lg mt-8 mb-4" suppressHydrationWarning>
         {memberTranslation.greeting}
       </p>
 
       {/* Bio description */}
-      <p className="text-muted text-base lg:text-lg leading-relaxed max-w-md whitespace-pre-line">
+      <p className="text-muted text-base lg:text-lg leading-relaxed max-w-md whitespace-pre-line" suppressHydrationWarning>
         {memberTranslation.bio}
       </p>
     </motion.article>
@@ -148,12 +148,12 @@ export function TeamSection() {
         <div className="text-center mb-16">
           {isMobile ? (
             <>
-              <span className="text-primary font-medium text-sm uppercase tracking-[0.2em]">
+              <span className="text-primary font-medium text-sm uppercase tracking-[0.2em]" suppressHydrationWarning>
                 {t.team.overline}
               </span>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 text-foreground">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 text-foreground" suppressHydrationWarning>
                 {t.team.headline}{' '}
-                <span className="text-primary">{t.team.headlineHighlight}</span>
+                <span className="text-primary" suppressHydrationWarning>{t.team.headlineHighlight}</span>
               </h2>
             </>
           ) : (
@@ -163,6 +163,7 @@ export function TeamSection() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                suppressHydrationWarning
               >
                 {t.team.overline}
               </motion.span>
@@ -172,9 +173,10 @@ export function TeamSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
+                suppressHydrationWarning
               >
                 {t.team.headline}{' '}
-                <span className="text-primary">{t.team.headlineHighlight}</span>
+                <span className="text-primary" suppressHydrationWarning>{t.team.headlineHighlight}</span>
               </motion.h2>
             </>
           )}

@@ -331,17 +331,17 @@ export function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Content */}
           <div className="space-y-8">
-            <span className="hero-overline text-primary font-medium text-sm uppercase tracking-[0.2em]">
+            <span className="hero-overline text-primary font-medium text-sm uppercase tracking-[0.2em]" suppressHydrationWarning>
               {t.hero.overline}
             </span>
 
-            <h1 className="hero-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] tracking-tight text-foreground">
+            <h1 className="hero-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] tracking-tight text-foreground" suppressHydrationWarning>
               {t.hero.headline1}
               <br />
-              <span className="text-primary">{t.hero.headline2}</span>
+              <span className="text-primary" suppressHydrationWarning>{t.hero.headline2}</span>
             </h1>
 
-            <p className="hero-subtitle text-lg sm:text-xl text-muted max-w-lg leading-relaxed">
+            <p className="hero-subtitle text-lg sm:text-xl text-muted max-w-lg leading-relaxed" suppressHydrationWarning>
               {t.hero.subtitle}
             </p>
 
@@ -356,28 +356,28 @@ export function Hero() {
                     <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary" aria-hidden="true" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground text-sm sm:text-base">{t.hero.card.yourProperty}</p>
-                    <p className="text-xs sm:text-sm text-muted">{t.hero.card.location}</p>
+                    <p className="font-semibold text-foreground text-sm sm:text-base" suppressHydrationWarning>{t.hero.card.yourProperty}</p>
+                    <p className="text-xs sm:text-sm text-muted" suppressHydrationWarning>{t.hero.card.location}</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
                   <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
                     <p className="text-lg sm:text-xl lg:text-2xl font-bold text-primary">95%</p>
-                    <p className="text-[10px] sm:text-xs text-muted">{t.hero.card.occupancy}</p>
+                    <p className="text-[10px] sm:text-xs text-muted" suppressHydrationWarning>{t.hero.card.occupancy}</p>
                   </div>
                   <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
                     <p className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground">5.0</p>
-                    <p className="text-[10px] sm:text-xs text-muted">{t.hero.card.rating}</p>
+                    <p className="text-[10px] sm:text-xs text-muted" suppressHydrationWarning>{t.hero.card.rating}</p>
                   </div>
                   <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
                     <p className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">+40%</p>
-                    <p className="text-[10px] sm:text-xs text-muted">{t.hero.card.income}</p>
+                    <p className="text-[10px] sm:text-xs text-muted" suppressHydrationWarning>{t.hero.card.income}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between p-3 sm:p-4 bg-primary/5 rounded-lg sm:rounded-xl">
-                  <span className="text-xs sm:text-sm text-foreground font-medium">{t.hero.card.managedBy}</span>
+                  <span className="text-xs sm:text-sm text-foreground font-medium" suppressHydrationWarning>{t.hero.card.managedBy}</span>
                   <div className="flex -space-x-2">
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">HM</div>
                   </div>
@@ -388,7 +388,7 @@ export function Hero() {
               <div className="absolute -top-3 -right-2 sm:-top-4 sm:-right-4 bg-white rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-lg shadow-black/10 border border-black/5">
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <Star className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500 fill-yellow-500" aria-hidden="true" />
-                  <span className="text-xs sm:text-sm font-medium text-foreground">{t.hero.card.superhost}</span>
+                  <span className="text-xs sm:text-sm font-medium text-foreground" suppressHydrationWarning>{t.hero.card.superhost}</span>
                 </div>
               </div>
 
@@ -396,7 +396,7 @@ export function Hero() {
               <div className="absolute -bottom-3 -left-2 sm:-bottom-4 sm:-left-4 bg-white rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-lg shadow-black/10 border border-black/5">
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-500 animate-pulse" aria-hidden="true" />
-                  <span className="text-xs sm:text-sm font-medium text-foreground">24/7 {t.hero.card.support}</span>
+                  <span className="text-xs sm:text-sm font-medium text-foreground" suppressHydrationWarning>24/7 {t.hero.card.support}</span>
                 </div>
               </div>
             </div>
@@ -412,7 +412,7 @@ export function Hero() {
         className="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 group"
         aria-label="Scroll to About section"
       >
-        <span className="text-sm uppercase tracking-widest text-muted group-hover:text-foreground transition-colors">{t.hero.scrollMore}</span>
+        <span className="text-sm uppercase tracking-widest text-muted group-hover:text-foreground transition-colors" suppressHydrationWarning>{t.hero.scrollMore}</span>
         <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center bg-white/50 group-hover:bg-white group-hover:border-primary/20 transition-all">
           <ChevronDown className="w-5 h-5 text-muted animate-bounce group-hover:text-primary" aria-hidden="true" />
         </div>

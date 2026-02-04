@@ -52,6 +52,7 @@ export function About() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              suppressHydrationWarning
             >
               {t.about.overline}
             </motion.span>
@@ -62,10 +63,11 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
+              suppressHydrationWarning
             >
               {t.about.headline1}
               <br />
-              <span className="text-primary">{t.about.headline2}</span>
+              <span className="text-primary" suppressHydrationWarning>{t.about.headline2}</span>
             </motion.h2>
 
             <motion.div
@@ -74,17 +76,18 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
+              suppressHydrationWarning
             >
-              <p className="text-muted text-lg leading-relaxed">
+              <p className="text-muted text-lg leading-relaxed" suppressHydrationWarning>
                 {t.about.paragraph1}{' '}
-                <span className="text-foreground font-medium">
+                <span className="text-foreground font-medium" suppressHydrationWarning>
                   {t.about.paragraph1Highlight}
                 </span>{' '}
                 {t.about.paragraph1End}
               </p>
-              <p className="text-muted text-lg leading-relaxed">
+              <p className="text-muted text-lg leading-relaxed" suppressHydrationWarning>
                 {t.about.paragraph2}{' '}
-                <span className="text-foreground font-medium">{t.about.paragraph2Highlight}</span>{' '}
+                <span className="text-foreground font-medium" suppressHydrationWarning>{t.about.paragraph2Highlight}</span>{' '}
                 {t.about.paragraph2End}
               </p>
             </motion.div>
@@ -96,6 +99,7 @@ export function About() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
+              suppressHydrationWarning
             >
               {t.about.link}
               <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true" />
@@ -149,7 +153,7 @@ export function About() {
                         </div>
 
                         {/* Label */}
-                        <div className="text-sm text-muted">{stat.label}</div>
+                        <div className="text-sm text-muted" suppressHydrationWarning>{stat.label}</div>
                       </div>
                     </motion.div>
                   ))}
@@ -164,11 +168,11 @@ export function About() {
                   transition={{ delay: 0.6 }}
                 >
                   <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-foreground font-semibold">
+                    <div suppressHydrationWarning>
+                      <p className="text-foreground font-semibold" suppressHydrationWarning>
                         {t.about.cta.title}
                       </p>
-                      <p className="text-sm text-muted">
+                      <p className="text-sm text-muted" suppressHydrationWarning>
                         {t.about.cta.subtitle}
                       </p>
                     </div>

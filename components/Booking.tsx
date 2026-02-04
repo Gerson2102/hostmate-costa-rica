@@ -74,6 +74,7 @@ export function Booking() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          suppressHydrationWarning
         >
           {t.booking.overline}
         </motion.span>
@@ -84,10 +85,11 @@ export function Booking() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
+          suppressHydrationWarning
         >
           {t.booking.headline}
           <br />
-          <span className="text-primary">{t.booking.headlineHighlight}</span>
+          <span className="text-primary" suppressHydrationWarning>{t.booking.headlineHighlight}</span>
         </motion.h2>
 
         <motion.p
@@ -96,6 +98,7 @@ export function Booking() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
+          suppressHydrationWarning
         >
           {t.booking.subtitle}
         </motion.p>
@@ -111,7 +114,7 @@ export function Booking() {
           {t.booking.benefits.map((item) => (
             <div key={item} className="flex items-center gap-2">
               <Check className="w-5 h-5 text-primary" />
-              <span className="text-muted">{item}</span>
+              <span className="text-muted" suppressHydrationWarning>{item}</span>
             </div>
           ))}
         </motion.div>
@@ -130,7 +133,7 @@ export function Booking() {
           whileTap={{ scale: 0.95 }}
         >
           <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
-          {t.booking.cta}
+          <span suppressHydrationWarning>{t.booking.cta}</span>
           <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
         </motion.a>
 
@@ -142,7 +145,7 @@ export function Booking() {
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          <p className="text-muted mb-4">{t.booking.altContact}</p>
+          <p className="text-muted mb-4" suppressHydrationWarning>{t.booking.altContact}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="https://wa.me/50683083634"

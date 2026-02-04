@@ -147,7 +147,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
       <div className="p-6">
         {/* Accommodation Type Badge */}
         <div className="flex items-center gap-2 mb-3">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium" suppressHydrationWarning>
             <AccommodationIcon className="w-3.5 h-3.5" aria-hidden="true" />
             {accommodationLabel}
           </span>
@@ -156,7 +156,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" aria-hidden="true" />
               {property.rating}
               {property.reviewCount && (
-                <span className="text-xs">
+                <span className="text-xs" suppressHydrationWarning>
                   ({property.reviewCount} {t.properties.reviews})
                 </span>
               )}
@@ -165,18 +165,18 @@ function PropertyCard({ property, index }: { property: Property; index: number }
         </div>
 
         {/* Property Name */}
-        <h3 className="text-xl font-bold text-foreground mb-2">
+        <h3 className="text-xl font-bold text-foreground mb-2" suppressHydrationWarning>
           {property.name[language]}
         </h3>
 
         {/* Location */}
         <div className="flex items-center gap-2 text-muted mb-4">
           <MapPin className="w-4 h-4 text-primary" aria-hidden="true" />
-          <span className="text-sm">{property.location[language]}</span>
+          <span className="text-sm" suppressHydrationWarning>{property.location[language]}</span>
         </div>
 
         {/* Description */}
-        <p className="text-muted text-sm leading-relaxed mb-4 line-clamp-3">
+        <p className="text-muted text-sm leading-relaxed mb-4 line-clamp-3" suppressHydrationWarning>
           {property.description[language]}
         </p>
 
@@ -186,7 +186,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
             {property.features.bedrooms && (
               <div className="flex items-center gap-1.5 text-sm text-muted">
                 <Bed className="w-4 h-4" aria-hidden="true" />
-                <span>
+                <span suppressHydrationWarning>
                   {property.features.bedrooms} {t.properties.bedrooms}
                 </span>
               </div>
@@ -194,7 +194,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
             {property.features.bathrooms && (
               <div className="flex items-center gap-1.5 text-sm text-muted">
                 <Bath className="w-4 h-4" aria-hidden="true" />
-                <span>
+                <span suppressHydrationWarning>
                   {property.features.bathrooms} {t.properties.bathrooms}
                 </span>
               </div>
@@ -202,7 +202,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
             {property.features.guests && (
               <div className="flex items-center gap-1.5 text-sm text-muted">
                 <Users className="w-4 h-4" aria-hidden="true" />
-                <span>
+                <span suppressHydrationWarning>
                   {property.features.guests} {t.properties.guests}
                 </span>
               </div>
@@ -210,13 +210,30 @@ function PropertyCard({ property, index }: { property: Property; index: number }
           </div>
         )}
 
-        {/* CTA Button */}
-        <div className="flex justify-center">
+        {/* Price & CTA */}
+        <div className="flex items-center justify-between gap-4">
+          {/* Price Display */}
+          <div className="flex flex-col">
+            <span className="text-2xl font-bold text-foreground tracking-tight">
+              {property.monthlyPrice}
+              <span className="text-sm font-medium text-muted ml-1" suppressHydrationWarning>
+                {t.properties.perMonth}
+              </span>
+            </span>
+            {property.priceNotes && (
+              <span className="text-xs text-muted" suppressHydrationWarning>
+                {property.priceNotes[language]}
+              </span>
+            )}
+          </div>
+
+          {/* CTA Button */}
           <a
             href={property.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-white px-4 py-2 rounded-full text-sm font-medium transition-all hover:shadow-glow-primary"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-white px-4 py-2.5 rounded-full text-sm font-medium transition-all hover:shadow-glow-primary whitespace-nowrap"
+            suppressHydrationWarning
           >
             {property.externalPlatform === 'airbnb'
               ? t.properties.viewOnAirbnb
@@ -247,6 +264,7 @@ function FilterButton({
           ? 'bg-primary text-white shadow-md'
           : 'bg-white text-muted hover:bg-gray-50 border border-black/10'
       }`}
+      suppressHydrationWarning
     >
       {label}
     </button>
@@ -284,6 +302,7 @@ export function Properties() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            suppressHydrationWarning
           >
             {t.properties.overline}
           </motion.span>
@@ -293,6 +312,7 @@ export function Properties() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
+            suppressHydrationWarning
           >
             {t.properties.headline}
           </motion.h2>
@@ -302,6 +322,7 @@ export function Properties() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
+            suppressHydrationWarning
           >
             {t.properties.subtitle}
           </motion.p>
@@ -364,7 +385,7 @@ export function Properties() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <p className="text-muted">{t.properties.noProperties}</p>
+                <p className="text-muted" suppressHydrationWarning>{t.properties.noProperties}</p>
               </motion.div>
             )}
           </AnimatePresence>

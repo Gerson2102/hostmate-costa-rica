@@ -7,6 +7,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: Translations;
+  isHydrated: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -45,6 +46,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     language,
     setLanguage,
     t: translations[language],
+    isHydrated,
   };
 
   return (

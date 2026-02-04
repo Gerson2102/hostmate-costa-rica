@@ -74,6 +74,7 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 className="text-muted hover:text-foreground transition-colors font-medium"
+                suppressHydrationWarning
               >
                 {link.label}
               </a>
@@ -86,6 +87,7 @@ export function Navigation() {
               target="_blank"
               rel="noopener noreferrer"
               className="bg-primary-dark hover:bg-primary text-white px-6 py-2.5 rounded-full font-medium transition-all hover:shadow-glow-primary"
+              suppressHydrationWarning
             >
               {t.nav.bookConsultation}
             </a>
@@ -120,6 +122,7 @@ export function Navigation() {
                 href={link.href}
                 className="block text-muted hover:text-foreground font-medium py-2"
                 onClick={closeMobileMenu}
+                suppressHydrationWarning
               >
                 {link.label}
               </a>
@@ -130,6 +133,7 @@ export function Navigation() {
               rel="noopener noreferrer"
               className="block bg-primary text-white px-6 py-3 rounded-full font-medium text-center"
               onClick={closeMobileMenu}
+              suppressHydrationWarning
             >
               {t.nav.bookConsultation}
             </a>

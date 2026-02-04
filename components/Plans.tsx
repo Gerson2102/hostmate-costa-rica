@@ -71,10 +71,11 @@ function PlanCard({
           className={`text-2xl font-bold text-center mb-2 ${
             isHighlighted ? 'text-primary' : 'text-foreground'
           }`}
+          suppressHydrationWarning
         >
           {plan.name}
         </h3>
-        <p className="text-muted text-center mb-8">{plan.description}</p>
+        <p className="text-muted text-center mb-8" suppressHydrationWarning>{plan.description}</p>
 
         <ul className="space-y-4 flex-grow mb-8">
           {plan.services.map((service, i) => (
@@ -95,7 +96,7 @@ function PlanCard({
                   className={`w-3 h-3 ${isHighlighted ? 'text-primary' : 'text-muted'}`}
                 />
               </div>
-              <span className="text-muted text-sm">{service}</span>
+              <span className="text-muted text-sm" suppressHydrationWarning>{service}</span>
             </motion.li>
           ))}
         </ul>
@@ -111,6 +112,7 @@ function PlanCard({
           }`}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
+          suppressHydrationWarning
         >
           {plan.cta}
         </motion.a>
@@ -144,6 +146,7 @@ export function Plans() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            suppressHydrationWarning
           >
             {t.plans.overline}
           </motion.span>
@@ -153,6 +156,7 @@ export function Plans() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
+            suppressHydrationWarning
           >
             {t.plans.headline}
           </motion.h2>
@@ -162,6 +166,7 @@ export function Plans() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
+            suppressHydrationWarning
           >
             {t.plans.subtitle}
           </motion.p>
@@ -174,7 +179,7 @@ export function Plans() {
               {/* Popular Badge */}
               {index === 1 && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
-                  <span className="bg-primary text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-glow-primary">
+                  <span className="bg-primary text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-glow-primary" suppressHydrationWarning>
                     {t.plans.mostPopular}
                   </span>
                 </div>

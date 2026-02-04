@@ -108,7 +108,7 @@ function ServiceAccordionItem({
               >
                 {String(index + 1).padStart(2, '0')}
               </span>
-              <h3 className="text-lg sm:text-xl font-semibold text-foreground truncate">
+              <h3 className="text-lg sm:text-xl font-semibold text-foreground truncate" suppressHydrationWarning>
                 {title}
               </h3>
             </div>
@@ -142,7 +142,7 @@ function ServiceAccordionItem({
                   className="h-px w-full mb-4"
                   style={{ backgroundColor: `${color}20` }}
                 />
-                <p className="text-muted leading-relaxed pl-16 sm:pl-[4.5rem]">
+                <p className="text-muted leading-relaxed pl-16 sm:pl-[4.5rem]" suppressHydrationWarning>
                   {description}
                 </p>
               </div>
@@ -181,10 +181,10 @@ export function Services() {
           transition={{ duration: isMobile ? 0.3 : 0.6, ease: 'easeOut' }}
           className="text-center mb-12 sm:mb-16"
         >
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">
+          <span className="text-primary font-medium text-sm uppercase tracking-wider" suppressHydrationWarning>
             {t.services.overline}
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 text-foreground">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 text-foreground" suppressHydrationWarning>
             {t.services.headline}
           </h2>
         </motion.div>
@@ -219,6 +219,7 @@ export function Services() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-full hover:bg-primary-glow transition-colors shadow-lg shadow-primary/25"
+            suppressHydrationWarning
           >
             {t.about.cta.subtitle}
           </a>
