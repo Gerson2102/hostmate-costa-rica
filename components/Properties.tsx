@@ -57,6 +57,7 @@ function ImageCarousel({ images, propertyName }: { images: string[]; propertyNam
           loading="lazy"
           decoding="async"
           onLoad={() => setIsLoaded(true)}
+          suppressHydrationWarning
         />
       </AnimatePresence>
 
@@ -65,15 +66,17 @@ function ImageCarousel({ images, propertyName }: { images: string[]; propertyNam
         <>
           <button
             onClick={goToPrevious}
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-all opacity-70 sm:opacity-0 group-hover:opacity-100 cursor-pointer"
             aria-label={`Previous image of ${propertyName}`}
+            suppressHydrationWarning
           >
             <ChevronLeft className="w-5 h-5 text-gray-700" aria-hidden="true" />
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-all opacity-70 sm:opacity-0 group-hover:opacity-100 cursor-pointer"
             aria-label={`Next image of ${propertyName}`}
+            suppressHydrationWarning
           >
             <ChevronRight className="w-5 h-5 text-gray-700" aria-hidden="true" />
           </button>
@@ -86,6 +89,7 @@ function ImageCarousel({ images, propertyName }: { images: string[]; propertyNam
           className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5"
           role="tablist"
           aria-label={`Image gallery for ${propertyName}`}
+          suppressHydrationWarning
         >
           {displayImages.map((_, index) => (
             <button
@@ -93,11 +97,14 @@ function ImageCarousel({ images, propertyName }: { images: string[]; propertyNam
               onClick={() => setCurrentIndex(index)}
               role="tab"
               aria-selected={index === currentIndex}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentIndex ? 'bg-white w-4' : 'bg-white/60 hover:bg-white/80'
-              }`}
+              className={`p-1.5 cursor-pointer`}
               aria-label={`View image ${index + 1} of ${displayImages.length} for ${propertyName}`}
-            />
+              suppressHydrationWarning
+            >
+              <span className={`block rounded-full transition-all ${
+                index === currentIndex ? 'bg-white w-4 h-2' : 'bg-white/60 hover:bg-white/80 w-2 h-2'
+              }`} />
+            </button>
           ))}
         </div>
       )}
@@ -232,7 +239,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
             href={property.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-white px-4 py-2.5 rounded-full text-sm font-medium transition-all hover:shadow-glow-primary whitespace-nowrap"
+            className="inline-flex items-center gap-2 bg-primary-dark hover:bg-primary text-white px-4 py-3 rounded-full text-sm font-medium transition-all hover:shadow-glow-primary whitespace-nowrap"
             suppressHydrationWarning
           >
             {property.externalPlatform === 'airbnb'
@@ -259,9 +266,9 @@ function FilterButton({
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+      className={`px-4 py-3 rounded-full text-sm font-medium transition-all cursor-pointer ${
         isActive
-          ? 'bg-primary text-white shadow-md'
+          ? 'bg-primary-dark text-white shadow-md'
           : 'bg-white text-muted hover:bg-gray-50 border border-black/10'
       }`}
       suppressHydrationWarning
@@ -298,7 +305,7 @@ export function Properties() {
         {/* Header */}
         <div className="text-center mb-12">
           <motion.span
-            className="text-primary font-medium text-sm uppercase tracking-wider"
+            className="text-primary font-medium text-sm uppercase tracking-[0.2em]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

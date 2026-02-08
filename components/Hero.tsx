@@ -272,7 +272,7 @@ export function Hero() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             aria-hidden="true"
             tabIndex={-1}
             poster="/images/hero-poster-new.webp"
@@ -328,15 +328,15 @@ export function Hero() {
           MAIN CONTENT (z-20)
           ======================================== */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
           {/* Left: Content */}
           <div className="space-y-8">
             <span className="hero-overline text-primary font-medium text-sm uppercase tracking-[0.2em]" suppressHydrationWarning>
               {t.hero.overline}
             </span>
 
-            <h1 className="hero-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] tracking-tight text-foreground" suppressHydrationWarning>
-              {t.hero.headline1}
+            <h1 className="hero-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.1] tracking-tight text-foreground" suppressHydrationWarning>
+              {t.hero.headline1}{' '}
               <br />
               <span className="text-primary" suppressHydrationWarning>{t.hero.headline2}</span>
             </h1>

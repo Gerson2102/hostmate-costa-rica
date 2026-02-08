@@ -151,7 +151,7 @@ export function TeamSection() {
               <span className="text-primary font-medium text-sm uppercase tracking-[0.2em]" suppressHydrationWarning>
                 {t.team.overline}
               </span>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 text-foreground" suppressHydrationWarning>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 text-foreground leading-[1.1]" suppressHydrationWarning>
                 {t.team.headline}{' '}
                 <span className="text-primary" suppressHydrationWarning>{t.team.headlineHighlight}</span>
               </h2>
@@ -168,7 +168,7 @@ export function TeamSection() {
                 {t.team.overline}
               </motion.span>
               <motion.h2
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 text-foreground"
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 text-foreground leading-[1.1]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

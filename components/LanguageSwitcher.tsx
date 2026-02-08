@@ -17,7 +17,7 @@ export function LanguageSwitcher() {
     >
       {/* Sliding indicator - CSS animated */}
       <div
-        className={`absolute top-1 h-[calc(100%-8px)] w-[calc(50%-2px)] bg-primary rounded-full transition-transform duration-300 ease-out ${
+        className={`absolute top-1 h-[calc(100%-8px)] w-[calc(50%-2px)] bg-primary-dark rounded-full transition-transform duration-300 ease-out ${
           language === 'es' ? 'translate-x-full' : 'translate-x-0'
         }`}
         aria-hidden="true"
@@ -27,7 +27,7 @@ export function LanguageSwitcher() {
         onClick={() => setLanguage('en')}
         aria-pressed={language === 'en'}
         aria-label="Switch to English"
-        className={`relative z-10 px-3 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 ${
+        className={`relative z-10 px-3 py-2 text-sm font-medium rounded-full transition-colors duration-200 cursor-pointer ${
           language === 'en' ? 'text-white' : 'text-muted hover:text-foreground'
         }`}
       >
@@ -37,7 +37,7 @@ export function LanguageSwitcher() {
         onClick={() => setLanguage('es')}
         aria-pressed={language === 'es'}
         aria-label="Switch to Spanish"
-        className={`relative z-10 px-3 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 ${
+        className={`relative z-10 px-3 py-2 text-sm font-medium rounded-full transition-colors duration-200 cursor-pointer ${
           language === 'es' ? 'text-white' : 'text-muted hover:text-foreground'
         }`}
       >

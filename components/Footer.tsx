@@ -74,7 +74,7 @@ export function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="flex items-center gap-3 text-muted hover:text-primary transition-colors"
+                    className="flex items-center gap-3 text-muted hover:text-primary transition-colors py-1.5 break-all"
                     target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
                   >
@@ -101,7 +101,7 @@ export function Footer() {
                     href={link.href}
                     target={'external' in link && link.external ? '_blank' : undefined}
                     rel={'external' in link && link.external ? 'noopener noreferrer' : undefined}
-                    className={`transition-colors ${
+                    className={`block py-1.5 transition-colors ${
                       link.highlight
                         ? 'text-primary hover:text-primary-glow'
                         : 'text-muted hover:text-foreground'
@@ -121,8 +121,18 @@ export function Footer() {
           <p className="text-muted text-sm" suppressHydrationWarning>
             © {new Date().getFullYear()} Hostmate Costa Rica. {t.footer.rights}
           </p>
-          <div className="flex items-center gap-2">
-            <span className="text-muted text-sm">Pura Vida</span>
+          <div className="flex items-center gap-1.5 text-muted text-sm">
+            <span>Made with</span>
+            <span className="inline-block text-primary animate-[heartbeat_1s_ease-in-out_infinite]" aria-label="love">&#10084;</span>
+            <span>by</span>
+            <a
+              href="https://www.instagram.com/websites_by_ger"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground font-medium hover:text-primary transition-colors border-b border-foreground/20 hover:border-primary/40"
+            >
+              @websites_by_ger
+            </a>
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ export function Booking() {
   return (
     <section
       id="agendar"
-      className="min-h-screen relative flex items-center justify-center overflow-hidden py-24"
+      className="relative flex items-center justify-center overflow-hidden py-24 lg:py-32"
     >
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
@@ -31,11 +31,12 @@ export function Booking() {
         <>
           <motion.div
             className="absolute top-20 left-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px]"
-            animate={{
+            whileInView={{
               x: [0, 50, 0],
               y: [0, 30, 0],
               scale: [1, 1.2, 1],
             }}
+            viewport={{ once: false }}
             transition={{
               duration: 8,
               repeat: Infinity,
@@ -44,11 +45,12 @@ export function Booking() {
           />
           <motion.div
             className="absolute bottom-20 right-20 w-80 h-80 bg-secondary/20 rounded-full blur-[100px]"
-            animate={{
+            whileInView={{
               x: [0, -30, 0],
               y: [0, -50, 0],
               scale: [1, 1.1, 1],
             }}
+            viewport={{ once: false }}
             transition={{
               duration: 10,
               repeat: Infinity,
@@ -80,14 +82,14 @@ export function Booking() {
         </motion.span>
 
         <motion.h2
-          className="text-4xl sm:text-5xl lg:text-7xl font-bold mt-4 mb-6 text-foreground"
+          className="text-4xl sm:text-5xl lg:text-7xl font-bold mt-4 mb-6 text-foreground leading-[1.1]"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
           suppressHydrationWarning
         >
-          {t.booking.headline}
+          {t.booking.headline}{' '}
           <br />
           <span className="text-primary" suppressHydrationWarning>{t.booking.headlineHighlight}</span>
         </motion.h2>
@@ -124,7 +126,7 @@ export function Booking() {
           href="https://calendly.com/hostmatecostarica-info/30min"
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-3 bg-primary hover:bg-primary-glow text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg sm:text-xl transition-all duration-300 hover:shadow-glow-primary-intense"
+          className="group inline-flex items-center gap-3 bg-primary-dark hover:bg-primary text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg sm:text-xl transition-all duration-300 hover:shadow-glow-primary-intense"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -145,7 +147,7 @@ export function Booking() {
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          <p className="text-muted mb-4" suppressHydrationWarning>{t.booking.altContact}</p>
+          <p className="text-muted mb-4 max-w-2xl mx-auto" suppressHydrationWarning>{t.booking.altContact}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="https://wa.me/50683083634"

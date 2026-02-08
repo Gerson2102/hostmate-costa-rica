@@ -43,16 +43,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://calendly.com" />
         <link rel="dns-prefetch" href="https://calendly.com" />
 
-        {/* Preload hero video (MP4 prioritized - smaller file size: 9.6MB vs 26MB WebM) */}
-        {/* Only preload on desktop (1024px+) to save bandwidth on mobile/tablet */}
-        <link
-          rel="preload"
-          href="/videos/Bg-video-optimized.mp4"
-          as="video"
-          type="video/mp4"
-          media="(min-width: 1024px)"
-        />
-
         {/* Preload hero poster for immediate display - DESKTOP ONLY
             Video and poster are NOT shown on mobile (<1024px) */}
         <link

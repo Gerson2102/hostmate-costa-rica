@@ -10,6 +10,7 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   const navLinks = [
     { label: t.nav.about, href: '#nosotros' },
@@ -42,6 +43,39 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Active section tracking via IntersectionObserver
+  useEffect(() => {
+    const sectionIds = ['nosotros', 'servicios', 'propiedades'];
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
   const closeMobileMenu = useCallback(() => {
     setMobileOpen(false);
   }, []);
@@ -73,7 +107,11 @@ export function Navigation() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-muted hover:text-foreground transition-colors font-medium"
+                className={`py-2 transition-colors font-medium ${
+                  activeSection === link.href.slice(1)
+                    ? 'text-primary'
+                    : 'text-muted hover:text-foreground'
+                }`}
                 suppressHydrationWarning
               >
                 {link.label}
@@ -108,19 +146,32 @@ export function Navigation() {
         </div>
       </div>
 
-      {/* Mobile Menu - CSS-only animation for better performance */}
+      {/* Mobile Menu Backdrop */}
+      {mobileOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/40 z-[-1]"
+          onClick={closeMobileMenu}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile Menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
           mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="bg-white border border-black/5 mt-2 mx-4 rounded-2xl shadow-xl">
-          <div className="p-6 space-y-4">
+          <div className="p-6 space-y-2">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="block text-muted hover:text-foreground font-medium py-2"
+                className={`block font-medium py-3 ${
+                  activeSection === link.href.slice(1)
+                    ? 'text-primary'
+                    : 'text-muted hover:text-foreground'
+                }`}
                 onClick={closeMobileMenu}
                 suppressHydrationWarning
               >
@@ -131,7 +182,7 @@ export function Navigation() {
               href="https://calendly.com/hostmatecostarica-info/30min"
               target="_blank"
               rel="noopener noreferrer"
-              className="block bg-primary text-white px-6 py-3 rounded-full font-medium text-center"
+              className="block bg-primary-dark text-white px-6 py-3 rounded-full font-medium text-center mt-2"
               onClick={closeMobileMenu}
               suppressHydrationWarning
             >

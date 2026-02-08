@@ -20,7 +20,7 @@ export function WorkWithUs() {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto text-center">
         <motion.span
-          className="text-primary font-medium text-sm uppercase tracking-wider"
+          className="text-primary font-medium text-sm uppercase tracking-[0.2em]"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -56,7 +56,7 @@ export function WorkWithUs() {
           href="https://docs.google.com/forms/d/e/1FAIpQLSd3FMiFQe2Sa3SoDkkA1jJImbQIxIkMlV2sF8qocpoYUsGVXg/viewform"
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-3 bg-primary hover:bg-primary-glow text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-glow-primary-intense mt-8"
+          className="group inline-flex items-center gap-3 bg-primary-dark hover:bg-primary text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-glow-primary-intense mt-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

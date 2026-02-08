@@ -210,7 +210,7 @@ export const translations = {
       overline: 'Join Our Team',
       headline: 'Work With Us',
       subtitle: 'Are you passionate about hospitality and property management? We are looking for talented individuals to join our growing team. Apply today and become part of the Hostmate family.',
-      buttonText: 'Apply Now',
+      buttonText: 'Be Part of Hostmate',
     },
 
     // Footer
@@ -443,7 +443,7 @@ export const translations = {
       overline: 'Únete a Nuestro Equipo',
       headline: 'Trabaja con Nosotros',
       subtitle: '¿Te apasiona la hospitalidad y la administración de propiedades? Estamos buscando personas talentosas para unirse a nuestro equipo en crecimiento. Aplica hoy y forma parte de la familia Hostmate.',
-      buttonText: 'Aplicar Ahora',
+      buttonText: 'Sé Parte de Hostmate',
     },
 
     // Footer

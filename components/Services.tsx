@@ -74,7 +74,7 @@ function ServiceAccordionItem({
       whileInView={variants.whileInView}
       viewport={{ once: true, margin: isMobile ? '0px' : '-100px' }}
       transition={variants.transition}
-      className="group"
+      className="group min-w-0"
     >
       <div
         className={`
@@ -87,7 +87,7 @@ function ServiceAccordionItem({
         {/* Header - Always visible */}
         <button
           onClick={onToggle}
-          className="w-full flex items-center gap-4 p-4 sm:p-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
+          className="w-full flex items-center gap-4 p-4 sm:p-5 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
           aria-expanded={isExpanded}
           aria-controls={`service-content-${index}`}
         >
@@ -108,7 +108,7 @@ function ServiceAccordionItem({
               >
                 {String(index + 1).padStart(2, '0')}
               </span>
-              <h3 className="text-lg sm:text-xl font-semibold text-foreground truncate" suppressHydrationWarning>
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-foreground" suppressHydrationWarning>
                 {title}
               </h3>
             </div>
@@ -170,7 +170,7 @@ export function Services() {
   return (
     <section
       id="servicios"
-      className="py-20 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 bg-background-elevated"
+      className="py-20 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 bg-background-elevated overflow-hidden"
     >
       <div className="max-w-4xl mx-auto">
         {/* Header */}
@@ -181,7 +181,7 @@ export function Services() {
           transition={{ duration: isMobile ? 0.3 : 0.6, ease: 'easeOut' }}
           className="text-center mb-12 sm:mb-16"
         >
-          <span className="text-primary font-medium text-sm uppercase tracking-wider" suppressHydrationWarning>
+          <span className="text-primary font-medium text-sm uppercase tracking-[0.2em]" suppressHydrationWarning>
             {t.services.overline}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 text-foreground" suppressHydrationWarning>
@@ -218,7 +218,7 @@ export function Services() {
             href="https://calendly.com/hostmatecostarica-info/30min"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-full hover:bg-primary-glow transition-colors shadow-lg shadow-primary/25"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary-dark text-white font-medium rounded-full hover:bg-primary transition-colors shadow-lg shadow-primary/25"
             suppressHydrationWarning
           >
             {t.about.cta.subtitle}

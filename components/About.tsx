@@ -44,7 +44,7 @@ export function About() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Two Column Layout */}
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-24 items-center">
           {/* Left Column - Content */}
           <div>
             <motion.span
@@ -65,7 +65,7 @@ export function About() {
               transition={{ delay: 0.1 }}
               suppressHydrationWarning
             >
-              {t.about.headline1}
+              {t.about.headline1}{' '}
               <br />
               <span className="text-primary" suppressHydrationWarning>{t.about.headline2}</span>
             </motion.h2>
@@ -94,7 +94,7 @@ export function About() {
 
             <motion.a
               href="#servicios"
-              className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all group"
+              className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 hover:text-primary-dark transition-all group py-3"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
