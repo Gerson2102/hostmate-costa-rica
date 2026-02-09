@@ -24,7 +24,7 @@ import {
 } from '@/lib/properties';
 
 // Image carousel component for each property with lazy loading
-function ImageCarousel({ images, propertyName }: { images: string[]; propertyName: string }) {
+function ImageCarousel({ images, propertyName, location }: { images: string[]; propertyName: string; location: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -48,7 +48,7 @@ function ImageCarousel({ images, propertyName }: { images: string[]; propertyNam
         <motion.img
           key={currentIndex}
           src={displayImages[currentIndex]}
-          alt={`${propertyName} - Image ${currentIndex + 1}`}
+          alt={`${propertyName} - vacation rental in ${location} (${currentIndex + 1} of ${displayImages.length})`}
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -148,6 +148,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
       <ImageCarousel
         images={property.images}
         propertyName={property.name[language]}
+        location={property.location[language]}
       />
 
       {/* Content */}

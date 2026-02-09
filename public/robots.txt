@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hostmatecostarica.com/sitemap.xml

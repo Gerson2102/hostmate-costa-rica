@@ -229,8 +229,8 @@ export const translations = {
 
     // Meta
     meta: {
-      title: 'Hostmate Costa Rica - Premium Property Management',
-      description: 'Professional property management for Airbnb, Booking, and more. Maximize your revenue without the hassle. Your premium partner in Costa Rica.',
+      title: 'Property Management in Nosara & Guanacaste | Hostmate Costa Rica',
+      description: 'Airbnb & vacation rental management in Nosara, Guanacaste. We handle listings, guest communication, cleaning & marketing. Book a free consultation.',
     },
   },
 
@@ -462,8 +462,8 @@ export const translations = {
 
     // Meta
     meta: {
-      title: 'Hostmate Costa Rica - Administración Premium de Propiedades',
-      description: 'Administración profesional de alojamientos para Airbnb, Booking y más. Maximiza tu rentabilidad sin preocupaciones. Tu socio premium en Costa Rica.',
+      title: 'Administración de Propiedades en Nosara y Guanacaste | Hostmate Costa Rica',
+      description: 'Administración de alquileres vacacionales y Airbnb en Nosara, Guanacaste. Gestionamos listados, comunicación con huéspedes, limpieza y marketing. Agenda una consulta gratis.',
     },
   },
 } as const;
