@@ -23,13 +23,13 @@ const teamMembers: TeamMember[] = [
   {
     id: 'vanessa',
     name: 'Vanessa',
-    photo: '/assets/Vanessa.jpg',
+    photo: '/assets/Vanessa.webp',
     alt: 'Vanessa - Co-founder of Hostmate Costa Rica',
   },
   {
     id: 'julian',
     name: 'Julian',
-    photo: '/assets/Julian.jpg',
+    photo: '/assets/Julian.webp',
     alt: 'Julian - Co-founder of Hostmate Costa Rica',
   },
 ];
