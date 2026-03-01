@@ -45,7 +45,7 @@ export function Navigation() {
 
   // Active section tracking via IntersectionObserver
   useEffect(() => {
-    const sectionIds = ['nosotros', 'servicios', 'propiedades'];
+    const sectionIds = ['nosotros', 'servicios', 'propiedades', 'testimonios'];
     const observers: IntersectionObserver[] = [];
 
     sectionIds.forEach((id) => {

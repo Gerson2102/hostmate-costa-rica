@@ -189,6 +189,31 @@ export const translations = {
       ],
     },
 
+    // Testimonials Section
+    testimonials: {
+      overline: 'TESTIMONIALS',
+      headline: 'What Our',
+      headlineHighlight: 'Guests Say',
+      subtitle: 'Real experiences from guests who\'ve stayed at properties managed by Hostmate.',
+      noReviews: 'No reviews yet. Be the first to share your experience!',
+      formTitle: 'Share Your Experience',
+      formSubtitle: 'Stayed at one of our properties? We\'d love to hear about it.',
+      nameLabel: 'Your Name',
+      namePlaceholder: 'e.g. Sarah M.',
+      countryLabel: 'City & Country',
+      countryPlaceholder: 'e.g. Austin, Texas',
+      emailLabel: 'Email (optional, not displayed)',
+      emailPlaceholder: 'your@email.com',
+      reviewLabel: 'Your Review',
+      reviewPlaceholder: 'Tell us about your stay...',
+      charCount: 'characters remaining',
+      submit: 'Submit Review',
+      submitting: 'Submitting...',
+      successTitle: 'Thank you!',
+      successMessage: 'Your review has been submitted and will appear after approval.',
+      errorMessage: 'Something went wrong. Please try again.',
+    },
+
     // Booking Section
     booking: {
       overline: 'Get Started Now',
@@ -420,6 +445,31 @@ export const translations = {
           cta: 'Agendar Sesión',
         },
       ],
+    },
+
+    // Testimonials Section
+    testimonials: {
+      overline: 'TESTIMONIOS',
+      headline: 'Lo Que Dicen',
+      headlineHighlight: 'Nuestros Huéspedes',
+      subtitle: 'Experiencias reales de huéspedes que se han hospedado en propiedades administradas por Hostmate.',
+      noReviews: 'Aún no hay reseñas. ¡Sé el primero en compartir tu experiencia!',
+      formTitle: 'Comparte Tu Experiencia',
+      formSubtitle: '¿Te hospedaste en una de nuestras propiedades? Nos encantaría saber cómo fue tu experiencia.',
+      nameLabel: 'Tu Nombre',
+      namePlaceholder: 'ej. María G.',
+      countryLabel: 'Ciudad y País',
+      countryPlaceholder: 'ej. San José, Costa Rica',
+      emailLabel: 'Correo (opcional, no se muestra)',
+      emailPlaceholder: 'tu@correo.com',
+      reviewLabel: 'Tu Reseña',
+      reviewPlaceholder: 'Cuéntanos sobre tu estadía...',
+      charCount: 'caracteres restantes',
+      submit: 'Enviar Reseña',
+      submitting: 'Enviando...',
+      successTitle: '¡Gracias!',
+      successMessage: 'Tu reseña ha sido enviada y aparecerá después de ser aprobada.',
+      errorMessage: 'Algo salió mal. Por favor, intenta de nuevo.',
     },
 
     // Booking Section

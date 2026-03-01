@@ -24,6 +24,11 @@ const Properties = dynamic(() => import('@/components/Properties').then(mod => (
   ssr: true,
 });
 
+const Testimonials = dynamic(() => import('@/components/Testimonials').then(mod => ({ default: mod.Testimonials })), {
+  loading: () => <SectionSkeleton id="testimonios" />,
+  ssr: true,
+});
+
 const Booking = dynamic(() => import('@/components/Booking').then(mod => ({ default: mod.Booking })), {
   loading: () => <SectionSkeleton id="agendar" />,
   ssr: true,
@@ -89,6 +94,9 @@ export default function Home() {
 
         {/* Properties Section */}
         <Properties />
+
+        {/* Testimonials Section */}
+        <Testimonials />
 
         {/* Booking/Calendly Section */}
         <Booking />

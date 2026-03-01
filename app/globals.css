@@ -40,7 +40,7 @@ body {
   color: var(--color-foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden; /* Prevent horizontal scroll from decorative elements */
+  overflow-x: clip; /* Prevent horizontal scroll without creating a scroll container (preserves sticky) */
 }
 
 /* Text selection with brand colors */
@@ -55,7 +55,7 @@ html {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   scroll-behavior: smooth; /* Smooth scroll for anchor links */
-  overflow-x: hidden; /* Prevent horizontal scroll from decorative elements */
+  overflow-x: clip; /* Prevent horizontal scroll without creating a scroll container (preserves sticky) */
 }
 
 html::-webkit-scrollbar {
