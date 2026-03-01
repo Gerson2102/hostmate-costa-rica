@@ -1,9 +1,17 @@
 export interface Testimonial {
   name: string;
   country: string;
-  review: string;
+  review: { en: string; es: string };
   language: 'en' | 'es';
   timestamp?: string;
+}
+
+export interface TestimonialSubmission {
+  name: string;
+  country: string;
+  review: string;
+  language: 'en' | 'es';
+  email?: string;
 }
 
 // Google Apps Script Web App URL — set after deployment
@@ -30,7 +38,7 @@ export async function fetchApprovedTestimonials(): Promise<Testimonial[]> {
 }
 
 export async function submitTestimonial(
-  testimonial: Omit<Testimonial, 'timestamp'> & { email?: string }
+  testimonial: TestimonialSubmission
 ): Promise<{ success: boolean; error?: string }> {
   if (!TESTIMONIALS_SCRIPT_URL) {
     return { success: false, error: 'Service unavailable' };

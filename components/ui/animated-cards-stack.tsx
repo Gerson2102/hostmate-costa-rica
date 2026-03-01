@@ -152,7 +152,6 @@ export const CardTransformed = React.forwardRef<
     }
     return (
       <motion.div
-        layout="position"
         ref={ref}
         style={cardStyle}
         className={cn(cardVariants({ variant, className }))}

@@ -169,7 +169,7 @@ export function Testimonials() {
             >
               <Quote className="w-8 h-8 text-primary/20 mb-4 flex-shrink-0" />
               <blockquote className="text-foreground text-base leading-relaxed text-center w-4/5 mx-auto">
-                {reviewItem.review}
+                {reviewItem.review[language] || reviewItem.review.en}
               </blockquote>
               <footer className="mt-6 pt-4 border-t border-border text-center w-full">
                 <cite className="not-italic">
@@ -198,7 +198,7 @@ export function Testimonials() {
                 >
                   <Quote className="w-8 h-8 text-primary/20 flex-shrink-0" />
                   <blockquote className="text-foreground text-base lg:text-lg leading-relaxed text-center w-4/5 mx-auto">
-                    {reviewItem.review}
+                    {reviewItem.review[language] || reviewItem.review.en}
                   </blockquote>
                   <footer className="pt-4 border-t border-border text-center w-full">
                     <cite className="not-italic">
