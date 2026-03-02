@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Quote, Send, CheckCircle } from 'lucide-react';
+import { Quote, Send, CheckCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 import { useShouldReduceAnimations } from '@/lib/useIsMobile';
 import { fetchApprovedTestimonials, submitTestimonial } from '@/lib/testimonials';
@@ -39,6 +39,7 @@ export function Testimonials() {
   const [honeypot, setHoneypot] = useState('');
   const [formLoadTime] = useState(Date.now());
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [currentCard, setCurrentCard] = useState(0);
 
   // --- Fetch reviews on mount ---
   useEffect(() => {
@@ -101,6 +102,28 @@ export function Testimonials() {
   const fadeUp = { opacity: 0, y: 20 };
   const visible = { opacity: 1, y: 0 };
 
+  // --- Mobile carousel navigation ---
+  const goToPrevCard = useCallback(() => {
+    setCurrentCard((prev) => (prev === 0 ? reviews.length - 1 : prev - 1));
+  }, [reviews.length]);
+
+  const goToNextCard = useCallback(() => {
+    setCurrentCard((prev) => (prev === reviews.length - 1 ? 0 : prev + 1));
+  }, [reviews.length]);
+
+  const handleDragEnd = useCallback(
+    (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
+      const swipeThreshold = 50;
+      const velocityThreshold = 500;
+      if (info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold) {
+        goToNextCard();
+      } else if (info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold) {
+        goToPrevCard();
+      }
+    },
+    [goToNextCard, goToPrevCard]
+  );
+
   return (
     <section id="testimonios" className="py-24 lg:py-32 bg-background relative overflow-clip">
       {/* ===== Part A: Section Header ===== */}
@@ -134,7 +157,7 @@ export function Testimonials() {
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className="w-[340px] sm:w-[380px] lg:w-[400px] bg-background-elevated rounded-2xl p-6 lg:p-8"
+              className="w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[400px] bg-background-elevated rounded-2xl p-6 lg:p-8"
               style={{ opacity: 1 - i * 0.2 }}
             >
               <div className="w-8 h-8 bg-border/50 rounded mx-auto mb-4 animate-pulse" />
@@ -154,63 +177,130 @@ export function Testimonials() {
 
       {/* Empty state */}
       {!isLoading && reviews.length === 0 && (
-        <p className="text-center text-muted py-12" suppressHydrationWarning>
-          {t.testimonials.noReviews}
-        </p>
-      )}
-
-      {/* Reduced motion fallback — static card list */}
-      {!isLoading && reviews.length > 0 && shouldReduceAnimations && (
-        <div className="max-w-md mx-auto px-4 sm:px-6 space-y-6">
-          {reviews.map((reviewItem, index) => (
-            <div
-              key={`${reviewItem.name}-${index}`}
-              className="card-light rounded-2xl p-6 lg:p-8 flex flex-col items-center"
-            >
-              <Quote className="w-8 h-8 text-primary/20 mb-4 flex-shrink-0" />
-              <blockquote className="text-foreground text-base leading-relaxed text-center w-4/5 mx-auto">
-                {reviewItem.review[language] || reviewItem.review.en}
-              </blockquote>
-              <footer className="mt-6 pt-4 border-t border-border text-center w-full">
-                <cite className="not-italic">
-                  <span className="font-semibold text-foreground text-lg block">{reviewItem.name}</span>
-                  <span className="text-muted text-sm">{reviewItem.country}</span>
-                </cite>
-              </footer>
-            </div>
-          ))}
+        <div className="max-w-md mx-auto px-4 sm:px-6 py-12 text-center">
+          <Quote className="w-10 h-10 text-primary/15 mx-auto mb-4" />
+          <p className="text-muted text-lg" suppressHydrationWarning>
+            {t.testimonials.noReviews}
+          </p>
         </div>
       )}
 
-      {/* Full animation — scroll-driven stacked cards */}
-      {!isLoading && reviews.length > 0 && !shouldReduceAnimations && (
-        <ContainerScroll className="h-[300vh]">
-          <div className="sticky left-0 top-0 h-svh w-full py-12 flex items-center justify-center">
-            <CardsContainer className="mx-auto h-[400px] w-[340px] sm:h-[420px] sm:w-[380px] lg:h-[450px] lg:w-[400px]">
-              {reviews.map((reviewItem, index) => (
-                <CardTransformed
-                  key={`${reviewItem.name}-${index}`}
-                  arrayLength={reviews.length}
-                  index={index + 2}
-                  variant="light"
-                  role="article"
-                  className="border-border bg-white/90 backdrop-blur-md"
-                >
-                  <Quote className="w-8 h-8 text-primary/20 flex-shrink-0" />
-                  <blockquote className="text-foreground text-base lg:text-lg leading-relaxed text-center w-4/5 mx-auto">
-                    {reviewItem.review[language] || reviewItem.review.en}
-                  </blockquote>
-                  <footer className="pt-4 border-t border-border text-center w-full">
-                    <cite className="not-italic">
-                      <span className="font-semibold text-foreground text-lg block">{reviewItem.name}</span>
-                      <span className="text-muted text-sm">{reviewItem.country}</span>
-                    </cite>
-                  </footer>
-                </CardTransformed>
-              ))}
-            </CardsContainer>
+      {/* Reviews — both branches always rendered, CSS controls visibility */}
+      {!isLoading && reviews.length > 0 && (
+        <>
+          {/* Mobile: swipeable carousel (visible < md) */}
+          <div className="md:hidden">
+            <div className="relative max-w-md mx-auto px-4 sm:px-6">
+              {/* Carousel viewport */}
+              <div className="overflow-hidden rounded-2xl">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={currentCard}
+                    initial={{ opacity: 0, x: 60 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -60 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={handleDragEnd}
+                    className="card-light rounded-2xl p-6 flex flex-col items-center touch-pan-y"
+                  >
+                    <Quote className="w-8 h-8 text-primary/20 mb-4 flex-shrink-0" />
+                    <blockquote className="text-foreground text-base leading-relaxed text-center">
+                      {reviews[currentCard].review[language] || reviews[currentCard].review.en}
+                    </blockquote>
+                    <footer className="mt-6 pt-4 border-t border-border text-center w-full">
+                      <cite className="not-italic">
+                        <span className="font-semibold text-foreground text-lg block">
+                          {reviews[currentCard].name}
+                        </span>
+                        <span className="text-muted text-sm">
+                          {reviews[currentCard].country}
+                        </span>
+                      </cite>
+                    </footer>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Arrow buttons */}
+              {reviews.length > 1 && (
+                <>
+                  <button
+                    onClick={goToPrevCard}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow-md flex items-center justify-center cursor-pointer transition-opacity hover:bg-white"
+                    aria-label={language === 'en' ? 'Previous review' : 'Reseña anterior'}
+                  >
+                    <ChevronLeft className="w-4 h-4 text-gray-700" aria-hidden="true" />
+                  </button>
+                  <button
+                    onClick={goToNextCard}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow-md flex items-center justify-center cursor-pointer transition-opacity hover:bg-white"
+                    aria-label={language === 'en' ? 'Next review' : 'Siguiente reseña'}
+                  >
+                    <ChevronRight className="w-4 h-4 text-gray-700" aria-hidden="true" />
+                  </button>
+                </>
+              )}
+
+              {/* Dot indicators */}
+              {reviews.length > 1 && (
+                <div className="flex justify-center gap-1.5 mt-4" role="tablist" aria-label="Review navigation">
+                  {reviews.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentCard(index)}
+                      role="tab"
+                      aria-selected={index === currentCard}
+                      className="p-1 cursor-pointer"
+                      aria-label={`${language === 'en' ? 'View review' : 'Ver reseña'} ${index + 1}`}
+                    >
+                      <span
+                        className={`block rounded-full transition-all ${
+                          index === currentCard
+                            ? 'bg-primary w-4 h-2'
+                            : 'bg-border hover:bg-muted w-2 h-2'
+                        }`}
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-        </ContainerScroll>
+
+          {/* Desktop: scroll-driven stacked cards (visible >= md) */}
+          <div className="hidden md:block">
+            <ContainerScroll className="h-[300vh]">
+              <div className="sticky left-0 top-0 h-svh w-full py-12 flex items-center justify-center">
+                <CardsContainer className="mx-auto h-[420px] w-[380px] lg:h-[450px] lg:w-[400px]">
+                  {reviews.map((reviewItem, index) => (
+                    <CardTransformed
+                      key={`${reviewItem.name}-${index}`}
+                      arrayLength={reviews.length}
+                      index={index + 2}
+                      variant="light"
+                      role="article"
+                      className="border-border bg-white/90 backdrop-blur-md"
+                    >
+                      <Quote className="w-8 h-8 text-primary/20 flex-shrink-0" />
+                      <blockquote className="text-foreground text-base lg:text-lg leading-relaxed text-center w-4/5 mx-auto">
+                        {reviewItem.review[language] || reviewItem.review.en}
+                      </blockquote>
+                      <footer className="pt-4 border-t border-border text-center w-full">
+                        <cite className="not-italic">
+                          <span className="font-semibold text-foreground text-lg block">{reviewItem.name}</span>
+                          <span className="text-muted text-sm">{reviewItem.country}</span>
+                        </cite>
+                      </footer>
+                    </CardTransformed>
+                  ))}
+                </CardsContainer>
+              </div>
+            </ContainerScroll>
+          </div>
+        </>
       )}
 
       {/* ===== Part C: Submission Form ===== */}
