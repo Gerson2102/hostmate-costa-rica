@@ -1,6 +1,7 @@
 // components/TeamSection.tsx
 'use client';
 
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/LanguageContext';
@@ -43,7 +44,7 @@ interface TeamMemberCardProps {
   isMobile: boolean | undefined;
 }
 
-function TeamMemberCard({ member, index, isMobile }: TeamMemberCardProps) {
+const TeamMemberCard = memo(function TeamMemberCard({ member, index, isMobile }: TeamMemberCardProps) {
   const { t } = useLanguage();
   const memberTranslation = t.team[member.id as keyof typeof t.team];
 
@@ -117,7 +118,7 @@ function TeamMemberCard({ member, index, isMobile }: TeamMemberCardProps) {
       </p>
     </motion.article>
   );
-}
+});
 
 // ============================================
 // MAIN COMPONENT: TeamSection

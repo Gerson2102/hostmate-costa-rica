@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { ChevronDown, Building2, Star } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useIsMobile } from '@/lib/useIsMobile';
 
 // Type extension for Navigator with connection API
 interface NavigatorWithConnection extends Navigator {
@@ -32,6 +33,7 @@ export function Hero() {
   // Defaults to false - video will NOT render/download until client-side check confirms desktop
   // This prevents video download on mobile devices (saves bandwidth)
   const [shouldRenderVideo, setShouldRenderVideo] = useState(false);
+  const isMobileViewport = useIsMobile(DESKTOP_BREAKPOINT);
 
   // ============================================
   // VIDEO EVENT HANDLERS
@@ -63,55 +65,38 @@ export function Hero() {
   // Determines whether to render and show video
   // Video ONLY enabled on desktop (1024px+)
   // Disabled on mobile/tablet for performance/battery
+  // Uses shared useIsMobile hook to avoid duplicate resize listeners
   // ============================================
   useEffect(() => {
-    const checkShouldRenderVideo = () => {
-      const isDesktop = window.innerWidth >= DESKTOP_BREAKPOINT;
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // During SSR or on mobile/tablet, don't render video
+    if (isMobileViewport !== false) {
+      setShouldRenderVideo(false);
+      return;
+    }
 
-      // Check connection quality (if API available)
-      const nav = navigator as NavigatorWithConnection;
-      const connection = nav.connection;
-      const isSlowConnection = connection?.effectiveType === '2g' ||
-                               connection?.effectiveType === 'slow-2g';
-      const saveData = connection?.saveData;
+    // Desktop confirmed — check connection quality and motion preferences
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      logVideo('Evaluating video display conditions', {
-        screenWidth: window.innerWidth,
-        isDesktop,
-        prefersReducedMotion,
-        connectionType: connection?.effectiveType,
-        isSlowConnection,
-        saveData,
-      });
+    const nav = navigator as NavigatorWithConnection;
+    const connection = nav.connection;
+    const isSlowConnection = connection?.effectiveType === '2g' ||
+                             connection?.effectiveType === 'slow-2g';
+    const saveData = connection?.saveData;
 
-      // Show video ONLY on desktop, respecting user preferences and connection quality
-      // Conditions that DISABLE video:
-      // - Mobile/tablet viewport (<1024px)
-      // - User prefers reduced motion
-      // - Slow connection (2g/slow-2g)
-      // - Data Saver is enabled
-      const shouldShow = isDesktop && !prefersReducedMotion && !isSlowConnection && !saveData;
+    logVideo('Evaluating video display conditions', {
+      screenWidth: window.innerWidth,
+      isDesktop: true,
+      prefersReducedMotion,
+      connectionType: connection?.effectiveType,
+      isSlowConnection,
+      saveData,
+    });
 
-      setShouldRenderVideo(shouldShow);
-      logVideo(shouldShow ? 'Video enabled (desktop)' : 'Video disabled, showing poster fallback');
-    };
+    const shouldShow = !prefersReducedMotion && !isSlowConnection && !saveData;
 
-    // Initial check
-    checkShouldRenderVideo();
-
-    // Re-check on resize with debounce (handles orientation changes and window resize)
-    let resizeTimeout: NodeJS.Timeout;
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(checkShouldRenderVideo, 200);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      clearTimeout(resizeTimeout);
-    };
-  }, []);
+    setShouldRenderVideo(shouldShow);
+    logVideo(shouldShow ? 'Video enabled (desktop)' : 'Video disabled, showing poster fallback');
+  }, [isMobileViewport]);
 
   // ============================================
   // VIEWPORT-BASED PLAYBACK

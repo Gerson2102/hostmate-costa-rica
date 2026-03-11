@@ -30,13 +30,11 @@ export function Testimonials() {
   const [reviews, setReviews] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // --- Form state ---
+  // --- Form state (consolidated to reduce re-renders) ---
   const [formState, setFormState] = useState<FormState>('idle');
-  const [name, setName] = useState('');
-  const [country, setCountry] = useState('');
-  const [email, setEmail] = useState('');
-  const [review, setReview] = useState('');
-  const [honeypot, setHoneypot] = useState('');
+  const [fields, setFields] = useState({
+    name: '', country: '', email: '', review: '', honeypot: '',
+  });
   const [formLoadTime] = useState(Date.now());
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [currentCard, setCurrentCard] = useState(0);
@@ -60,15 +58,15 @@ export function Testimonials() {
     e.preventDefault();
 
     // Bot checks
-    if (honeypot) return;
+    if (fields.honeypot) return;
     if (Date.now() - formLoadTime < 3000) return;
 
     // Per-field validation
     const errors: FieldErrors = {};
-    if (name.trim().length < 2) errors.name = language === 'en' ? 'Name must be at least 2 characters.' : 'El nombre debe tener al menos 2 caracteres.';
-    if (country.trim().length < 2) errors.country = language === 'en' ? 'City & Country must be at least 2 characters.' : 'Ciudad y País debe tener al menos 2 caracteres.';
-    if (review.trim().length < 10) errors.review = language === 'en' ? 'Review must be at least 10 characters.' : 'La reseña debe tener al menos 10 caracteres.';
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = language === 'en' ? 'Please enter a valid email address.' : 'Ingresa un correo electrónico válido.';
+    if (fields.name.trim().length < 2) errors.name = language === 'en' ? 'Name must be at least 2 characters.' : 'El nombre debe tener al menos 2 caracteres.';
+    if (fields.country.trim().length < 2) errors.country = language === 'en' ? 'City & Country must be at least 2 characters.' : 'Ciudad y País debe tener al menos 2 caracteres.';
+    if (fields.review.trim().length < 10) errors.review = language === 'en' ? 'Review must be at least 10 characters.' : 'La reseña debe tener al menos 10 caracteres.';
+    if (fields.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) errors.email = language === 'en' ? 'Please enter a valid email address.' : 'Ingresa un correo electrónico válido.';
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -79,19 +77,16 @@ export function Testimonials() {
     setFormState('submitting');
 
     const result = await submitTestimonial({
-      name: name.trim(),
-      country: country.trim(),
-      review: review.trim(),
+      name: fields.name.trim(),
+      country: fields.country.trim(),
+      review: fields.review.trim(),
       language,
-      email: email.trim() || undefined,
+      email: fields.email.trim() || undefined,
     });
 
     if (result.success) {
       setFormState('success');
-      setName('');
-      setCountry('');
-      setEmail('');
-      setReview('');
+      setFields({ name: '', country: '', email: '', review: '', honeypot: '' });
     } else {
       setFormState('error');
     }
@@ -362,8 +357,8 @@ export function Testimonials() {
                     autoComplete="name"
                     minLength={2}
                     maxLength={100}
-                    value={name}
-                    onChange={(e) => { setName(e.target.value); setFieldErrors(prev => ({ ...prev, name: undefined })); }}
+                    value={fields.name}
+                    onChange={(e) => { setFields(prev => ({ ...prev, name: e.target.value })); setFieldErrors(prev => ({ ...prev, name: undefined })); }}
                     placeholder={t.testimonials.namePlaceholder}
                     className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.name ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
@@ -389,8 +384,8 @@ export function Testimonials() {
                     autoComplete="country-name"
                     minLength={2}
                     maxLength={100}
-                    value={country}
-                    onChange={(e) => { setCountry(e.target.value); setFieldErrors(prev => ({ ...prev, country: undefined })); }}
+                    value={fields.country}
+                    onChange={(e) => { setFields(prev => ({ ...prev, country: e.target.value })); setFieldErrors(prev => ({ ...prev, country: undefined })); }}
                     placeholder={t.testimonials.countryPlaceholder}
                     className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.country ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
@@ -413,8 +408,8 @@ export function Testimonials() {
                     type="email"
                     autoComplete="email"
                     spellCheck={false}
-                    value={email}
-                    onChange={(e) => { setEmail(e.target.value); setFieldErrors(prev => ({ ...prev, email: undefined })); }}
+                    value={fields.email}
+                    onChange={(e) => { setFields(prev => ({ ...prev, email: e.target.value })); setFieldErrors(prev => ({ ...prev, email: undefined })); }}
                     placeholder={t.testimonials.emailPlaceholder}
                     className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.email ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
@@ -440,8 +435,8 @@ export function Testimonials() {
                     minLength={10}
                     maxLength={300}
                     rows={4}
-                    value={review}
-                    onChange={(e) => { setReview(e.target.value.slice(0, 300)); setFieldErrors(prev => ({ ...prev, review: undefined })); }}
+                    value={fields.review}
+                    onChange={(e) => { setFields(prev => ({ ...prev, review: e.target.value.slice(0, 300) })); setFieldErrors(prev => ({ ...prev, review: undefined })); }}
                     placeholder={t.testimonials.reviewPlaceholder}
                     className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors resize-none ${fieldErrors.review ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
@@ -451,15 +446,15 @@ export function Testimonials() {
                   <p
                     id="char-count"
                     className={`text-right text-sm mt-1 ${
-                      300 - review.length > 50
+                      300 - fields.review.length > 50
                         ? 'text-muted'
-                        : 300 - review.length > 10
+                        : 300 - fields.review.length > 10
                           ? 'text-amber-500'
                           : 'text-red-500'
                     }`}
                     suppressHydrationWarning
                   >
-                    {300 - review.length} {t.testimonials.charCount}
+                    {300 - fields.review.length} {t.testimonials.charCount}
                   </p>
                 </div>
 
@@ -470,8 +465,8 @@ export function Testimonials() {
                     name="website"
                     tabIndex={-1}
                     autoComplete="off"
-                    value={honeypot}
-                    onChange={(e) => setHoneypot(e.target.value)}
+                    value={fields.honeypot}
+                    onChange={(e) => setFields(prev => ({ ...prev, honeypot: e.target.value }))}
                   />
                 </div>
 

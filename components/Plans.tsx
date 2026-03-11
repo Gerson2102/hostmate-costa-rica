@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
@@ -124,12 +124,12 @@ function PlanCard({
 export function Plans() {
   const { t } = useLanguage();
 
-  const plans = t.plans.items.map((item) => ({
+  const plans = useMemo(() => t.plans.items.map((item) => ({
     name: item.name,
     description: item.description,
     services: item.services,
     cta: item.cta,
-  }));
+  })), [t.plans.items]);
 
   return (
     <section id="planes" className="py-32 bg-background-elevated relative overflow-hidden">

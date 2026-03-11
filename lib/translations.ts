@@ -5,9 +5,14 @@ export const translations = {
     // Navigation
     nav: {
       about: 'About',
+      team: 'Team',
       services: 'Services',
       properties: 'Properties',
+      testimonials: 'Testimonials',
+      booking: 'Book Consultation',
+      workWithUs: 'Work With Us',
       bookConsultation: 'Book Consultation',
+      contact: 'Contact',
     },
 
     // Hero Section
@@ -263,9 +268,14 @@ export const translations = {
     // Navigation
     nav: {
       about: 'Nosotros',
+      team: 'Equipo',
       services: 'Servicios',
       properties: 'Propiedades',
+      testimonials: 'Testimonios',
+      booking: 'Agendar Consulta',
+      workWithUs: 'Trabaja con Nosotros',
       bookConsultation: 'Agendar Consulta',
+      contact: 'Contacto',
     },
 
     // Hero Section

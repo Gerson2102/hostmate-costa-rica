@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useIsMobile } from '@/lib/useIsMobile';
 
 interface SmoothScrollProps {
   children: React.ReactNode;
@@ -17,51 +18,26 @@ interface SmoothScrollProps {
  * 4. iOS momentum scrolling works better natively
  *
  * Lenis and GSAP ScrollTrigger are loaded dynamically only on desktop.
+ * Uses shared useIsMobile hook to avoid duplicate resize listeners.
  */
 export function SmoothScroll({ children }: SmoothScrollProps) {
   const lenisRef = useRef<InstanceType<typeof import('lenis').default> | null>(null);
-  const isMobileRef = useRef(true);
+  const isMobile = useIsMobile(768);
 
   useEffect(() => {
-    // Check if we're on mobile
-    const checkMobile = () => {
-      return window.innerWidth < 768;
-    };
-
-    isMobileRef.current = checkMobile();
-
-    // Only initialize Lenis on desktop
-    if (!isMobileRef.current) {
-      initLenis();
+    // During SSR or on mobile, destroy Lenis if it exists
+    if (isMobile !== false) {
+      destroyLenis();
+      return;
     }
 
-    // Handle resize with debounce
-    let resizeTimeout: NodeJS.Timeout;
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        const wasMobile = isMobileRef.current;
-        const nowMobile = checkMobile();
-        isMobileRef.current = nowMobile;
-
-        if (wasMobile && !nowMobile) {
-          // Switched from mobile to desktop - initialize Lenis
-          initLenis();
-        } else if (!wasMobile && nowMobile) {
-          // Switched from desktop to mobile - destroy Lenis
-          destroyLenis();
-        }
-      }, 200);
-    };
-
-    window.addEventListener('resize', handleResize);
+    // Desktop — initialize Lenis
+    initLenis();
 
     return () => {
-      clearTimeout(resizeTimeout);
-      window.removeEventListener('resize', handleResize);
       destroyLenis();
     };
-  }, []);
+  }, [isMobile]);
 
   // Store references for cleanup
   const gsapModuleRef = useRef<typeof import('gsap').gsap | null>(null);

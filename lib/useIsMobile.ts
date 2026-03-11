@@ -30,7 +30,7 @@ export function useIsMobile(breakpoint: number = 768): boolean | undefined {
       timeoutId = setTimeout(checkMobile, 150);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
     return () => {
       window.removeEventListener('resize', handleResize);
       clearTimeout(timeoutId);
