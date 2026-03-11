@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
@@ -23,7 +23,7 @@ function PlanCard({
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
 
     const rect = cardRef.current.getBoundingClientRect();
@@ -38,12 +38,12 @@ function PlanCard({
 
     setRotateX(rotateXValue);
     setRotateY(rotateYValue);
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setRotateX(0);
     setRotateY(0);
-  };
+  }, []);
 
   return (
     <motion.div
@@ -105,7 +105,7 @@ function PlanCard({
           href="https://calendly.com/hostmatecostarica-info/30min"
           target="_blank"
           rel="noopener noreferrer"
-          className={`block w-full py-4 rounded-xl font-semibold text-center transition-all ${
+          className={`block w-full py-4 rounded-xl font-semibold text-center transition-[background-color,box-shadow,color] ${
             isHighlighted
               ? 'bg-primary text-white hover:bg-primary-glow hover:shadow-glow-primary'
               : 'bg-background-elevated text-foreground hover:bg-black/5'

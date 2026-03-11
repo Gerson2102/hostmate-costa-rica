@@ -20,9 +20,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   // Load language from localStorage on mount
   useEffect(() => {
-    const savedLanguage = localStorage.getItem(STORAGE_KEY) as Language | null;
-    if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'es')) {
-      setLanguageState(savedLanguage);
+    try {
+      const savedLanguage = localStorage.getItem(STORAGE_KEY) as Language | null;
+      if (savedLanguage === 'en' || savedLanguage === 'es') {
+        setLanguageState(savedLanguage);
+      }
+    } catch {
+      // localStorage unavailable (private browsing, iframe, etc.)
     }
     setIsHydrated(true);
   }, []);
@@ -30,7 +34,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   // Save language to localStorage when it changes
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem(STORAGE_KEY, lang);
+    try {
+      localStorage.setItem(STORAGE_KEY, lang);
+    } catch {
+      // Silently fail -- language still works in-memory
+    }
     // Update HTML lang attribute
     document.documentElement.lang = lang;
   };

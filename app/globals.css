@@ -250,6 +250,17 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
+/* Scroll margin for fixed nav (prevents content hiding behind sticky header) */
+[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Touch optimization (prevents 300ms tap delay, removes tap highlight) */
+a, button, [role="button"], input, select, textarea {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Reduced motion support (WCAG 2.3.3) */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -43,27 +43,26 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Active section tracking via IntersectionObserver
+  // Active section tracking via single shared IntersectionObserver
   useEffect(() => {
     const sectionIds = ['nosotros', 'servicios', 'propiedades', 'testimonios'];
-    const observers: IntersectionObserver[] = [];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        }
+      },
+      { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' }
+    );
 
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
-      if (!el) return;
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveSection(id);
-          }
-        },
-        { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' }
-      );
-      observer.observe(el);
-      observers.push(observer);
+      if (el) observer.observe(el);
     });
 
-    return () => observers.forEach((o) => o.disconnect());
+    return () => observer.disconnect();
   }, []);
 
   // Lock body scroll when mobile menu is open
@@ -88,7 +87,7 @@ export function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          className={`flex items-center justify-between rounded-2xl px-6 py-3 transition-all duration-300 ${
+          className={`flex items-center justify-between rounded-2xl px-6 py-3 transition-[background-color,backdrop-filter,box-shadow,border-color] duration-300 ${
             scrolled
               ? 'bg-white/95 backdrop-blur-lg shadow-lg shadow-black/5 border border-black/5'
               : 'bg-white/80 backdrop-blur-md border border-black/5'
@@ -124,7 +123,7 @@ export function Navigation() {
               href="https://calendly.com/hostmatecostarica-info/30min"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-primary-dark hover:bg-primary text-white px-6 py-2.5 rounded-full font-medium transition-all hover:shadow-glow-primary"
+              className="bg-primary-dark hover:bg-primary text-white px-6 py-2.5 rounded-full font-medium transition-[background-color,box-shadow] hover:shadow-glow-primary"
               suppressHydrationWarning
             >
               {t.nav.bookConsultation}
@@ -157,7 +156,7 @@ export function Navigation() {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
+        className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${
           mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >

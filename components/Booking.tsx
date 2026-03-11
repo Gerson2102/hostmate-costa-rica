@@ -1,17 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Calendar, ArrowRight, MessageCircle, Mail } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useIsMobile } from '@/lib/useIsMobile';
 
 export function Booking() {
   const { t } = useLanguage();
-  const [isMobile, setIsMobile] = useState(true); // Default to mobile (no animations)
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <section
@@ -22,7 +18,7 @@ export function Booking() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
 
       {/* Animated Orbs - Only animate on desktop to save battery/CPU on mobile */}
-      {isMobile ? (
+      {isMobile !== false ? (
         <>
           <div className="absolute top-20 left-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px]" />
           <div className="absolute bottom-20 right-20 w-80 h-80 bg-secondary/20 rounded-full blur-[100px]" />
@@ -82,7 +78,7 @@ export function Booking() {
         </motion.span>
 
         <motion.h2
-          className="text-4xl sm:text-5xl lg:text-7xl font-bold mt-4 mb-6 text-foreground leading-[1.1]"
+          className="text-4xl sm:text-5xl lg:text-7xl font-bold mt-4 mb-6 text-foreground leading-[1.1] text-pretty"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -115,7 +111,7 @@ export function Booking() {
         >
           {t.booking.benefits.map((item) => (
             <div key={item} className="flex items-center gap-2">
-              <Check className="w-5 h-5 text-primary" />
+              <Check className="w-5 h-5 text-primary" aria-hidden="true" />
               <span className="text-muted" suppressHydrationWarning>{item}</span>
             </div>
           ))}
@@ -126,7 +122,7 @@ export function Booking() {
           href="https://calendly.com/hostmatecostarica-info/30min"
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-3 bg-primary-dark hover:bg-primary text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg sm:text-xl transition-all duration-300 hover:shadow-glow-primary-intense"
+          className="group inline-flex items-center gap-3 bg-primary-dark hover:bg-primary text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg sm:text-xl transition-[background-color,box-shadow] duration-300 hover:shadow-glow-primary-intense"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -134,9 +130,9 @@ export function Booking() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
+          <Calendar className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
           <span suppressHydrationWarning>{t.booking.cta}</span>
-          <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
         </motion.a>
 
         {/* Alternative Contact */}
@@ -155,7 +151,7 @@ export function Booking() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <MessageCircle className="w-5 h-5 text-green-500" />
+              <MessageCircle className="w-5 h-5 text-green-500" aria-hidden="true" />
               <span className="text-foreground">Vanessa</span>
             </a>
             <a
@@ -164,14 +160,14 @@ export function Booking() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <MessageCircle className="w-5 h-5 text-green-500" />
+              <MessageCircle className="w-5 h-5 text-green-500" aria-hidden="true" />
               <span className="text-foreground">Julian</span>
             </a>
             <a
               href="mailto:info@hostmatecostarica.com"
               className="bg-white hover:bg-background-elevated px-6 py-3 rounded-full flex items-center gap-2 transition-colors shadow-md shadow-black/5 border border-black/5"
             >
-              <Mail className="w-5 h-5 text-primary" />
+              <Mail className="w-5 h-5 text-primary" aria-hidden="true" />
               <span className="text-foreground">Email</span>
             </a>
           </div>

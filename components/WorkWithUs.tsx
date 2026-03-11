@@ -30,7 +30,7 @@ export function WorkWithUs() {
         </motion.span>
 
         <motion.h2
-          className="text-4xl lg:text-5xl font-bold mt-2 text-foreground"
+          className="text-4xl lg:text-5xl font-bold mt-2 text-foreground text-pretty"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -56,7 +56,7 @@ export function WorkWithUs() {
           href="https://docs.google.com/forms/d/e/1FAIpQLSd3FMiFQe2Sa3SoDkkA1jJImbQIxIkMlV2sF8qocpoYUsGVXg/viewform"
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-3 bg-primary-dark hover:bg-primary text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-glow-primary-intense mt-8"
+          className="group inline-flex items-center gap-3 bg-primary-dark hover:bg-primary text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg transition-[background-color,box-shadow] duration-300 hover:shadow-glow-primary-intense mt-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

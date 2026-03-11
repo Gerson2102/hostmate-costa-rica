@@ -140,9 +140,9 @@ export function Testimonials() {
         >
           {t.testimonials.overline}
         </span>
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] text-foreground" suppressHydrationWarning>
+        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] text-foreground text-pretty" suppressHydrationWarning>
           {t.testimonials.headline}{' '}
-          <span className="text-primary">{t.testimonials.headlineHighlight}</span>
+          <span className="text-primary" suppressHydrationWarning>{t.testimonials.headlineHighlight}</span>
         </h2>
         <p className="text-muted text-lg max-w-2xl mx-auto mt-4" suppressHydrationWarning>
           {t.testimonials.subtitle}
@@ -257,7 +257,7 @@ export function Testimonials() {
                       aria-label={`${language === 'en' ? 'View review' : 'Ver reseña'} ${index + 1}`}
                     >
                       <span
-                        className={`block rounded-full transition-all ${
+                        className={`block rounded-full transition-[background-color,width,height] ${
                           index === currentCard
                             ? 'bg-primary w-4 h-2'
                             : 'bg-border hover:bg-muted w-2 h-2'
@@ -318,7 +318,7 @@ export function Testimonials() {
           {t.testimonials.formSubtitle}
         </p>
 
-        <div className="bg-background-elevated rounded-2xl p-6 lg:p-8">
+        <div className="bg-background-elevated rounded-2xl p-6 lg:p-8" aria-live="polite">
           <AnimatePresence mode="wait">
             {formState === 'success' ? (
               <motion.div
@@ -359,12 +359,13 @@ export function Testimonials() {
                     type="text"
                     required
                     aria-required="true"
+                    autoComplete="name"
                     minLength={2}
                     maxLength={100}
                     value={name}
                     onChange={(e) => { setName(e.target.value); setFieldErrors(prev => ({ ...prev, name: undefined })); }}
                     placeholder={t.testimonials.namePlaceholder}
-                    className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.name ? 'border-red-400' : 'border-border'}`}
+                    className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.name ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
                     suppressHydrationWarning
                   />
@@ -385,12 +386,13 @@ export function Testimonials() {
                     type="text"
                     required
                     aria-required="true"
+                    autoComplete="country-name"
                     minLength={2}
                     maxLength={100}
                     value={country}
                     onChange={(e) => { setCountry(e.target.value); setFieldErrors(prev => ({ ...prev, country: undefined })); }}
                     placeholder={t.testimonials.countryPlaceholder}
-                    className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.country ? 'border-red-400' : 'border-border'}`}
+                    className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.country ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
                     suppressHydrationWarning
                   />
@@ -409,10 +411,12 @@ export function Testimonials() {
                   <input
                     id="testimonial-email"
                     type="email"
+                    autoComplete="email"
+                    spellCheck={false}
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); setFieldErrors(prev => ({ ...prev, email: undefined })); }}
                     placeholder={t.testimonials.emailPlaceholder}
-                    className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.email ? 'border-red-400' : 'border-border'}`}
+                    className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.email ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
                     suppressHydrationWarning
                   />
@@ -439,7 +443,7 @@ export function Testimonials() {
                     value={review}
                     onChange={(e) => { setReview(e.target.value.slice(0, 300)); setFieldErrors(prev => ({ ...prev, review: undefined })); }}
                     placeholder={t.testimonials.reviewPlaceholder}
-                    className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors resize-none ${fieldErrors.review ? 'border-red-400' : 'border-border'}`}
+                    className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors resize-none ${fieldErrors.review ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
                     suppressHydrationWarning
                   />

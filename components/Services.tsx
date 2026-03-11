@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Globe,
@@ -15,12 +15,13 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useIsMobile } from '@/lib/useIsMobile';
 
 // Mobile-optimized animation variants
-const getMobileOptimizedVariants = (isMobile: boolean, index: number) => ({
-  initial: isMobile ? { opacity: 0 } : { opacity: 0, y: 20 },
+const getMobileOptimizedVariants = (isMobile: boolean | undefined, index: number) => ({
+  initial: isMobile !== false ? { opacity: 0 } : { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
-  transition: isMobile
+  transition: isMobile !== false
     ? { duration: 0.2 } // Faster on mobile
     : { delay: index * 0.05, duration: 0.4, ease: 'easeOut' },
 });
@@ -47,7 +48,7 @@ const serviceColors = [
   '#84CC16',
 ];
 
-function ServiceAccordionItem({
+const ServiceAccordionItem = memo(function ServiceAccordionItem({
   title,
   description,
   icon: Icon,
@@ -64,15 +65,15 @@ function ServiceAccordionItem({
   index: number;
   isExpanded: boolean;
   onToggle: () => void;
-  isMobile: boolean;
+  isMobile: boolean | undefined;
 }) {
-  const variants = getMobileOptimizedVariants(isMobile, index);
+  const variants = useMemo(() => getMobileOptimizedVariants(isMobile, index), [isMobile, index]);
 
   return (
     <motion.div
       initial={variants.initial}
       whileInView={variants.whileInView}
-      viewport={{ once: true, margin: isMobile ? '0px' : '-100px' }}
+      viewport={{ once: true, margin: isMobile !== false ? '0px' : '-100px' }}
       transition={variants.transition}
       className="group min-w-0"
     >
@@ -152,20 +153,16 @@ function ServiceAccordionItem({
       </div>
     </motion.div>
   );
-}
+});
 
 export function Services() {
   const { t } = useLanguage();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(true); // Default to mobile for SSR
+  const isMobile = useIsMobile();
 
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
+  const handleToggle = useCallback((index: number) => {
+    setExpandedIndex((prev) => prev === index ? null : index);
   }, []);
-
-  const handleToggle = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
 
   return (
     <section
@@ -175,16 +172,16 @@ export function Services() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={isMobile ? { opacity: 0 } : { opacity: 0, y: 20 }}
+          initial={isMobile !== false ? { opacity: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: isMobile ? 0.3 : 0.6, ease: 'easeOut' }}
+          transition={{ duration: isMobile !== false ? 0.3 : 0.6, ease: 'easeOut' }}
           className="text-center mb-12 sm:mb-16"
         >
           <span className="text-primary font-medium text-sm uppercase tracking-[0.2em]" suppressHydrationWarning>
             {t.services.overline}
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 text-foreground" suppressHydrationWarning>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 text-foreground text-pretty" suppressHydrationWarning>
             {t.services.headline}
           </h2>
         </motion.div>
@@ -208,10 +205,10 @@ export function Services() {
 
         {/* Bottom CTA */}
         <motion.div
-          initial={isMobile ? { opacity: 0 } : { opacity: 0, y: 20 }}
+          initial={isMobile !== false ? { opacity: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: isMobile ? 0 : 0.3, duration: isMobile ? 0.3 : 0.6, ease: 'easeOut' }}
+          transition={{ delay: isMobile !== false ? 0 : 0.3, duration: isMobile !== false ? 0.3 : 0.6, ease: 'easeOut' }}
           className="mt-12 sm:mt-16 text-center"
         >
           <a

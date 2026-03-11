@@ -1,18 +1,15 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Users, Clock, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useIsMobile } from '@/lib/useIsMobile';
 
 export function About() {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLElement>(null);
-  const [isMobile, setIsMobile] = useState(true); // Default to mobile
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
+  const isMobile = useIsMobile();
 
   // Only use scroll-linked animation on desktop
   const { scrollYProgress } = useScroll({
@@ -24,7 +21,7 @@ export function About() {
   const y = useTransform(
     scrollYProgress,
     [0, 1],
-    isMobile ? [0, 0] : [50, -50] // Reduced range for better performance
+    isMobile === false ? [50, -50] : [0, 0] // Reduced range for better performance
   );
 
   const stats = [
@@ -58,7 +55,7 @@ export function About() {
             </motion.span>
 
             <motion.h2
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-8"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-8 text-pretty"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -94,7 +91,7 @@ export function About() {
 
             <motion.a
               href="#servicios"
-              className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 hover:text-primary-dark transition-all group py-3"
+              className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 hover:text-primary-dark transition-[color,gap] group py-3"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -181,7 +178,7 @@ export function About() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Book a free consultation on Calendly"
-                      className="w-12 h-12 rounded-full bg-primary flex items-center justify-center hover:bg-primary-glow hover:shadow-glow-primary transition-all"
+                      className="w-12 h-12 rounded-full bg-primary flex items-center justify-center hover:bg-primary-glow hover:shadow-glow-primary transition-[background-color,box-shadow]"
                     >
                       <ArrowUpRight className="w-5 h-5 text-white" aria-hidden="true" />
                     </a>

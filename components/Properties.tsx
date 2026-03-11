@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin,
@@ -28,13 +28,13 @@ function ImageCarousel({ images, propertyName, location }: { images: string[]; p
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
+  }, [images.length]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
+  }, [images.length]);
 
   const displayImages = images;
 
@@ -66,7 +66,7 @@ function ImageCarousel({ images, propertyName, location }: { images: string[]; p
         <>
           <button
             onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-all opacity-70 sm:opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-[background-color,opacity] opacity-70 sm:opacity-0 group-hover:opacity-100 cursor-pointer"
             aria-label={`Previous image of ${propertyName}`}
             suppressHydrationWarning
           >
@@ -74,7 +74,7 @@ function ImageCarousel({ images, propertyName, location }: { images: string[]; p
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-all opacity-70 sm:opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-[background-color,opacity] opacity-70 sm:opacity-0 group-hover:opacity-100 cursor-pointer"
             aria-label={`Next image of ${propertyName}`}
             suppressHydrationWarning
           >
@@ -101,7 +101,7 @@ function ImageCarousel({ images, propertyName, location }: { images: string[]; p
               aria-label={`View image ${index + 1} of ${displayImages.length} for ${propertyName}`}
               suppressHydrationWarning
             >
-              <span className={`block rounded-full transition-all ${
+              <span className={`block rounded-full transition-[background-color,width,height] ${
                 index === currentIndex ? 'bg-white w-4 h-2' : 'bg-white/60 hover:bg-white/80 w-2 h-2'
               }`} />
             </button>
@@ -129,7 +129,7 @@ function getAccommodationIcon(type: AccommodationType) {
 }
 
 // Property card component
-function PropertyCard({ property, index }: { property: Property; index: number }) {
+const PropertyCard = memo(function PropertyCard({ property, index }: { property: Property; index: number }) {
   const { language, t } = useLanguage();
 
   const AccommodationIcon = getAccommodationIcon(property.accommodationType);
@@ -240,7 +240,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
             href={property.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-primary-dark hover:bg-primary text-white px-4 py-3 rounded-full text-sm font-medium transition-all hover:shadow-glow-primary whitespace-nowrap"
+            className="inline-flex items-center gap-2 bg-primary-dark hover:bg-primary text-white px-4 py-3 rounded-full text-sm font-medium transition-[background-color,box-shadow] hover:shadow-glow-primary whitespace-nowrap"
             suppressHydrationWarning
           >
             {property.externalPlatform === 'airbnb'
@@ -252,7 +252,7 @@ function PropertyCard({ property, index }: { property: Property; index: number }
       </div>
     </motion.div>
   );
-}
+});
 
 // Filter button component
 function FilterButton({
@@ -267,7 +267,7 @@ function FilterButton({
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-3 rounded-full text-sm font-medium transition-all cursor-pointer ${
+      className={`px-4 py-3 rounded-full text-sm font-medium transition-[background-color,color,box-shadow] cursor-pointer ${
         isActive
           ? 'bg-primary-dark text-white shadow-md'
           : 'bg-white text-muted hover:bg-gray-50 border border-black/10'
@@ -283,13 +283,18 @@ export function Properties() {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<AccommodationType | 'all'>('all');
 
-  const filteredProperties =
-    activeFilter === 'all'
+  const filteredProperties = useMemo(
+    () => activeFilter === 'all'
       ? properties
-      : properties.filter((p) => p.accommodationType === activeFilter);
+      : properties.filter((p) => p.accommodationType === activeFilter),
+    [activeFilter]
+  );
 
   // Get unique accommodation types from properties
-  const availableTypes = [...new Set(properties.map((p) => p.accommodationType))];
+  const availableTypes = useMemo(
+    () => [...new Set(properties.map((p) => p.accommodationType))],
+    []
+  );
 
   return (
     <section
@@ -315,7 +320,7 @@ export function Properties() {
             {t.properties.overline}
           </motion.span>
           <motion.h2
-            className="text-4xl lg:text-5xl font-bold mt-2 text-foreground"
+            className="text-4xl lg:text-5xl font-bold mt-2 text-foreground text-pretty"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

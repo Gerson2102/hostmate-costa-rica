@@ -100,9 +100,17 @@ export function Hero() {
     // Initial check
     checkShouldRenderVideo();
 
-    // Re-check on resize (handles orientation changes and window resize)
-    window.addEventListener('resize', checkShouldRenderVideo);
-    return () => window.removeEventListener('resize', checkShouldRenderVideo);
+    // Re-check on resize with debounce (handles orientation changes and window resize)
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(checkShouldRenderVideo, 200);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
+    };
   }, []);
 
   // ============================================
@@ -335,7 +343,7 @@ export function Hero() {
               {t.hero.overline}
             </span>
 
-            <h1 className="hero-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.1] tracking-tight text-foreground" suppressHydrationWarning>
+            <h1 className="hero-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.1] tracking-tight text-foreground text-pretty" suppressHydrationWarning>
               {t.hero.headline1}{' '}
               <br />
               <span className="text-primary" suppressHydrationWarning>{t.hero.headline2}</span>
@@ -363,15 +371,15 @@ export function Hero() {
 
                 <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
                   <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
-                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-primary">95%</p>
+                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-primary tabular-nums">95%</p>
                     <p className="text-[10px] sm:text-xs text-muted" suppressHydrationWarning>{t.hero.card.occupancy}</p>
                   </div>
                   <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
-                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground">5.0</p>
+                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground tabular-nums">5.0</p>
                     <p className="text-[10px] sm:text-xs text-muted" suppressHydrationWarning>{t.hero.card.rating}</p>
                   </div>
                   <div className="text-center p-2 sm:p-3 bg-background-elevated rounded-lg sm:rounded-xl">
-                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">+40%</p>
+                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600 tabular-nums">+40%</p>
                     <p className="text-[10px] sm:text-xs text-muted" suppressHydrationWarning>{t.hero.card.income}</p>
                   </div>
                 </div>
@@ -413,7 +421,7 @@ export function Hero() {
         aria-label="Scroll to About section"
       >
         <span className="text-sm uppercase tracking-widest text-muted group-hover:text-foreground transition-colors" suppressHydrationWarning>{t.hero.scrollMore}</span>
-        <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center bg-white/50 group-hover:bg-white group-hover:border-primary/20 transition-all">
+        <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center bg-white/50 group-hover:bg-white group-hover:border-primary/20 transition-[background-color,border-color]">
           <ChevronDown className="w-5 h-5 text-muted animate-bounce group-hover:text-primary" aria-hidden="true" />
         </div>
       </a>

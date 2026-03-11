@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
   basePath: '',
   // Ensure assets are served from root
   assetPrefix: '',
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
 };
 
 export default nextConfig;
