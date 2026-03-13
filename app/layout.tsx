@@ -7,9 +7,7 @@ import { LanguageProvider } from "@/lib/LanguageContext";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap", // Prevents FOIT (Flash of Invisible Text)
-  preload: true,
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -139,6 +137,7 @@ export default function RootLayout({
 
         {/* Structured Data - LocalBusiness */}
         <script
+          id="ld-json-local-business"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(localBusinessJsonLd),
@@ -147,6 +146,7 @@ export default function RootLayout({
 
         {/* Structured Data - FAQPage */}
         <script
+          id="ld-json-faq"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(faqJsonLd),
