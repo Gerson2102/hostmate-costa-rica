@@ -300,13 +300,13 @@ export function Hero() {
         <div className="absolute inset-0 z-[5] bg-gradient-to-r from-white/90 via-white/70 to-white/40 lg:from-white/85 lg:via-white/50 lg:to-transparent" />
 
         {/* ANIMATED GRADIENT ORBS (z-10) - reduced opacity to complement video */}
-        <div className="gradient-orb absolute top-20 left-10 w-96 h-96 bg-primary/5 rounded-full blur-[120px] z-10" />
-        <div className="gradient-orb absolute bottom-20 right-10 w-80 h-80 bg-secondary/5 rounded-full blur-[120px] z-10" />
-        <div className="gradient-orb absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] z-10" />
+        <div className="gradient-orb hidden lg:block absolute top-20 left-10 w-96 h-96 bg-primary/5 rounded-full blur-[120px] z-10" />
+        <div className="gradient-orb hidden lg:block absolute bottom-20 right-10 w-80 h-80 bg-secondary/5 rounded-full blur-[120px] z-10" />
+        <div className="gradient-orb hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] z-10" />
 
         {/* GRID PATTERN (z-10) */}
         <div
-          className="absolute inset-0 opacity-[0.03] z-10"
+          className="hidden lg:block absolute inset-0 opacity-[0.03] z-10"
           style={{
             backgroundImage: `
               linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),

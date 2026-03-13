@@ -36,8 +36,8 @@ export function About() {
       className="py-24 lg:py-32 bg-background relative overflow-hidden"
     >
       {/* Background Elements */}
-      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2" />
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[150px] -translate-y-1/2" />
+      <div className="hidden lg:block absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2" />
+      <div className="hidden lg:block absolute top-1/2 right-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[150px] -translate-y-1/2" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Two Column Layout */}

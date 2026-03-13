@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback, memo } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin,
@@ -56,6 +56,10 @@ function ImageCarousel({ images, propertyName, location }: { images: string[]; p
           transition={{ duration: 0.3 }}
           loading="lazy"
           decoding="async"
+          width={800}
+          height={600}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          fetchPriority="low"
           onLoad={() => setIsLoaded(true)}
           suppressHydrationWarning
         />
@@ -282,6 +286,8 @@ function FilterButton({
 export function Properties() {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<AccommodationType | 'all'>('all');
+  const [activePropertyIndex, setActivePropertyIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const filteredProperties = useMemo(
     () => activeFilter === 'all'
@@ -296,6 +302,38 @@ export function Properties() {
     []
   );
 
+  // Track which property card is most visible during horizontal scroll
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const cardWidth = container.firstElementChild?.firstElementChild?.clientWidth ?? 1;
+      const gap = 20; // gap-5 = 1.25rem = 20px
+      const index = Math.round(scrollLeft / (cardWidth + gap));
+      setActivePropertyIndex(Math.min(index, filteredProperties.length - 1));
+    };
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [filteredProperties.length]);
+
+  // Scroll to a specific card when dot is clicked
+  const scrollToCard = useCallback((index: number) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const cardWidth = container.firstElementChild?.firstElementChild?.clientWidth ?? 0;
+    const gap = 20;
+    container.scrollTo({ left: index * (cardWidth + gap), behavior: 'smooth' });
+  }, []);
+
+  // Reset scroll position when filter changes
+  useEffect(() => {
+    setActivePropertyIndex(0);
+    scrollContainerRef.current?.scrollTo({ left: 0 });
+  }, [activeFilter]);
+
   return (
     <section
       id="propiedades"
@@ -303,8 +341,8 @@ export function Properties() {
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]" />
-        <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[150px]" />
+        <div className="hidden lg:block absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]" />
+        <div className="hidden lg:block absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -384,8 +422,59 @@ export function Properties() {
           )}
         </motion.div>
 
-        {/* Properties Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Properties: horizontal scroll on mobile, grid on md+ */}
+        <div
+          ref={scrollContainerRef}
+          className="md:hidden -mx-4 px-4 overflow-x-auto snap-x snap-mandatory"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
+        >
+          <div className="flex gap-5 pb-4" style={{ width: 'max-content' }}>
+            <AnimatePresence mode="popLayout">
+              {filteredProperties.length > 0 ? (
+                filteredProperties.map((property, index) => (
+                  <div key={property.id} className="w-[85vw] max-w-[340px] flex-shrink-0 snap-center">
+                    <PropertyCard property={property} index={index} />
+                  </div>
+                ))
+              ) : (
+                <motion.div
+                  className="w-full text-center py-12"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <p className="text-muted" suppressHydrationWarning>{t.properties.noProperties}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Dot indicators (mobile only) */}
+        {filteredProperties.length > 1 && (
+          <div className="md:hidden flex justify-center gap-1.5 mt-4" role="tablist" aria-label="Property navigation">
+            {filteredProperties.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollToCard(index)}
+                role="tab"
+                aria-selected={index === activePropertyIndex}
+                className="p-1.5 cursor-pointer"
+                aria-label={`View property ${index + 1}`}
+              >
+                <span
+                  className={`block rounded-full transition-all duration-300 ${
+                    index === activePropertyIndex
+                      ? 'bg-primary w-5 h-2'
+                      : 'bg-black/15 hover:bg-black/25 w-2 h-2'
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
             {filteredProperties.length > 0 ? (
               filteredProperties.map((property, index) => (

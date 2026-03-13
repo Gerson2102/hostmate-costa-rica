@@ -4,11 +4,13 @@ import { useRef, useState, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useIsMobile } from '@/lib/useIsMobile';
 
 function PlanCard({
   plan,
   index,
   isHighlighted,
+  isMobile,
 }: {
   plan: {
     name: string;
@@ -18,6 +20,7 @@ function PlanCard({
   };
   index: number;
   isHighlighted: boolean;
+  isMobile: boolean | undefined;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
@@ -53,20 +56,20 @@ function PlanCard({
           ? 'bg-white shadow-2xl shadow-primary/10 border-2 border-primary/20 lg:scale-105 z-10'
           : 'bg-white shadow-lg shadow-black/5 border border-black/5'
       }`}
-      style={{
+      style={isMobile !== false ? undefined : {
         transformStyle: 'preserve-3d',
         transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
         transition: 'transform 0.15s ease-out',
       }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={isMobile !== false ? undefined : handleMouseMove}
+      onMouseLeave={isMobile !== false ? undefined : handleMouseLeave}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.15, duration: 0.5 }}
     >
-      {/* Content with 3D depth */}
-      <div style={{ transform: 'translateZ(20px)' }}>
+      {/* Content with 3D depth (desktop only) */}
+      <div style={isMobile !== false ? undefined : { transform: 'translateZ(20px)' }}>
         <h3
           className={`text-2xl font-bold text-center mb-2 ${
             isHighlighted ? 'text-primary' : 'text-foreground'
@@ -78,27 +81,39 @@ function PlanCard({
         <p className="text-muted text-center mb-8" suppressHydrationWarning>{plan.description}</p>
 
         <ul className="space-y-4 flex-grow mb-8">
-          {plan.services.map((service, i) => (
-            <motion.li
-              key={i}
-              className="flex items-start gap-3"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 + index * 0.1 }}
-            >
-              <div
-                className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                  isHighlighted ? 'bg-primary/20' : 'bg-black/5'
-                }`}
+          {plan.services.map((service, i) => {
+            const content = (
+              <>
+                <div
+                  className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                    isHighlighted ? 'bg-primary/20' : 'bg-black/5'
+                  }`}
+                >
+                  <Check
+                    className={`w-3 h-3 ${isHighlighted ? 'text-primary' : 'text-muted'}`}
+                  />
+                </div>
+                <span className="text-muted text-sm" suppressHydrationWarning>{service}</span>
+              </>
+            );
+
+            return isMobile !== false ? (
+              <li key={i} className="flex items-start gap-3">
+                {content}
+              </li>
+            ) : (
+              <motion.li
+                key={i}
+                className="flex items-start gap-3"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 + index * 0.1 }}
               >
-                <Check
-                  className={`w-3 h-3 ${isHighlighted ? 'text-primary' : 'text-muted'}`}
-                />
-              </div>
-              <span className="text-muted text-sm" suppressHydrationWarning>{service}</span>
-            </motion.li>
-          ))}
+                {content}
+              </motion.li>
+            );
+          })}
         </ul>
 
         <motion.a
@@ -123,6 +138,7 @@ function PlanCard({
 
 export function Plans() {
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
 
   const plans = useMemo(() => t.plans.items.map((item) => ({
     name: item.name,
@@ -135,7 +151,7 @@ export function Plans() {
     <section id="planes" className="py-32 bg-background-elevated relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]" />
+        <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -188,6 +204,7 @@ export function Plans() {
                 plan={plan}
                 index={index}
                 isHighlighted={index === 1}
+                isMobile={isMobile}
               />
             </div>
           ))}
