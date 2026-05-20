@@ -107,8 +107,13 @@ const TeamMemberCard = memo(function TeamMemberCard({ member, index, isMobile }:
         )}
       </div>
 
+      {/* Role label */}
+      <p className="text-primary text-xs uppercase tracking-[0.2em] font-semibold mt-8 mb-3" suppressHydrationWarning>
+        {memberTranslation.role}
+      </p>
+
       {/* Greeting - simplified on mobile */}
-      <p className="text-foreground font-semibold text-lg mt-8 mb-4" suppressHydrationWarning>
+      <p className="text-foreground font-semibold text-lg mb-4" suppressHydrationWarning>
         {memberTranslation.greeting}
       </p>
 

@@ -50,7 +50,7 @@ const { t, language } = useLanguage();
 
 ## Deployment
 
-Static export to GitHub Pages: `npm run build` → `/out`
+Static export to GitHub Pages: `pnpm build` → `/out`
 
 ## Protected Files
 

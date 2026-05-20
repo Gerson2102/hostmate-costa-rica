@@ -155,15 +155,6 @@ export function Booking() {
               <span className="text-foreground">Vanessa</span>
             </a>
             <a
-              href="https://wa.me/50686216929"
-              className="bg-white hover:bg-background-elevated px-6 py-3 rounded-full flex items-center gap-2 transition-colors shadow-md shadow-black/5 border border-black/5"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <MessageCircle className="w-5 h-5 text-green-500" aria-hidden="true" />
-              <span className="text-foreground">Julian</span>
-            </a>
-            <a
               href="mailto:info@hostmatecostarica.com"
               className="bg-white hover:bg-background-elevated px-6 py-3 rounded-full flex items-center gap-2 transition-colors shadow-md shadow-black/5 border border-black/5"
             >

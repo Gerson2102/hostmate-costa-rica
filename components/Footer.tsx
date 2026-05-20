@@ -15,13 +15,6 @@ const contactLinks = [
     external: false,
   },
   {
-    icon: Phone,
-    label: '+506 8621 6929',
-    sublabel: 'Julián',
-    href: 'tel:+50686216929',
-    external: false,
-  },
-  {
     icon: Mail,
     label: 'info@hostmatecostarica.com',
     href: 'mailto:info@hostmatecostarica.com',

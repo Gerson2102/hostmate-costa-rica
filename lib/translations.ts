@@ -66,11 +66,13 @@ export const translations = {
       headlineHighlight: 'Team',
       vanessa: {
         name: 'Vanessa',
+        role: 'Co-founder',
         greeting: 'Hello, my name is Vanessa.',
         bio: 'Based in Costa Rica, with a strong connection to Guanacaste, I am inspired by the region\'s lifestyle and culture.\n\nMy professional background includes systems configuration, finance, and customer experience. I personally manage your listings to ensure operational efficiency, high quality, and profit improvement.\n\nFor me, every property is more than an asset—it is an opportunity to blend strategy, creativity, and genuine hospitality into meaningful guest experiences, creating value and purpose for you, your guests, and Hostmate.',
       },
       julian: {
         name: 'Julian',
+        role: 'Co-founder',
         greeting: 'Hi, I\'m Julian.',
         bio: 'I manage homes the way I\'d expect mine to be managed.\n\nI was raised in Nosara and have built my professional career here. That means I don\'t just know the area; I understand how it works, who to call, and how things get done on the ground.\n\nAt the same time, my background in marketing and sales has connected me with high-level networks locally and internationally. Hostmate sits at that intersection: local presence with global-level standards.',
       },
@@ -329,11 +331,13 @@ export const translations = {
       headlineHighlight: 'Equipo',
       vanessa: {
         name: 'Vanessa',
+        role: 'Cofundadora',
         greeting: 'Hola, mi nombre es Vanessa.',
         bio: 'Resido en Costa Rica, con una fuerte conexión con Guanacaste, me inspira el estilo de vida y la cultura de la región.\n\nMi experiencia profesional incluye configuración de sistemas, finanzas y experiencia del cliente. Gestiono personalmente sus listados para garantizar eficiencia operativa, alta calidad y mejora de rentabilidad.\n\nPara mí, cada propiedad es más que un activo—es una oportunidad de combinar estrategia, creatividad y hospitalidad genuina en experiencias significativas para los huéspedes, creando valor y propósito para usted, sus huéspedes y Hostmate.',
       },
       julian: {
         name: 'Julián',
+        role: 'Cofundador',
         greeting: 'Hola, soy Julián.',
         bio: 'Gestiono hogares de la manera en que esperaría que gestionaran el mío.\n\nCrecí en Nosara y he construido mi carrera profesional aquí. Eso significa que no solo conozco la zona; entiendo cómo funciona, a quién llamar y cómo se hacen las cosas en el terreno.\n\nAl mismo tiempo, mi experiencia en marketing y ventas me ha conectado con redes de alto nivel local e internacionalmente. Hostmate se encuentra en esa intersección: presencia local con estándares de nivel global.',
       },

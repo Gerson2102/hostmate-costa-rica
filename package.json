@@ -2,11 +2,21 @@
   "name": "hostmate-costa-rica-v2",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@11.1.1",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@tailwindcss/oxide",
+      "esbuild",
+      "sharp",
+      "@swc/core",
+      "unrs-resolver"
+    ]
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
