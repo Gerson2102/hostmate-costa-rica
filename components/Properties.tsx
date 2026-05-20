@@ -222,24 +222,8 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
           </div>
         )}
 
-        {/* Price & CTA */}
-        <div className="flex items-center justify-between gap-4">
-          {/* Price Display */}
-          <div className="flex flex-col">
-            <span className="text-2xl font-bold text-foreground tracking-tight">
-              {property.monthlyPrice}
-              <span className="text-sm font-medium text-muted ml-1" suppressHydrationWarning>
-                {t.properties.perMonth}
-              </span>
-            </span>
-            {property.priceNotes && (
-              <span className="text-xs text-muted" suppressHydrationWarning>
-                {property.priceNotes[language]}
-              </span>
-            )}
-          </div>
-
-          {/* CTA Button */}
+        {/* CTA */}
+        <div className="flex items-center justify-end gap-4">
           <a
             href={property.externalUrl}
             target="_blank"
