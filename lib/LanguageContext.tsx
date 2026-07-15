@@ -14,8 +14,14 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const STORAGE_KEY = 'hostmate-language';
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('en');
+export function LanguageProvider({
+  children,
+  initialLanguage = 'en',
+}: {
+  children: ReactNode;
+  initialLanguage?: Language;
+}) {
+  const [language, setLanguageState] = useState<Language>(initialLanguage);
   const [isHydrated, setIsHydrated] = useState(false);
 
   // Load language from localStorage on mount
