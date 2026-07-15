@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { LanguageProvider } from "@/lib/LanguageContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -14,12 +13,17 @@ export const metadata: Metadata = {
   title: "Property Management in Nosara & Guanacaste | Hostmate Costa Rica",
   description: "Airbnb & vacation rental management in Nosara, Guanacaste. We handle listings, guest communication, cleaning & marketing. Book a free consultation.",
   alternates: {
-    canonical: "https://hostmatecostarica.com",
+    canonical: "https://hostmatecostarica.com/",
+    languages: {
+      en: "https://hostmatecostarica.com/",
+      es: "https://hostmatecostarica.com/es/",
+      "x-default": "https://hostmatecostarica.com/",
+    },
   },
   openGraph: {
     title: "Property Management in Nosara & Guanacaste | Hostmate Costa Rica",
     description: "Airbnb & vacation rental management in Nosara, Guanacaste. We handle listings, guest communication, cleaning & marketing. Book a free consultation.",
-    url: "https://hostmatecostarica.com",
+    url: "https://hostmatecostarica.com/",
     siteName: "Hostmate Costa Rica",
     images: [
       {
@@ -50,11 +54,14 @@ export const viewport: Viewport = {
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
+  "@id": "https://hostmatecostarica.com/#business",
   name: "Hostmate Costa Rica",
   description:
     "Professional property management for Airbnb and vacation rentals in Nosara, Guanacaste, Costa Rica",
-  url: "https://hostmatecostarica.com",
-  telephone: ["+506-8308-3634", "+506-8621-6929"],
+  url: "https://hostmatecostarica.com/",
+  image: "https://hostmatecostarica.com/images/og-image.jpg",
+  logo: "https://hostmatecostarica.com/assets/logo-hostmate.webp",
+  telephone: "+506-8308-3634",
   email: "info@hostmatecostarica.com",
   address: {
     "@type": "PostalAddress",
@@ -74,37 +81,6 @@ const localBusinessJsonLd = {
     "Airbnb Co-hosting",
   ],
   sameAs: ["https://instagram.com/hostmatecostarica"],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What services does Hostmate Costa Rica offer?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We offer property listing, calendar management, guest communication, market research, professional photography, decoration consulting, property marketing, and housekeeping services for vacation rentals in Nosara, Guanacaste.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Where does Hostmate Costa Rica operate?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We operate in Nosara and the greater Guanacaste region of Costa Rica, managing vacation rental properties on Airbnb, Booking, and other platforms.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How can I get started with Hostmate Costa Rica?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "You can book a free 30-minute consultation through our website. We'll discuss your property, your goals, and create a personalized management plan with no commitment required.",
-      },
-    },
-  ],
 };
 
 export default function RootLayout({
@@ -144,21 +120,19 @@ export default function RootLayout({
           }}
         />
 
-        {/* Structured Data - FAQPage */}
+        {/* Set correct lang for the Spanish route before hydration
+            (single root layout can't vary the lang attribute per route) */}
         <script
-          id="ld-json-faq"
-          type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqJsonLd),
+            __html:
+              "if(location.pathname.indexOf('/es')===0)document.documentElement.lang='es';",
           }}
         />
       </head>
       <body className={`${inter.variable} antialiased`}>
-        <LanguageProvider>
-          <SmoothScroll>
-            {children}
-          </SmoothScroll>
-        </LanguageProvider>
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );
