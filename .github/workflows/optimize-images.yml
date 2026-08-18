@@ -1,0 +1,52 @@
+name: Optimize uploaded images
+
+# When a client uploads an image through the CMS, Decap commits it to main.
+# This converts it to resized WebP, rewrites the references in content/, and
+# commits back. The commit uses GITHUB_TOKEN, which does NOT re-trigger this
+# workflow (GitHub's built-in loop guard), and scripts/optimize-uploads.mjs
+# is itself idempotent — it never touches a file that is already .webp — so
+# even a manual re-run or a future switch away from GITHUB_TOKEN can't loop.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "public/images/uploads/**"
+
+permissions:
+  contents: write
+
+# Serialize runs so two uploads in quick succession can't race the same
+# commit-back (queue instead of cancel, so an in-flight optimize+commit is
+# never interrupted mid-way).
+concurrency:
+  group: optimize-images-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: node scripts/optimize-uploads.mjs
+
+      - name: Commit optimized images
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add public/images/uploads content
+            git commit -m "chore: optimize uploaded images to webp"
+            git push
+          else
+            echo "Nothing to optimize."
+          fi
