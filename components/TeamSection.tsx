@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/LanguageContext';
 import { useIsMobile } from '@/lib/useIsMobile';
+import { team as generatedTeam } from '@/lib/content.generated';
 
 // ============================================
 // TYPES
@@ -14,26 +15,19 @@ interface TeamMember {
   id: string;
   name: string;
   photo: string;
-  alt: string;
+  alt: { en: string; es: string };
 }
 
 // ============================================
-// STATIC DATA
+// STATIC DATA — photo and alt text sourced from content/team.json via the
+// CMS content build pipeline (scripts/build-content.mjs -> lib/content.generated.ts).
 // ============================================
-const teamMembers: TeamMember[] = [
-  {
-    id: 'vanessa',
-    name: 'Vanessa',
-    photo: '/assets/Vanessa.webp',
-    alt: 'Vanessa - Co-founder of Hostmate Costa Rica',
-  },
-  {
-    id: 'julian',
-    name: 'Julian',
-    photo: '/assets/Julian.webp',
-    alt: 'Julian - Co-founder of Hostmate Costa Rica',
-  },
-];
+const teamMembers: TeamMember[] = generatedTeam.map((member) => ({
+  id: member.id,
+  name: member.name.en,
+  photo: member.photo,
+  alt: member.alt,
+}));
 
 // ============================================
 // SUB-COMPONENT: TeamMemberCard
@@ -45,7 +39,7 @@ interface TeamMemberCardProps {
 }
 
 const TeamMemberCard = memo(function TeamMemberCard({ member, index, isMobile }: TeamMemberCardProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const memberTranslation = t.team[member.id as keyof typeof t.team];
 
   // Type guard to ensure we have the expected member translation structure
@@ -80,7 +74,7 @@ const TeamMemberCard = memo(function TeamMemberCard({ member, index, isMobile }:
         <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border-4 border-primary/30">
           <Image
             src={member.photo}
-            alt={member.alt}
+            alt={member.alt[language]}
             fill
             sizes="(max-width: 640px) 192px, (max-width: 1024px) 224px, 256px"
             className="object-cover"

@@ -222,6 +222,11 @@ function validateTeam(file, data) {
     checkBilingualField(file, `[${i}].role`, item.role);
     checkBilingualField(file, `[${i}].greeting`, item.greeting);
     checkBilingualField(file, `[${i}].bio`, item.bio);
+
+    if (!isNonEmptyString(item.photo) || !item.photo.startsWith('/')) {
+      fail(file, `[${i}].photo`, `must be a non-empty path starting with "/" — got ${JSON.stringify(item.photo)}`);
+    }
+    checkBilingualField(file, `[${i}].alt`, item.alt);
   });
 
   return data;
@@ -357,6 +362,8 @@ export interface GeneratedTeamMember {
   role: GeneratedBilingualText;
   greeting: GeneratedBilingualText;
   bio: GeneratedBilingualText;
+  photo: string;
+  alt: GeneratedBilingualText;
 }
 
 export const properties: GeneratedProperty[] = ${ts(

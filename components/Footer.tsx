@@ -36,7 +36,7 @@ export function Footer() {
     { label: t.footer.links.about, href: '#nosotros' },
     { label: t.footer.links.services, href: '#servicios' },
     { label: t.footer.links.properties, href: '#propiedades' },
-    { label: t.footer.links.booking, href: 'https://calendly.com/hostmatecostarica-info/30min', highlight: true, external: true },
+    { label: t.footer.links.booking, href: settings.calendlyUrl, highlight: true, external: true },
   ];
 
   return (
