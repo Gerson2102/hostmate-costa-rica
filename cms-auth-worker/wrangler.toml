@@ -1,0 +1,13 @@
+name = "hostmate-cms-auth"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+# Non-secret config. Comma-separated list of origins allowed to complete the
+# OAuth handshake — no trailing slashes, scheme required. See README.md.
+[vars]
+ALLOWED_DOMAINS = "https://hostmatecostarica.com"
+
+# Secrets are NOT set here — never commit them. Set them with:
+#   npx wrangler secret put GITHUB_CLIENT_ID
+#   npx wrangler secret put GITHUB_CLIENT_SECRET
+# See README.md and ../docs/CMS-SETUP.md for the full setup walkthrough.

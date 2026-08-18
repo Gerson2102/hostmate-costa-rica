@@ -18,6 +18,9 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      // Separate deployable (Cloudflare Worker) with its own package.json,
+      // TypeScript config, and lint story — not part of the Next.js build.
+      "cms-auth-worker/**",
     ],
   },
 ];

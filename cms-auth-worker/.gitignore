@@ -1,0 +1,10 @@
+node_modules
+.wrangler
+.dev.vars
+*.tsbuildinfo
+
+# pnpm auto-writes this as an ignored-build-scripts template on every
+# install that has pending build-script approvals (see README.md). It is
+# local machine state, not project config — never commit it. The root
+# project's CLAUDE.md prohibits pnpm-workspace.yaml in this repo entirely.
+pnpm-workspace.yaml
