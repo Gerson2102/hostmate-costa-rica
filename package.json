@@ -10,7 +10,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:content": "node scripts/build-content.mjs"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
