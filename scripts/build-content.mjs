@@ -45,9 +45,19 @@ function isBilingualPair(value) {
   );
 }
 
+function isBlank(value) {
+  return typeof value !== 'string' || value.trim().length === 0;
+}
+
 function checkBilingualField(file, fieldPath, value, required = true) {
   if (value === undefined) {
     if (required) fail(file, fieldPath, 'missing required bilingual { en, es } field');
+    return;
+  }
+  // An optional field left untouched in the Decap CMS "object" widget saves
+  // as { en: "", es: "" } rather than omitting the key entirely. Treat that
+  // as "not provided" instead of a validation error.
+  if (!required && value && typeof value === 'object' && !Array.isArray(value) && isBlank(value.en) && isBlank(value.es)) {
     return;
   }
   if (!isBilingualPair(value)) {
@@ -157,79 +167,94 @@ function validateSettings(file, data) {
 // Services
 // ---------------------------------------------------------------------------
 
+// The file wraps its array under a "services" key (not a bare top-level
+// array) because Decap CMS file collections can only serialize a top-level
+// object keyed by field name — never a bare array.
 function validateServices(file, data) {
-  if (data === null) return null;
+  if (data === null) return [];
 
-  if (!Array.isArray(data) || data.length === 0) {
-    fail(file, '(root)', 'must be a non-empty array');
-    return data;
+  const items = data && typeof data === 'object' && !Array.isArray(data) ? data.services : undefined;
+
+  if (!Array.isArray(items) || items.length === 0) {
+    fail(file, 'services', 'must be a non-empty array under a top-level "services" key');
+    return [];
   }
 
-  data.forEach((item, i) => {
-    checkBilingualField(file, `[${i}].title`, item.title);
-    checkBilingualField(file, `[${i}].description`, item.description);
+  items.forEach((item, i) => {
+    checkBilingualField(file, `services[${i}].title`, item.title);
+    checkBilingualField(file, `services[${i}].description`, item.description);
   });
 
-  return data;
+  return items;
 }
 
 // ---------------------------------------------------------------------------
 // Plans
 // ---------------------------------------------------------------------------
 
+// The file wraps its array under a "plans" key (not a bare top-level array)
+// because Decap CMS file collections can only serialize a top-level object
+// keyed by field name — never a bare array.
 function validatePlans(file, data) {
-  if (data === null) return null;
+  if (data === null) return [];
 
-  if (!Array.isArray(data) || data.length === 0) {
-    fail(file, '(root)', 'must be a non-empty array');
-    return data;
+  const items = data && typeof data === 'object' && !Array.isArray(data) ? data.plans : undefined;
+
+  if (!Array.isArray(items) || items.length === 0) {
+    fail(file, 'plans', 'must be a non-empty array under a top-level "plans" key');
+    return [];
   }
 
-  data.forEach((item, i) => {
-    checkBilingualField(file, `[${i}].name`, item.name);
-    checkBilingualField(file, `[${i}].description`, item.description);
-    checkBilingualField(file, `[${i}].cta`, item.cta);
+  items.forEach((item, i) => {
+    checkBilingualField(file, `plans[${i}].name`, item.name);
+    checkBilingualField(file, `plans[${i}].description`, item.description);
+    checkBilingualField(file, `plans[${i}].cta`, item.cta);
 
     if (!Array.isArray(item.services) || item.services.length === 0) {
-      fail(file, `[${i}].services`, 'must be a non-empty array of { en, es } items');
+      fail(file, `plans[${i}].services`, 'must be a non-empty array of { en, es } items');
     } else {
       item.services.forEach((svc, j) => {
-        checkBilingualField(file, `[${i}].services[${j}]`, svc);
+        checkBilingualField(file, `plans[${i}].services[${j}]`, svc);
       });
     }
   });
 
-  return data;
+  return items;
 }
 
 // ---------------------------------------------------------------------------
 // Team
 // ---------------------------------------------------------------------------
 
+// The file wraps its array under a "team" key (not a bare top-level array)
+// because Decap CMS file collections can only serialize a top-level object
+// keyed by field name — never a bare array.
 function validateTeam(file, data) {
-  if (data === null) return null;
+  if (data === null) return [];
 
-  if (!Array.isArray(data) || data.length === 0) {
-    fail(file, '(root)', 'must be a non-empty array');
-    return data;
+  const items = data && typeof data === 'object' && !Array.isArray(data) ? data.team : undefined;
+
+  if (!Array.isArray(items) || items.length === 0) {
+    fail(file, 'team', 'must be a non-empty array under a top-level "team" key');
+    return [];
   }
 
-  data.forEach((item, i) => {
+  items.forEach((item, i) => {
     if (!isNonEmptyString(item.id)) {
-      fail(file, `[${i}].id`, 'missing or empty required string field');
+      fail(file, `team[${i}].id`, 'missing or empty required string field');
     }
-    checkBilingualField(file, `[${i}].name`, item.name);
-    checkBilingualField(file, `[${i}].role`, item.role);
-    checkBilingualField(file, `[${i}].greeting`, item.greeting);
-    checkBilingualField(file, `[${i}].bio`, item.bio);
+    checkBilingualField(file, `team[${i}].name`, item.name);
+    checkBilingualField(file, `team[${i}].role`, item.role);
+    checkBilingualField(file, `team[${i}].greeting`, item.greeting);
+    checkBilingualField(file, `team[${i}].bio`, item.bio);
 
     if (!isNonEmptyString(item.photo) || !item.photo.startsWith('/')) {
-      fail(file, `[${i}].photo`, `must be a non-empty path starting with "/" — got ${JSON.stringify(item.photo)}`);
+      fail(file, `team[${i}].photo`, `must be a non-empty path starting with "/" — got ${JSON.stringify(item.photo)}`);
     }
-    checkBilingualField(file, `[${i}].alt`, item.alt);
+    checkBilingualField(file, `team[${i}].alt`, item.alt);
   });
 
-  return data;
+  return items;
 }
 
 // ---------------------------------------------------------------------------

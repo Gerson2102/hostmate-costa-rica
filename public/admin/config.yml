@@ -1,0 +1,315 @@
+# Decap CMS configuration — Hostmate Costa Rica
+# Free & open-source. Content is saved straight into this GitHub repo (no database).
+#
+# IMPORTANT: every field here mirrors the shape validated by
+# scripts/build-content.mjs. If you add or rename a field on either side,
+# update the other — a mismatch means the client's next save fails the build.
+
+backend:
+  name: github
+  repo: Gerson2102/hostmate-costa-rica
+  branch: main
+  # >>> REPLACE_WITH_CLOUDFLARE_WORKER_URL <<<
+  # Set this to the deployed Cloudflare Worker's URL, e.g.
+  # https://hostmate-cms-auth.<your-subdomain>.workers.dev
+  # See cms-auth-worker/README.md and docs/CMS-SETUP.md for deploy steps.
+  base_url: https://REPLACE_WITH_CLOUDFLARE_WORKER_URL.workers.dev
+  auth_endpoint: auth
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+locale: es
+
+collections:
+  # ---------------------------------------------------------------------
+  # Propiedades — folder collection, one JSON file per property.
+  # Mirrors GeneratedProperty in lib/content.generated.ts.
+  # ---------------------------------------------------------------------
+  - name: properties
+    label: Propiedades
+    label_singular: Propiedad
+    description: "Agregá, editá, eliminá o reordená las propiedades que aparecen en el sitio."
+    folder: content/properties
+    create: true
+    delete: true
+    extension: json
+    format: json
+    identifier_field: id
+    slug: "{{slug}}"
+    summary: "{{name.es}} — {{monthlyPrice}}"
+    sortable_fields: ["order"]
+    fields:
+      - label: "ID interno"
+        name: id
+        widget: string
+        hint: "Identificador único, sin espacios ni acentos. Ej.: casa-mafuaye. No lo cambies después de crear la propiedad — se usa como nombre de archivo."
+      - label: "Nombre"
+        name: name
+        widget: object
+        fields:
+          - { label: "Español", name: es, widget: string }
+          - { label: "English", name: en, widget: string }
+      - label: "Descripción"
+        name: description
+        widget: object
+        fields:
+          - { label: "Español", name: es, widget: text }
+          - { label: "English", name: en, widget: text }
+      - label: "Tipo de alojamiento"
+        name: accommodationType
+        widget: select
+        hint: "Selecciona el tipo de propiedad."
+        options:
+          - { label: "Casa completa", value: entire_home }
+          - { label: "Apartamento", value: apartment }
+          - { label: "Habitación privada", value: private_room }
+          - { label: "Habitación compartida", value: shared_room }
+          - { label: "Condominio", value: condo }
+      - label: "Ubicación"
+        name: location
+        widget: object
+        fields:
+          - { label: "Español", name: es, widget: string }
+          - { label: "English", name: en, widget: string }
+      - label: "Precio mensual"
+        name: monthlyPrice
+        widget: string
+        hint: 'Incluye el símbolo de moneda. Ej.: "$2,300"'
+      - label: "Notas del precio"
+        name: priceNotes
+        widget: object
+        required: false
+        hint: "Opcional. Ej.: + electricidad. Dejá ambos idiomas vacíos si no aplica."
+        fields:
+          - { label: "Español", name: es, widget: string, required: false }
+          - { label: "English", name: en, widget: string, required: false }
+      - label: "Fotos"
+        name: images
+        widget: list
+        required: true
+        hint: "Subí una o más fotos. La primera foto se usa como imagen principal en las tarjetas."
+        field: { label: "Foto", name: image, widget: image }
+      - label: "Enlace externo (Airbnb, Booking, etc.)"
+        name: externalUrl
+        widget: string
+        hint: "URL completa del anuncio en la plataforma externa."
+      - label: "Plataforma externa"
+        name: externalPlatform
+        widget: select
+        options:
+          - { label: Airbnb, value: airbnb }
+          - { label: "Booking.com", value: booking }
+          - { label: VRBO, value: vrbo }
+          - { label: Otra, value: other }
+      - label: "Características"
+        name: features
+        widget: object
+        required: false
+        collapsed: true
+        hint: "Opcional. Dejá en blanco los datos que no apliquen."
+        fields:
+          - { label: "Habitaciones", name: bedrooms, widget: number, value_type: int, required: false }
+          - { label: "Camas", name: beds, widget: number, value_type: int, required: false }
+          - { label: "Baños", name: bathrooms, widget: number, value_type: int, required: false }
+          - { label: "Huéspedes (máximo)", name: guests, widget: number, value_type: int, required: false }
+      - label: "Calificación (0 a 5)"
+        name: rating
+        widget: number
+        value_type: float
+        required: false
+        hint: "Ej.: 4.96. Dejalo en blanco si la propiedad no tiene reseñas todavía."
+      - label: "Cantidad de reseñas"
+        name: reviewCount
+        widget: number
+        value_type: int
+        required: false
+      - label: "Orden"
+        name: order
+        widget: number
+        value_type: int
+        hint: "Define el orden de aparición de las propiedades en el sitio. El número más bajo aparece primero."
+
+  # ---------------------------------------------------------------------
+  # Configuración del sitio — file collection, un solo archivo.
+  # Mirrors GeneratedSettings in lib/content.generated.ts.
+  # ---------------------------------------------------------------------
+  - name: settings
+    label: "Configuración del sitio"
+    description: "Datos de contacto y enlaces que aparecen en todo el sitio (pie de página, sección de reservas, WhatsApp, etc.)."
+    files:
+      - name: general
+        label: "Contacto y enlaces"
+        file: content/settings.json
+        fields:
+          - label: "Teléfono (como se muestra)"
+            name: phone
+            widget: string
+            hint: 'Ej.: "+506 8308 3634"'
+          - label: "Nombre junto al teléfono"
+            name: phoneLabel
+            widget: string
+            hint: 'Ej.: "Vanessa"'
+          - label: "Enlace de llamada"
+            name: phoneHref
+            widget: string
+            hint: 'Formato tel: seguido del número sin espacios. Ej.: "tel:+50683083634"'
+          - label: "Correo electrónico"
+            name: email
+            widget: string
+          - label: "Usuario de Instagram"
+            name: instagramHandle
+            widget: string
+            hint: 'Ej.: "@hostmatecostarica"'
+          - label: "Enlace de Instagram"
+            name: instagramUrl
+            widget: string
+            hint: "URL completa del perfil de Instagram."
+          - label: "Enlace de Calendly (agendar cita)"
+            name: calendlyUrl
+            widget: string
+            hint: "URL completa de Calendly. Se usa en el botón 'Agendar' y en el pie de página."
+          - label: "Ubicación"
+            name: location
+            widget: object
+            fields:
+              - { label: "Español", name: es, widget: string }
+              - { label: "English", name: en, widget: string }
+
+  # ---------------------------------------------------------------------
+  # Planes — file collection. El archivo guarda un objeto con la lista bajo
+  # la clave "plans" (Decap no puede guardar un arreglo en la raíz del
+  # archivo). Mirrors GeneratedPlanItem in lib/content.generated.ts.
+  # ---------------------------------------------------------------------
+  - name: plans
+    label: Planes
+    description: "Los 3 planes de precios. Nota: esta sección existe en el sitio pero actualmente no se muestra en la página principal (ver docs/CMS-SETUP.md)."
+    files:
+      - name: plans
+        label: "Lista de planes"
+        file: content/plans.json
+        fields:
+          - label: Planes
+            name: plans
+            widget: list
+            label_singular: Plan
+            summary: "{{fields.name.es}}"
+            fields:
+              - label: "Nombre del plan"
+                name: name
+                widget: object
+                fields:
+                  - { label: "Español", name: es, widget: string }
+                  - { label: "English", name: en, widget: string }
+              - label: "Descripción"
+                name: description
+                widget: object
+                fields:
+                  - { label: "Español", name: es, widget: string }
+                  - { label: "English", name: en, widget: string }
+              - label: "Servicios incluidos"
+                name: services
+                widget: list
+                hint: "Lista de servicios incluidos en este plan."
+                fields:
+                  - { label: "Español", name: es, widget: string }
+                  - { label: "English", name: en, widget: string }
+              - label: "Texto del botón"
+                name: cta
+                widget: object
+                hint: 'Ej.: "Elegir Virtual"'
+                fields:
+                  - { label: "Español", name: es, widget: string }
+                  - { label: "English", name: en, widget: string }
+
+  # ---------------------------------------------------------------------
+  # Servicios — file collection. El archivo guarda un objeto con la lista
+  # bajo la clave "services". Mirrors GeneratedServiceItem.
+  # ---------------------------------------------------------------------
+  - name: services
+    label: Servicios
+    description: "Las 8 tarjetas de servicios que ofrece Hostmate."
+    files:
+      - name: services
+        label: "Lista de servicios"
+        file: content/services.json
+        fields:
+          - label: Servicios
+            name: services
+            widget: list
+            label_singular: Servicio
+            summary: "{{fields.title.es}}"
+            fields:
+              - label: "Título"
+                name: title
+                widget: object
+                fields:
+                  - { label: "Español", name: es, widget: string }
+                  - { label: "English", name: en, widget: string }
+              - label: "Descripción"
+                name: description
+                widget: object
+                fields:
+                  - { label: "Español", name: es, widget: text }
+                  - { label: "English", name: en, widget: text }
+
+  # ---------------------------------------------------------------------
+  # Equipo — file collection. El archivo guarda un objeto con la lista bajo
+  # la clave "team". Mirrors GeneratedTeamMember.
+  # ---------------------------------------------------------------------
+  - name: team
+    label: Equipo
+    description: "Biografías y fotos de Vanessa y Julián."
+    files:
+      - name: team
+        label: "Integrantes del equipo"
+        file: content/team.json
+        fields:
+          - label: Integrantes
+            name: team
+            widget: list
+            label_singular: Integrante
+            summary: "{{fields.name.es}}"
+            fields:
+              - label: "ID interno"
+                name: id
+                widget: string
+                hint: "Identificador único, sin espacios ni acentos. Ej.: vanessa. No lo cambies después de creado."
+              - label: "Nombre"
+                name: name
+                widget: object
+                fields:
+                  - { label: "Español", name: es, widget: string }
+                  - { label: "English", name: en, widget: string }
+              - label: "Cargo"
+                name: role
+                widget: object
+                hint: 'Ej.: "Cofundadora"'
+                fields:
+                  - { label: "Español", name: es, widget: string }
+                  - { label: "English", name: en, widget: string }
+              - label: "Saludo"
+                name: greeting
+                widget: object
+                hint: 'Frase corta de presentación. Ej.: "Hola, mi nombre es Vanessa."'
+                fields:
+                  - { label: "Español", name: es, widget: string }
+                  - { label: "English", name: en, widget: string }
+              - label: "Biografía"
+                name: bio
+                widget: object
+                hint: "Texto completo de la biografía. Podés usar líneas en blanco para separar párrafos."
+                fields:
+                  - { label: "Español", name: es, widget: text }
+                  - { label: "English", name: en, widget: text }
+              - label: "Foto"
+                name: photo
+                widget: image
+                hint: "Foto de perfil, formato cuadrado recomendado."
+              - label: "Texto alternativo (SEO / accesibilidad)"
+                name: alt
+                widget: object
+                hint: "Describí la foto para lectores de pantalla. Ej.: Vanessa - Cofundadora de Hostmate Costa Rica"
+                fields:
+                  - { label: "Español", name: es, widget: string }
+                  - { label: "English", name: en, widget: string }

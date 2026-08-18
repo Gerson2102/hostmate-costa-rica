@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Panel de Administración — Hostmate Costa Rica</title>
+    <!-- Absolute path so the config loads no matter how /admin is opened. -->
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+  </head>
+  <body>
+    <!-- Manual init so we can extend Spanish before the CMS renders. -->
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <!-- Decap CMS — open-source, free, no subscription. Version pinned to the
+         3.x major line so a breaking release upstream can't surprise us. -->
+    <script src="https://unpkg.com/decap-cms@^3.15.0/dist/decap-cms.js"></script>
+    <script>
+      // Fill the gaps in Decap's bundled Spanish (the image/file URL options
+      // and the list widget are partly untranslated) so the whole panel
+      // reads in Spanish for the client.
+      (function () {
+        var CMS = window.CMS;
+        function deepMerge(base, over) {
+          var out = Object.assign({}, base);
+          Object.keys(over).forEach(function (k) {
+            out[k] =
+              over[k] && typeof over[k] === 'object' && base && typeof base[k] === 'object'
+                ? deepMerge(base[k], over[k])
+                : over[k];
+          });
+          return out;
+        }
+        try {
+          var es = CMS.getLocale('es') || {};
+          var overrides = {
+            editor: {
+              editorWidgets: {
+                list: { add: 'Añadir %{item}', addType: 'Añadir %{item}' },
+                image: {
+                  chooseMultiple: 'Elige imágenes',
+                  chooseUrl: 'Insertar desde URL',
+                  replaceUrl: 'Reemplazar con URL',
+                  promptUrl: 'Ingresá la URL de la imagen',
+                  addMore: 'Agregá más imágenes',
+                  removeAll: 'Quitar todas las imágenes',
+                },
+                file: {
+                  choose: 'Elige un archivo',
+                  chooseMultiple: 'Elige archivos',
+                  chooseUrl: 'Insertar desde URL',
+                  replaceUrl: 'Reemplazar con URL',
+                  promptUrl: 'Ingresá la URL del archivo',
+                  chooseDifferent: 'Elige un archivo diferente',
+                  addMore: 'Agregá más archivos',
+                  remove: 'Quita el archivo',
+                  removeAll: 'Quitar todos los archivos',
+                },
+              },
+            },
+            mediaLibrary: {
+              mediaLibraryCard: {
+                copy: 'Copiar',
+                copyUrl: 'Copiar URL',
+                copyPath: 'Copiar ruta',
+                copyName: 'Copiar nombre',
+                copied: 'Copiado',
+              },
+            },
+          };
+          CMS.registerLocale('es', deepMerge(es, overrides));
+        } catch (e) {
+          console.error('No se pudo extender el idioma español:', e);
+        }
+        CMS.init();
+      })();
+    </script>
+  </body>
+</html>
