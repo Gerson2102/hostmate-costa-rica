@@ -2,6 +2,7 @@
 
 import { Phone, Mail, Instagram, MapPin } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { settings } from '@/lib/content.generated';
 
 // Removed Framer Motion from Footer for performance
 // Footer animations provide minimal UX value but add to bundle size and CPU usage
@@ -9,21 +10,21 @@ import { useLanguage } from '@/lib/LanguageContext';
 const contactLinks = [
   {
     icon: Phone,
-    label: '+506 8308 3634',
-    sublabel: 'Vanessa',
-    href: 'tel:+50683083634',
+    label: settings.phone,
+    sublabel: settings.phoneLabel,
+    href: settings.phoneHref,
     external: false,
   },
   {
     icon: Mail,
-    label: 'info@hostmatecostarica.com',
-    href: 'mailto:info@hostmatecostarica.com',
+    label: settings.email,
+    href: `mailto:${settings.email}`,
     external: false,
   },
   {
     icon: Instagram,
-    label: '@hostmatecostarica',
-    href: 'https://instagram.com/hostmatecostarica',
+    label: settings.instagramHandle,
+    href: settings.instagramUrl,
     external: true,
   },
 ];

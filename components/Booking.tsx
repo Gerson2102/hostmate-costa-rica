@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Check, Calendar, ArrowRight, MessageCircle, Mail } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 import { useIsMobile } from '@/lib/useIsMobile';
+import { settings } from '@/lib/content.generated';
 
 export function Booking() {
   const { t } = useLanguage();
@@ -119,7 +120,7 @@ export function Booking() {
 
         {/* CTA Button */}
         <motion.a
-          href="https://calendly.com/hostmatecostarica-info/30min"
+          href={settings.calendlyUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="group inline-flex items-center gap-3 bg-primary-dark hover:bg-primary text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-lg sm:text-xl transition-[background-color,box-shadow] duration-300 hover:shadow-glow-primary-intense"

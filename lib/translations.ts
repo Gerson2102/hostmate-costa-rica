@@ -1,4 +1,40 @@
+import {
+  services as generatedServices,
+  plans as generatedPlans,
+  team as generatedTeam,
+} from './content.generated';
+
 export type Language = 'en' | 'es';
+
+// Services, plans, and team bios are sourced from content/*.json via the CMS
+// content build pipeline (scripts/build-content.mjs -> lib/content.generated.ts).
+// Nav labels, form copy, and other static UI text below stay hardcoded here.
+const serviceItems = (lang: Language) =>
+  generatedServices.map((service) => ({
+    title: service.title[lang],
+    description: service.description[lang],
+  }));
+
+const planItems = (lang: Language) =>
+  generatedPlans.map((plan) => ({
+    name: plan.name[lang],
+    description: plan.description[lang],
+    services: plan.services.map((service) => service[lang]),
+    cta: plan.cta[lang],
+  }));
+
+const teamMember = (id: string, lang: Language) => {
+  const member = generatedTeam.find((m) => m.id === id);
+  if (!member) {
+    throw new Error(`Team member "${id}" not found in generated content`);
+  }
+  return {
+    name: member.name[lang],
+    role: member.role[lang],
+    greeting: member.greeting[lang],
+    bio: member.bio[lang],
+  };
+};
 
 export const translations = {
   en: {
@@ -64,58 +100,15 @@ export const translations = {
       overline: 'THE TEAM',
       headline: 'Know the',
       headlineHighlight: 'Team',
-      vanessa: {
-        name: 'Vanessa',
-        role: 'Co-founder',
-        greeting: 'Hello, my name is Vanessa.',
-        bio: 'Based in Costa Rica, with a strong connection to Guanacaste, I am inspired by the region\'s lifestyle and culture.\n\nMy professional background includes systems configuration, finance, and customer experience. I personally manage your listings to ensure operational efficiency, high quality, and profit improvement.\n\nFor me, every property is more than an asset—it is an opportunity to blend strategy, creativity, and genuine hospitality into meaningful guest experiences, creating value and purpose for you, your guests, and Hostmate.',
-      },
-      julian: {
-        name: 'Julian',
-        role: 'Co-founder',
-        greeting: 'Hi, I\'m Julian.',
-        bio: 'I manage homes the way I\'d expect mine to be managed.\n\nI was raised in Nosara and have built my professional career here. That means I don\'t just know the area; I understand how it works, who to call, and how things get done on the ground.\n\nAt the same time, my background in marketing and sales has connected me with high-level networks locally and internationally. Hostmate sits at that intersection: local presence with global-level standards.',
-      },
+      vanessa: teamMember('vanessa', 'en'),
+      julian: teamMember('julian', 'en'),
     },
 
     // Services Section
     services: {
       overline: 'What We Do',
       headline: 'Our Services',
-      items: [
-        {
-          title: 'Property Listing',
-          description: 'Your property will be listed on the right platforms to get the most bookings.',
-        },
-        {
-          title: 'Calendar Management',
-          description: 'Your property calendar will always be updated and synchronized.',
-        },
-        {
-          title: 'Decoration Consulting',
-          description: 'We visit your property and provide a personalized assessment to improve decoration and basic elements.',
-        },
-        {
-          title: 'Property Marketing',
-          description: 'Your property will receive additional advertising on social media and our website for greater visibility.',
-        },
-        {
-          title: 'Guest Communication',
-          description: 'Daily response to guest inquiries through the platform.',
-        },
-        {
-          title: 'Market Research',
-          description: 'Market review by area to determine the best possible price for your property.',
-        },
-        {
-          title: 'Professional Photography',
-          description: 'Professional photos of your property for better presentation and marketing.',
-        },
-        {
-          title: 'Housekeeping',
-          description: 'Cleaning staff with high quality standards and customer service.',
-        },
-      ],
+      items: serviceItems('en'),
     },
 
     // Properties Section
@@ -149,51 +142,7 @@ export const translations = {
       headline: 'Choose the Perfect Plan for You',
       subtitle: 'Choose the plan that best fits your needs and your property.',
       mostPopular: 'Most Popular',
-      items: [
-        {
-          name: 'HOSTMATE VIRTUAL',
-          description: 'Complete digital management',
-          services: [
-            'Property listing',
-            'Guest communication',
-            'Market research and price updates',
-            'Calendar management',
-            'Property marketing',
-            'Review management',
-            'Monthly booking reports',
-          ],
-          cta: 'Choose Virtual',
-        },
-        {
-          name: 'HOSTMATE HYBRID',
-          description: 'Complete service - Digital + On-site',
-          services: [
-            'Property listing',
-            'Guest communication',
-            'Market research and price updates',
-            'Calendar management',
-            'Property marketing',
-            'Review management',
-            'Monthly booking reports',
-            'Decoration consulting',
-            'Professional photography',
-            'Housekeeping',
-            'Welcome Kit',
-          ],
-          cta: 'Choose Hybrid',
-        },
-        {
-          name: 'HOSTMATE CUSTOM',
-          description: 'Tailored to your needs',
-          services: [
-            'Book a free 1:1 session',
-            'We define your specific needs',
-            'We create a personalized plan',
-            'Total flexibility in services',
-          ],
-          cta: 'Book Session',
-        },
-      ],
+      items: planItems('en'),
     },
 
     // Testimonials Section
@@ -329,58 +278,15 @@ export const translations = {
       overline: 'EL EQUIPO',
       headline: 'Conozca a Nuestro',
       headlineHighlight: 'Equipo',
-      vanessa: {
-        name: 'Vanessa',
-        role: 'Cofundadora',
-        greeting: 'Hola, mi nombre es Vanessa.',
-        bio: 'Resido en Costa Rica, con una fuerte conexión con Guanacaste, me inspira el estilo de vida y la cultura de la región.\n\nMi experiencia profesional incluye configuración de sistemas, finanzas y experiencia del cliente. Gestiono personalmente sus listados para garantizar eficiencia operativa, alta calidad y mejora de rentabilidad.\n\nPara mí, cada propiedad es más que un activo—es una oportunidad de combinar estrategia, creatividad y hospitalidad genuina en experiencias significativas para los huéspedes, creando valor y propósito para usted, sus huéspedes y Hostmate.',
-      },
-      julian: {
-        name: 'Julián',
-        role: 'Cofundador',
-        greeting: 'Hola, soy Julián.',
-        bio: 'Gestiono hogares de la manera en que esperaría que gestionaran el mío.\n\nCrecí en Nosara y he construido mi carrera profesional aquí. Eso significa que no solo conozco la zona; entiendo cómo funciona, a quién llamar y cómo se hacen las cosas en el terreno.\n\nAl mismo tiempo, mi experiencia en marketing y ventas me ha conectado con redes de alto nivel local e internacionalmente. Hostmate se encuentra en esa intersección: presencia local con estándares de nivel global.',
-      },
+      vanessa: teamMember('vanessa', 'es'),
+      julian: teamMember('julian', 'es'),
     },
 
     // Services Section
     services: {
       overline: 'Lo Que Hacemos',
       headline: 'Nuestros Servicios',
-      items: [
-        {
-          title: 'Publicación de la Propiedad',
-          description: 'Tu alojamiento estará publicado en las aplicaciones adecuadas para obtener la mayor cantidad de reservas.',
-        },
-        {
-          title: 'Administración de Calendarios',
-          description: 'El calendario de tu alojamiento estará siempre actualizado y sincronizado.',
-        },
-        {
-          title: 'Asesoría de Decoración',
-          description: 'Vamos a tu alojamiento y hacemos un diagnóstico personalizado para mejorar la decoración y elementos básicos.',
-        },
-        {
-          title: 'Publicidad del Alojamiento',
-          description: 'Tu alojamiento recibirá publicidad adicional en redes sociales y en nuestra página web para mayor visibilidad.',
-        },
-        {
-          title: 'Comunicación con Huéspedes',
-          description: 'Respuesta de consultas de huéspedes diariamente por medio de la plataforma.',
-        },
-        {
-          title: 'Estudio de Mercado',
-          description: 'Revisión del mercado según la zona para definir el mejor precio posible del alojamiento.',
-        },
-        {
-          title: 'Fotografías Profesionales',
-          description: 'Fotografías profesionales del alojamiento para una mejor presentación y publicidad.',
-        },
-        {
-          title: 'Housekeeping',
-          description: 'Personal de limpieza con altos estándares de calidad y servicio al cliente.',
-        },
-      ],
+      items: serviceItems('es'),
     },
 
     // Properties Section
@@ -414,51 +320,7 @@ export const translations = {
       headline: 'Elige el Plan Perfecto para Ti',
       subtitle: 'Elige el plan que más se ajuste a las necesidades tuyas y de tu alojamiento.',
       mostPopular: 'Más Popular',
-      items: [
-        {
-          name: 'HOSTMATE VIRTUAL',
-          description: 'Gestión digital completa',
-          services: [
-            'Publicación de la propiedad',
-            'Comunicación con los huéspedes',
-            'Estudio de mercado y actualización de precios',
-            'Administración de calendarios',
-            'Publicidad del alojamiento',
-            'Gestión de reviews',
-            'Reportes de reservas mensuales',
-          ],
-          cta: 'Elegir Virtual',
-        },
-        {
-          name: 'HOSTMATE HÍBRIDO',
-          description: 'Servicio completo - Digital + Presencial',
-          services: [
-            'Publicación de la propiedad',
-            'Comunicación con los huéspedes',
-            'Estudio de mercado y actualización de precios',
-            'Administración de calendarios',
-            'Publicidad del alojamiento',
-            'Gestión de reviews',
-            'Reportes de reservas mensuales',
-            'Asesoría de decoración',
-            'Fotografías profesionales',
-            'Housekeeping',
-            'Welcome Kit',
-          ],
-          cta: 'Elegir Híbrido',
-        },
-        {
-          name: 'HOSTMATE PERSONALIZADO',
-          description: 'Plan a tu medida',
-          services: [
-            'Agenda una sesión 1:1 gratuita',
-            'Definimos tus necesidades específicas',
-            'Creamos un plan personalizado',
-            'Flexibilidad total en servicios',
-          ],
-          cta: 'Agendar Sesión',
-        },
-      ],
+      items: planItems('es'),
     },
 
     // Testimonials Section
