@@ -1,0 +1,13 @@
+{
+  "phone": "+506 8308 3634",
+  "phoneLabel": "Vanessa",
+  "phoneHref": "tel:+50683083634",
+  "email": "info@hostmatecostarica.com",
+  "instagramHandle": "@hostmatecostarica",
+  "instagramUrl": "https://instagram.com/hostmatecostarica",
+  "calendlyUrl": "https://calendly.com/hostmatecostarica-info/30min",
+  "location": {
+    "en": "Costa Rica",
+    "es": "Costa Rica"
+  }
+}

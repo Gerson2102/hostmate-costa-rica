@@ -1,0 +1,29 @@
+{
+  "id": "playa-pelada-home",
+  "name": {
+    "en": "3 Bedroom Home in Playa Pelada",
+    "es": "Casa de 3 Habitaciones en Playa Pelada"
+  },
+  "description": {
+    "en": "A spacious, comfortable residence in the tranquil area of Playa Pelada, just three minutes from the beach. Surrounded by nature with jungle pathways connecting to both Pelada and Guiones beaches. Enjoy privacy and peaceful ambiance while staying close to supermarkets and restaurants.",
+    "es": "Una residencia espaciosa y cómoda en la tranquila zona de Playa Pelada, a solo tres minutos de la playa. Rodeada de naturaleza con senderos de selva que conectan con las playas Pelada y Guiones. Disfruta de privacidad y un ambiente tranquilo mientras te mantienes cerca de supermercados y restaurantes."
+  },
+  "accommodationType": "entire_home",
+  "location": {
+    "en": "Playa Pelada, Nosara, Guanacaste",
+    "es": "Playa Pelada, Nosara, Guanacaste"
+  },
+  "monthlyPrice": "$2,800",
+  "images": [
+    "/images/properties/playa-pelada-1.webp"
+  ],
+  "externalUrl": "https://www.airbnb.com/l/dCIJ3UkR",
+  "externalPlatform": "airbnb",
+  "features": {
+    "bedrooms": 3,
+    "guests": 5
+  },
+  "rating": 4.62,
+  "reviewCount": 13,
+  "order": 3
+}

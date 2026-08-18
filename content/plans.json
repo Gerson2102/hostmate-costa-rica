@@ -1,0 +1,138 @@
+[
+  {
+    "name": {
+      "en": "HOSTMATE VIRTUAL",
+      "es": "HOSTMATE VIRTUAL"
+    },
+    "description": {
+      "en": "Complete digital management",
+      "es": "Gestión digital completa"
+    },
+    "services": [
+      {
+        "en": "Property listing",
+        "es": "Publicación de la propiedad"
+      },
+      {
+        "en": "Guest communication",
+        "es": "Comunicación con los huéspedes"
+      },
+      {
+        "en": "Market research and price updates",
+        "es": "Estudio de mercado y actualización de precios"
+      },
+      {
+        "en": "Calendar management",
+        "es": "Administración de calendarios"
+      },
+      {
+        "en": "Property marketing",
+        "es": "Publicidad del alojamiento"
+      },
+      {
+        "en": "Review management",
+        "es": "Gestión de reviews"
+      },
+      {
+        "en": "Monthly booking reports",
+        "es": "Reportes de reservas mensuales"
+      }
+    ],
+    "cta": {
+      "en": "Choose Virtual",
+      "es": "Elegir Virtual"
+    }
+  },
+  {
+    "name": {
+      "en": "HOSTMATE HYBRID",
+      "es": "HOSTMATE HÍBRIDO"
+    },
+    "description": {
+      "en": "Complete service - Digital + On-site",
+      "es": "Servicio completo - Digital + Presencial"
+    },
+    "services": [
+      {
+        "en": "Property listing",
+        "es": "Publicación de la propiedad"
+      },
+      {
+        "en": "Guest communication",
+        "es": "Comunicación con los huéspedes"
+      },
+      {
+        "en": "Market research and price updates",
+        "es": "Estudio de mercado y actualización de precios"
+      },
+      {
+        "en": "Calendar management",
+        "es": "Administración de calendarios"
+      },
+      {
+        "en": "Property marketing",
+        "es": "Publicidad del alojamiento"
+      },
+      {
+        "en": "Review management",
+        "es": "Gestión de reviews"
+      },
+      {
+        "en": "Monthly booking reports",
+        "es": "Reportes de reservas mensuales"
+      },
+      {
+        "en": "Decoration consulting",
+        "es": "Asesoría de decoración"
+      },
+      {
+        "en": "Professional photography",
+        "es": "Fotografías profesionales"
+      },
+      {
+        "en": "Housekeeping",
+        "es": "Housekeeping"
+      },
+      {
+        "en": "Welcome Kit",
+        "es": "Welcome Kit"
+      }
+    ],
+    "cta": {
+      "en": "Choose Hybrid",
+      "es": "Elegir Híbrido"
+    }
+  },
+  {
+    "name": {
+      "en": "HOSTMATE CUSTOM",
+      "es": "HOSTMATE PERSONALIZADO"
+    },
+    "description": {
+      "en": "Tailored to your needs",
+      "es": "Plan a tu medida"
+    },
+    "services": [
+      {
+        "en": "Book a free 1:1 session",
+        "es": "Agenda una sesión 1:1 gratuita"
+      },
+      {
+        "en": "We define your specific needs",
+        "es": "Definimos tus necesidades específicas"
+      },
+      {
+        "en": "We create a personalized plan",
+        "es": "Creamos un plan personalizado"
+      },
+      {
+        "en": "Total flexibility in services",
+        "es": "Flexibilidad total en servicios"
+      }
+    ],
+    "cta": {
+      "en": "Book Session",
+      "es": "Agendar Sesión"
+    }
+  }
+]

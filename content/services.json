@@ -1,0 +1,82 @@
+[
+  {
+    "title": {
+      "en": "Property Listing",
+      "es": "Publicación de la Propiedad"
+    },
+    "description": {
+      "en": "Your property will be listed on the right platforms to get the most bookings.",
+      "es": "Tu alojamiento estará publicado en las aplicaciones adecuadas para obtener la mayor cantidad de reservas."
+    }
+  },
+  {
+    "title": {
+      "en": "Calendar Management",
+      "es": "Administración de Calendarios"
+    },
+    "description": {
+      "en": "Your property calendar will always be updated and synchronized.",
+      "es": "El calendario de tu alojamiento estará siempre actualizado y sincronizado."
+    }
+  },
+  {
+    "title": {
+      "en": "Decoration Consulting",
+      "es": "Asesoría de Decoración"
+    },
+    "description": {
+      "en": "We visit your property and provide a personalized assessment to improve decoration and basic elements.",
+      "es": "Vamos a tu alojamiento y hacemos un diagnóstico personalizado para mejorar la decoración y elementos básicos."
+    }
+  },
+  {
+    "title": {
+      "en": "Property Marketing",
+      "es": "Publicidad del Alojamiento"
+    },
+    "description": {
+      "en": "Your property will receive additional advertising on social media and our website for greater visibility.",
+      "es": "Tu alojamiento recibirá publicidad adicional en redes sociales y en nuestra página web para mayor visibilidad."
+    }
+  },
+  {
+    "title": {
+      "en": "Guest Communication",
+      "es": "Comunicación con Huéspedes"
+    },
+    "description": {
+      "en": "Daily response to guest inquiries through the platform.",
+      "es": "Respuesta de consultas de huéspedes diariamente por medio de la plataforma."
+    }
+  },
+  {
+    "title": {
+      "en": "Market Research",
+      "es": "Estudio de Mercado"
+    },
+    "description": {
+      "en": "Market review by area to determine the best possible price for your property.",
+      "es": "Revisión del mercado según la zona para definir el mejor precio posible del alojamiento."
+    }
+  },
+  {
+    "title": {
+      "en": "Professional Photography",
+      "es": "Fotografías Profesionales"
+    },
+    "description": {
+      "en": "Professional photos of your property for better presentation and marketing.",
+      "es": "Fotografías profesionales del alojamiento para una mejor presentación y publicidad."
+    }
+  },
+  {
+    "title": {
+      "en": "Housekeeping",
+      "es": "Housekeeping"
+    },
+    "description": {
+      "en": "Cleaning staff with high quality standards and customer service.",
+      "es": "Personal de limpieza con altos estándares de calidad y servicio al cliente."
+    }
+  }
+]

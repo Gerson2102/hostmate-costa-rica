@@ -1,0 +1,27 @@
+{
+  "id": "become-nosara-luxury",
+  "name": {
+    "en": "Luxury Condo at Become Nosara",
+    "es": "Condominio de Lujo en Become Nosara"
+  },
+  "description": {
+    "en": "Modern 2-bedroom luxury condo in an exclusive community spanning 13,600m². Features spacious open-concept design with high ceilings, elegant stone countertops, rainfall showers, and private outdoor spaces. Enjoy resort-style amenities including pool, yoga spaces, fitness zones, and 24/7 security in a gated community.",
+    "es": "Moderno condominio de lujo de 2 habitaciones en una comunidad exclusiva de 13,600m². Cuenta con diseño abierto y espacioso con techos altos, elegantes encimeras de piedra, duchas de lluvia y espacios exteriores privados. Disfruta de amenidades tipo resort incluyendo piscina, espacios de yoga, zonas de fitness y seguridad 24/7 en una comunidad cerrada."
+  },
+  "accommodationType": "condo",
+  "location": {
+    "en": "La Esperanza, Nosara, Guanacaste",
+    "es": "La Esperanza, Nosara, Guanacaste"
+  },
+  "monthlyPrice": "$3,000",
+  "images": [
+    "/images/properties/become-nosara-1.webp"
+  ],
+  "externalUrl": "https://bluewaterpropertiesofcostarica.com/costa-rica-real-estate/property/luxury-condos-become-nosara/",
+  "externalPlatform": "other",
+  "features": {
+    "bedrooms": 2,
+    "bathrooms": 2
+  },
+  "order": 2
+}

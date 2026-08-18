@@ -1,0 +1,43 @@
+{
+  "id": "casa-mafuaye",
+  "name": {
+    "en": "Casa Mafuáye",
+    "es": "Casa Mafuáye"
+  },
+  "description": {
+    "en": "An oasis of tranquility! This beautiful casa is equipped with everything needed for an unforgettable experience. Situated in nature, away from main road noise, and just minutes from the area's primary beaches. Enjoy 200 MB high-speed WiFi and a fully equipped kitchen in this peaceful retreat.",
+    "es": "Un oasis de tranquilidad! Esta hermosa casa está equipada con todo lo necesario para una experiencia inolvidable. Situada en la naturaleza, alejada del ruido de la carretera principal, y a solo minutos de las principales playas de la zona. Disfruta de WiFi de alta velocidad de 200 MB y una cocina totalmente equipada en este refugio tranquilo."
+  },
+  "accommodationType": "entire_home",
+  "location": {
+    "en": "Nosara, Guanacaste",
+    "es": "Nosara, Guanacaste"
+  },
+  "monthlyPrice": "$2,300",
+  "priceNotes": {
+    "en": "+ electricity",
+    "es": "+ electricidad"
+  },
+  "images": [
+    "/images/properties/casa-mafuaye-piscina.webp",
+    "/images/properties/casa-mafuaye-1.webp",
+    "/images/properties/casa-mafuaye-2.webp",
+    "/images/properties/casa-mafuaye-3.webp",
+    "/images/properties/casa-mafuaye-4.webp",
+    "/images/properties/casa-mafuaye-5.webp",
+    "/images/properties/casa-mafuaye-6.webp",
+    "/images/properties/casa-mafuaye-7.webp",
+    "/images/properties/casa-mafuaye-8.webp"
+  ],
+  "externalUrl": "https://www.airbnb.es/rooms/778490681170620001",
+  "externalPlatform": "airbnb",
+  "features": {
+    "guests": 6,
+    "bedrooms": 3,
+    "beds": 3,
+    "bathrooms": 2
+  },
+  "rating": 4.96,
+  "reviewCount": 25,
+  "order": 1
+}
