@@ -17,7 +17,7 @@ export interface Property {
     en: string;
     es: string;
   };
-  monthlyPrice: string;
+  monthlyPrice?: string;
   priceNotes?: {
     en: string;
     es: string;
@@ -156,5 +156,44 @@ export const properties: Property[] = [
     },
     rating: 4.62,
     reviewCount: 13,
+  },
+  {
+    id: 'villa-toscana',
+    name: {
+      en: 'Villa Toscana with Private Pool',
+      es: 'Villa Toscana con Piscina Privada',
+    },
+    description: {
+      en: 'A welcoming vacation home with a private pool, set on a fully enclosed 4,000m² property. Generous outdoor areas and a quiet, secure setting make it ideal for families and groups looking for privacy and a connection with nature. Self check-in via lockbox, pets are welcome, and it is roughly 30 minutes from Tamarindo — an excellent base for exploring the beaches of Guanacaste.',
+      es: 'Una acogedora casa vacacional con piscina privada, ubicada en una propiedad completamente cerrada de 4.000m². Sus amplias áreas exteriores y su ambiente tranquilo y seguro la hacen ideal para familias y grupos que buscan privacidad y conexión con la naturaleza. Llegada autónoma con caja de seguridad, se admiten mascotas, y está a unos 30 minutos de Tamarindo — un excelente punto de partida para explorar las playas de Guanacaste.',
+    },
+    accommodationType: 'entire_home',
+    location: {
+      en: 'Santa Cruz, Guanacaste',
+      es: 'Santa Cruz, Guanacaste',
+    },
+    images: [
+      '/images/properties/villa-toscana-1.webp',
+      '/images/properties/villa-toscana-2.webp',
+      '/images/properties/villa-toscana-3.webp',
+      '/images/properties/villa-toscana-4.webp',
+      '/images/properties/villa-toscana-5.webp',
+      '/images/properties/villa-toscana-6.webp',
+      '/images/properties/villa-toscana-7.webp',
+      '/images/properties/villa-toscana-8.webp',
+      '/images/properties/villa-toscana-9.webp',
+      '/images/properties/villa-toscana-10.webp',
+      '/images/properties/villa-toscana-11.webp',
+    ],
+    externalUrl: 'https://www.airbnb.com/rooms/1511310150280023904',
+    externalPlatform: 'airbnb',
+    features: {
+      guests: 7,
+      bedrooms: 2,
+      beds: 4,
+      bathrooms: 2,
+    },
+    rating: 4.75,
+    reviewCount: 8,
   },
 ];
