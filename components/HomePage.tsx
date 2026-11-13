@@ -1,6 +1,8 @@
 import dynamic from 'next/dynamic';
 import { Navigation } from '@/components/Navigation';
 import { Hero } from '@/components/Hero';
+import { LanguageProvider } from '@/lib/LanguageContext';
+import { translations, type Language } from '@/lib/translations';
 
 // Dynamically import below-the-fold sections with loading states
 // These components won't be included in the initial JS bundle
@@ -64,49 +66,51 @@ function SectionSkeleton({ id, minHeight = '100vh' }: { id: string; minHeight?: 
   );
 }
 
-export function HomePage() {
+export function HomePage({ language }: { language: Language }) {
   return (
-    <div className="relative min-h-screen">
-      {/* Skip Link for keyboard accessibility (WCAG 2.4.1) */}
-      <a href="#main" className="skip-link">
-        Skip to main content
-      </a>
+    <LanguageProvider language={language}>
+      <div className="relative min-h-svh">
+        {/* Skip Link for keyboard accessibility (WCAG 2.4.1) */}
+        <a href="#main" className="skip-link">
+          {translations[language].a11y.skipToContent}
+        </a>
 
-      {/* Header with Navigation */}
-      <header>
-        <Navigation />
-      </header>
+        {/* Header with Navigation */}
+        <header>
+          <Navigation />
+        </header>
 
-      {/* Main Content */}
-      <main id="main">
-        {/* Hero Section - 100vh - Critical path, loads immediately */}
-        <Hero />
+        {/* Main Content */}
+        <main id="main">
+          {/* Hero Section - 100vh - Critical path, loads immediately */}
+          <Hero />
 
-        {/* Below-the-fold sections - Dynamically imported */}
-        {/* About Section */}
-        <About />
+          {/* Below-the-fold sections - Dynamically imported */}
+          {/* About Section */}
+          <About />
 
-        {/* Team Section */}
-        <TeamSection />
+          {/* Team Section */}
+          <TeamSection />
 
-        {/* Services Section */}
-        <Services />
+          {/* Services Section */}
+          <Services />
 
-        {/* Properties Section */}
-        <Properties />
+          {/* Properties Section */}
+          <Properties />
 
-        {/* Testimonials Section */}
-        <Testimonials />
+          {/* Testimonials Section */}
+          <Testimonials />
 
-        {/* Booking/Calendly Section */}
-        <Booking />
+          {/* Booking/Calendly Section */}
+          <Booking />
 
-        {/* Work With Us Section */}
-        <WorkWithUs />
-      </main>
+          {/* Work With Us Section */}
+          <WorkWithUs />
+        </main>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+        {/* Footer */}
+        <Footer />
+      </div>
+    </LanguageProvider>
   );
 }

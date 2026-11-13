@@ -1,70 +1,31 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useEffect, ReactNode } from 'react';
 import { translations, Language, Translations } from './translations';
 
 interface LanguageContextType {
   language: Language;
-  setLanguage: (lang: Language) => void;
   t: Translations;
-  isHydrated: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'hostmate-language';
-
+// The route decides the language: / is English, /es/ is Spanish.
+// LanguageSwitcher navigates between them, so nothing is stored per visitor.
 export function LanguageProvider({
   children,
-  initialLanguage = 'en',
+  language,
 }: {
   children: ReactNode;
-  initialLanguage?: Language;
+  language: Language;
 }) {
-  const [language, setLanguageState] = useState<Language>(initialLanguage);
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  // Load language from localStorage on mount
+  // Client-side navigation between / and /es/ skips the inline lang script in layout.tsx
   useEffect(() => {
-    try {
-      const savedLanguage = localStorage.getItem(STORAGE_KEY) as Language | null;
-      if (savedLanguage === 'en' || savedLanguage === 'es') {
-        setLanguageState(savedLanguage);
-      }
-    } catch {
-      // localStorage unavailable (private browsing, iframe, etc.)
-    }
-    setIsHydrated(true);
-  }, []);
-
-  // Save language to localStorage when it changes
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    try {
-      localStorage.setItem(STORAGE_KEY, lang);
-    } catch {
-      // Silently fail -- language still works in-memory
-    }
-    // Update HTML lang attribute
-    document.documentElement.lang = lang;
-  };
-
-  // Update HTML lang attribute on initial load
-  useEffect(() => {
-    if (isHydrated) {
-      document.documentElement.lang = language;
-    }
-  }, [language, isHydrated]);
-
-  const value: LanguageContextType = {
-    language,
-    setLanguage,
-    t: translations[language],
-    isHydrated,
-  };
+    document.documentElement.lang = language;
+  }, [language]);
 
   return (
-    <LanguageContext.Provider value={value}>
+    <LanguageContext.Provider value={{ language, t: translations[language] }}>
       {children}
     </LanguageContext.Provider>
   );

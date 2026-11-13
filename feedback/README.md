@@ -158,10 +158,37 @@ You have a copy of the source in `Code.gs` in this folder. To restore:
 4. Copy the new `/exec` URL into `.env.local` and rebuild the site.
 
 **Q: Spam protection?**
-The form already includes a honeypot field and a 3-second minimum
-submission delay (see `components/Testimonials.tsx`). The Apps Script
-also trims fields to safe lengths. If spam becomes a real problem, add
-reCAPTCHA on the form, not on the script.
+The form has a honeypot field and a 3-second minimum submission delay
+(see `components/Testimonials.tsx`), but those only run in the browser:
+anyone can POST straight to the `/exec` URL and skip them. The checks
+that matter must live in the Apps Script `doPost`. The script source
+(`Code.gs`) is not in this repo, so confirm it does all of these:
+
+```js
+// In doPost(e), before appendRow. json() = your existing JSON response helper.
+const data = JSON.parse(e.postData.contents);
+const clean = (v, max) => {
+  const s = String(v || '').trim().slice(0, max);
+  // A cell starting with = + - @ is run as a formula when the Sheet opens
+  return /^[=+\-@]/.test(s) ? "'" + s : s;
+};
+const name = clean(data.name, 100);
+const country = clean(data.country, 100);
+const review = clean(data.review, 300);
+const email = clean(data.email, 254);
+if (name.length < 2 || country.length < 2 || review.length < 10) {
+  return json({ success: false });
+}
+// Site-wide cap: at most 20 submissions per hour
+const cache = CacheService.getScriptCache();
+const count = Number(cache.get('submissions') || 0);
+if (count >= 20) return json({ success: false });
+cache.put('submissions', String(count + 1), 3600);
+```
+
+The `Approved = FALSE` default means spam never reaches the site, but the
+formula guard protects whoever opens the Sheet. If spam becomes a real
+problem, add reCAPTCHA on the form and verify its token in `doPost`.
 
 ---
 

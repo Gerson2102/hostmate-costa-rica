@@ -25,6 +25,7 @@ import {
 
 // Image carousel component for each property with lazy loading
 function ImageCarousel({ images, propertyName, location }: { images: string[]; propertyName: string; location: string }) {
+  const { t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -48,7 +49,7 @@ function ImageCarousel({ images, propertyName, location }: { images: string[]; p
         <motion.img
           key={currentIndex}
           src={displayImages[currentIndex]}
-          alt={`${propertyName} - vacation rental in ${location} (${currentIndex + 1} of ${displayImages.length})`}
+          alt={`${propertyName} - ${t.a11y.vacationRentalIn} ${location} (${currentIndex + 1} ${t.a11y.of} ${displayImages.length})`}
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -61,7 +62,6 @@ function ImageCarousel({ images, propertyName, location }: { images: string[]; p
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           fetchPriority="low"
           onLoad={() => setIsLoaded(true)}
-          suppressHydrationWarning
         />
       </AnimatePresence>
 
@@ -70,17 +70,15 @@ function ImageCarousel({ images, propertyName, location }: { images: string[]; p
         <>
           <button
             onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-[background-color,opacity] opacity-70 sm:opacity-0 group-hover:opacity-100 cursor-pointer"
-            aria-label={`Previous image of ${propertyName}`}
-            suppressHydrationWarning
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-[background-color,opacity] opacity-70 sm:opacity-0 group-hover:opacity-100 focus-visible:opacity-100 cursor-pointer"
+            aria-label={`${t.a11y.previousImage} ${propertyName}`}
           >
             <ChevronLeft className="w-5 h-5 text-gray-700" aria-hidden="true" />
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-[background-color,opacity] opacity-70 sm:opacity-0 group-hover:opacity-100 cursor-pointer"
-            aria-label={`Next image of ${propertyName}`}
-            suppressHydrationWarning
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md transition-[background-color,opacity] opacity-70 sm:opacity-0 group-hover:opacity-100 focus-visible:opacity-100 cursor-pointer"
+            aria-label={`${t.a11y.nextImage} ${propertyName}`}
           >
             <ChevronRight className="w-5 h-5 text-gray-700" aria-hidden="true" />
           </button>
@@ -91,19 +89,16 @@ function ImageCarousel({ images, propertyName, location }: { images: string[]; p
       {displayImages.length > 1 && (
         <div
           className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5"
-          role="tablist"
-          aria-label={`Image gallery for ${propertyName}`}
-          suppressHydrationWarning
+          role="group"
+          aria-label={propertyName}
         >
           {displayImages.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              role="tab"
-              aria-selected={index === currentIndex}
-              className={`p-1.5 cursor-pointer`}
-              aria-label={`View image ${index + 1} of ${displayImages.length} for ${propertyName}`}
-              suppressHydrationWarning
+              aria-current={index === currentIndex ? 'true' : undefined}
+              className="p-1.5 cursor-pointer"
+              aria-label={`${t.a11y.viewImage} ${index + 1} ${t.a11y.of} ${displayImages.length}`}
             >
               <span className={`block rounded-full transition-[background-color,width,height] ${
                 index === currentIndex ? 'bg-white w-4 h-2' : 'bg-white/60 hover:bg-white/80 w-2 h-2'
@@ -133,7 +128,7 @@ function getAccommodationIcon(type: AccommodationType) {
 }
 
 // Property card component
-const PropertyCard = memo(function PropertyCard({ property, index }: { property: Property; index: number }) {
+const PropertyCard = memo(function PropertyCard({ property }: { property: Property }) {
   const { language, t } = useLanguage();
 
   const AccommodationIcon = getAccommodationIcon(property.accommodationType);
@@ -141,13 +136,7 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
     accommodationTypeLabels[property.accommodationType][language];
 
   return (
-    <motion.div
-      className="group bg-white rounded-2xl shadow-lg shadow-black/5 border border-black/5 overflow-hidden hover:shadow-xl hover:shadow-black/10 transition-shadow duration-300"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-    >
+    <div className="group bg-white rounded-2xl shadow-lg shadow-black/5 border border-black/5 overflow-hidden hover:shadow-xl hover:shadow-black/10 transition-shadow duration-300">
       {/* Image Carousel */}
       <ImageCarousel
         images={property.images}
@@ -159,7 +148,7 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
       <div className="p-6">
         {/* Accommodation Type Badge */}
         <div className="flex items-center gap-2 mb-3">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium" suppressHydrationWarning>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary-dark text-sm font-medium">
             <AccommodationIcon className="w-3.5 h-3.5" aria-hidden="true" />
             {accommodationLabel}
           </span>
@@ -168,7 +157,7 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" aria-hidden="true" />
               {property.rating}
               {property.reviewCount && (
-                <span className="text-xs" suppressHydrationWarning>
+                <span>
                   ({property.reviewCount} {t.properties.reviews})
                 </span>
               )}
@@ -177,18 +166,18 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
         </div>
 
         {/* Property Name */}
-        <h3 className="text-xl font-bold text-foreground mb-2" suppressHydrationWarning>
+        <h3 className="text-xl font-bold text-foreground mb-2">
           {property.name[language]}
         </h3>
 
         {/* Location */}
         <div className="flex items-center gap-2 text-muted mb-4">
           <MapPin className="w-4 h-4 text-primary" aria-hidden="true" />
-          <span className="text-sm" suppressHydrationWarning>{property.location[language]}</span>
+          <span className="text-sm">{property.location[language]}</span>
         </div>
 
         {/* Description */}
-        <p className="text-muted text-sm leading-relaxed mb-4 line-clamp-3" suppressHydrationWarning>
+        <p className="text-muted leading-relaxed mb-4 line-clamp-3">
           {property.description[language]}
         </p>
 
@@ -198,7 +187,7 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
             {property.features.bedrooms && (
               <div className="flex items-center gap-1.5 text-sm text-muted">
                 <Bed className="w-4 h-4" aria-hidden="true" />
-                <span suppressHydrationWarning>
+                <span>
                   {property.features.bedrooms} {t.properties.bedrooms}
                 </span>
               </div>
@@ -206,7 +195,7 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
             {property.features.bathrooms && (
               <div className="flex items-center gap-1.5 text-sm text-muted">
                 <Bath className="w-4 h-4" aria-hidden="true" />
-                <span suppressHydrationWarning>
+                <span>
                   {property.features.bathrooms} {t.properties.bathrooms}
                 </span>
               </div>
@@ -214,7 +203,7 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
             {property.features.guests && (
               <div className="flex items-center gap-1.5 text-sm text-muted">
                 <Users className="w-4 h-4" aria-hidden="true" />
-                <span suppressHydrationWarning>
+                <span>
                   {property.features.guests} {t.properties.guests}
                 </span>
               </div>
@@ -228,8 +217,7 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
             href={property.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-primary-dark hover:bg-primary text-white px-4 py-3 rounded-full text-sm font-medium transition-[background-color,box-shadow] hover:shadow-glow-primary whitespace-nowrap"
-            suppressHydrationWarning
+            className="inline-flex items-center gap-2 bg-primary-dark hover:bg-primary text-white px-4 py-3 rounded-full text-sm font-medium transition-colors whitespace-nowrap"
           >
             {property.externalPlatform === 'airbnb'
               ? t.properties.viewOnAirbnb
@@ -238,7 +226,7 @@ const PropertyCard = memo(function PropertyCard({ property, index }: { property:
           </a>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 });
 
@@ -260,7 +248,6 @@ function FilterButton({
           ? 'bg-primary-dark text-white shadow-md'
           : 'bg-white text-muted hover:bg-gray-50 border border-black/10'
       }`}
-      suppressHydrationWarning
     >
       {label}
     </button>
@@ -321,56 +308,21 @@ export function Properties() {
   return (
     <section
       id="propiedades"
-      className="py-24 lg:py-32 bg-background-elevated relative overflow-hidden"
+      className="py-24 lg:py-32 bg-background-elevated relative overflow-clip"
     >
-      {/* Background */}
-      <div className="absolute inset-0">
-        <div className="hidden lg:block absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]" />
-        <div className="hidden lg:block absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[150px]" />
-      </div>
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <motion.span
-            className="text-primary font-medium text-sm uppercase tracking-[0.2em]"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            suppressHydrationWarning
-          >
-            {t.properties.overline}
-          </motion.span>
-          <motion.h2
-            className="text-4xl lg:text-5xl font-bold mt-2 text-foreground text-pretty"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            suppressHydrationWarning
-          >
+          <h2 className="reveal text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground text-pretty">
             {t.properties.headline}
-          </motion.h2>
-          <motion.p
-            className="text-muted mt-4 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            suppressHydrationWarning
-          >
+          </h2>
+          <p className="reveal text-muted text-lg mt-4 max-w-2xl mx-auto">
             {t.properties.subtitle}
-          </motion.p>
+          </p>
         </div>
 
         {/* Filters */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-3 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
+        <div className="reveal flex flex-wrap justify-center gap-3 mb-12">
           <FilterButton
             label={t.properties.filterAll}
             isActive={activeFilter === 'all'}
@@ -404,7 +356,7 @@ export function Properties() {
               onClick={() => setActiveFilter('private_room')}
             />
           )}
-        </motion.div>
+        </div>
 
         {/* Properties: horizontal scroll on mobile, grid on md+ */}
         <div
@@ -415,9 +367,9 @@ export function Properties() {
           <div className="flex gap-5 pb-4" style={{ width: 'max-content' }}>
             <AnimatePresence mode="popLayout">
               {filteredProperties.length > 0 ? (
-                filteredProperties.map((property, index) => (
+                filteredProperties.map((property) => (
                   <div key={property.id} className="w-[85vw] max-w-[340px] flex-shrink-0 snap-center">
-                    <PropertyCard property={property} index={index} />
+                    <PropertyCard property={property} />
                   </div>
                 ))
               ) : (
@@ -427,7 +379,7 @@ export function Properties() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <p className="text-muted" suppressHydrationWarning>{t.properties.noProperties}</p>
+                  <p className="text-muted">{t.properties.noProperties}</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -436,18 +388,17 @@ export function Properties() {
 
         {/* Dot indicators (mobile only) */}
         {filteredProperties.length > 1 && (
-          <div className="md:hidden flex justify-center gap-1.5 mt-4" role="tablist" aria-label="Property navigation">
+          <div className="md:hidden flex justify-center gap-1.5 mt-4" role="group" aria-label={t.a11y.propertyNavigation}>
             {filteredProperties.map((_, index) => (
               <button
                 key={index}
                 onClick={() => scrollToCard(index)}
-                role="tab"
-                aria-selected={index === activePropertyIndex}
+                aria-current={index === activePropertyIndex ? 'true' : undefined}
                 className="p-1.5 cursor-pointer"
-                aria-label={`View property ${index + 1}`}
+                aria-label={`${t.a11y.viewProperty} ${index + 1}`}
               >
                 <span
-                  className={`block rounded-full transition-all duration-300 ${
+                  className={`block rounded-full transition-[background-color,width] duration-300 ${
                     index === activePropertyIndex
                       ? 'bg-primary w-5 h-2'
                       : 'bg-black/15 hover:bg-black/25 w-2 h-2'
@@ -461,8 +412,8 @@ export function Properties() {
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
             {filteredProperties.length > 0 ? (
-              filteredProperties.map((property, index) => (
-                <PropertyCard key={property.id} property={property} index={index} />
+              filteredProperties.map((property) => (
+                <PropertyCard key={property.id} property={property} />
               ))
             ) : (
               <motion.div
@@ -471,7 +422,7 @@ export function Properties() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <p className="text-muted" suppressHydrationWarning>{t.properties.noProperties}</p>
+                <p className="text-muted">{t.properties.noProperties}</p>
               </motion.div>
             )}
           </AnimatePresence>

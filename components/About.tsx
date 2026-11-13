@@ -21,169 +21,112 @@ export function About() {
   const y = useTransform(
     scrollYProgress,
     [0, 1],
-    isMobile === false ? [50, -50] : [0, 0] // Reduced range for better performance
+    isMobile === false ? [50, -50] : [0, 0]
   );
 
+  // Colors pass WCAG contrast on the light stat tiles (large text)
   const stats = [
     { icon: Users, number: '98%', label: t.about.stats.satisfaction, color: '#2D5BFF' },
-    { icon: Clock, number: '24/7', label: t.about.stats.support, color: '#10B981' },
+    { icon: Clock, number: '24/7', label: t.about.stats.support, color: '#047857' },
   ];
 
   return (
     <section
       id="nosotros"
       ref={containerRef}
-      className="py-24 lg:py-32 bg-background relative overflow-hidden"
+      className="py-24 lg:py-32 bg-background relative overflow-clip"
     >
-      {/* Background Elements */}
-      <div className="hidden lg:block absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2" />
-      <div className="hidden lg:block absolute top-1/2 right-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[150px] -translate-y-1/2" />
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Two Column Layout */}
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-24 items-center">
           {/* Left Column - Content */}
           <div>
-            <motion.span
-              className="inline-block text-primary font-medium text-sm uppercase tracking-[0.2em] mb-4"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              suppressHydrationWarning
-            >
-              {t.about.overline}
-            </motion.span>
-
-            <motion.h2
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-8 text-pretty"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              suppressHydrationWarning
-            >
+            <h2 className="reveal text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-8 text-pretty">
               {t.about.headline1}{' '}
               <br />
-              <span className="text-primary" suppressHydrationWarning>{t.about.headline2}</span>
-            </motion.h2>
+              <span className="text-primary">{t.about.headline2}</span>
+            </h2>
 
-            <motion.div
-              className="space-y-6 mb-10"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              suppressHydrationWarning
-            >
-              <p className="text-muted text-lg leading-relaxed" suppressHydrationWarning>
+            <div className="reveal space-y-6 mb-10">
+              <p className="text-muted text-lg leading-relaxed">
                 {t.about.paragraph1}{' '}
-                <span className="text-foreground font-medium" suppressHydrationWarning>
+                <span className="text-foreground font-medium">
                   {t.about.paragraph1Highlight}
                 </span>{' '}
                 {t.about.paragraph1End}
               </p>
-              <p className="text-muted text-lg leading-relaxed" suppressHydrationWarning>
+              <p className="text-muted text-lg leading-relaxed">
                 {t.about.paragraph2}{' '}
-                <span className="text-foreground font-medium" suppressHydrationWarning>{t.about.paragraph2Highlight}</span>{' '}
+                <span className="text-foreground font-medium">{t.about.paragraph2Highlight}</span>{' '}
                 {t.about.paragraph2End}
               </p>
-            </motion.div>
+            </div>
 
-            <motion.a
+            <a
               href="#servicios"
-              className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 hover:text-primary-dark transition-[color,gap] group py-3"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              suppressHydrationWarning
+              className="reveal inline-flex items-center gap-2 text-primary-dark font-semibold hover:gap-3 transition-[gap] group py-3"
             >
               {t.about.link}
               <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true" />
-            </motion.a>
+            </a>
           </div>
 
           {/* Right Column - Stats */}
           <motion.div className="relative" style={{ y }}>
-            {/* Main Stats Container */}
-            <div className="relative">
-              {/* Decorative Border */}
-              <div className="absolute -inset-4 border border-black/5 rounded-[2.5rem]" />
-              <div className="absolute -inset-8 border border-black/[0.03] rounded-[3rem] hidden lg:block" />
-
-              {/* Stats Grid */}
-              <div className="relative bg-white rounded-3xl p-8 lg:p-10 shadow-xl shadow-black/5 border border-black/5">
-                <div className="grid grid-cols-2 gap-6 lg:gap-8">
-                  {stats.map((stat, index) => (
-                    <motion.div
-                      key={stat.label}
-                      className="relative group"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 + 0.2 }}
+            <div className="reveal relative bg-white rounded-3xl p-8 lg:p-10 shadow-xl shadow-black/5 border border-black/5">
+              <div className="grid grid-cols-2 gap-6 lg:gap-8">
+                {stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="bg-background-elevated rounded-2xl p-6 border border-black/5"
+                  >
+                    {/* Icon */}
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                      style={{ backgroundColor: `${stat.color}15` }}
                     >
-                      {/* Glow on hover */}
-                      <div
-                        className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"
-                        style={{ backgroundColor: stat.color }}
+                      <stat.icon
+                        className="w-6 h-6"
+                        style={{ color: stat.color }}
+                        aria-hidden="true"
                       />
-
-                      <div className="relative bg-background-elevated rounded-2xl p-6 border border-black/5 group-hover:border-black/10 transition-colors">
-                        {/* Icon */}
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                          style={{ backgroundColor: `${stat.color}15` }}
-                        >
-                          <stat.icon
-                            className="w-6 h-6"
-                            style={{ color: stat.color }}
-                          />
-                        </div>
-
-                        {/* Number */}
-                        <div
-                          className="text-4xl lg:text-5xl font-bold mb-1"
-                          style={{ color: stat.color }}
-                        >
-                          {stat.number}
-                        </div>
-
-                        {/* Label */}
-                        <div className="text-sm text-muted" suppressHydrationWarning>{stat.label}</div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Bottom CTA inside stats box */}
-                <motion.div
-                  className="mt-8 pt-8 border-t border-black/5"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6 }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div suppressHydrationWarning>
-                      <p className="text-foreground font-semibold" suppressHydrationWarning>
-                        {t.about.cta.title}
-                      </p>
-                      <p className="text-sm text-muted" suppressHydrationWarning>
-                        {t.about.cta.subtitle}
-                      </p>
                     </div>
-                    <a
-                      href="https://calendly.com/hostmatecostarica-info/30min"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Book a free consultation on Calendly"
-                      className="w-12 h-12 rounded-full bg-primary flex items-center justify-center hover:bg-primary-glow hover:shadow-glow-primary transition-[background-color,box-shadow]"
+
+                    {/* Number */}
+                    <div
+                      className="text-4xl lg:text-5xl font-bold mb-1"
+                      style={{ color: stat.color }}
                     >
-                      <ArrowUpRight className="w-5 h-5 text-white" aria-hidden="true" />
-                    </a>
+                      {stat.number}
+                    </div>
+
+                    {/* Label */}
+                    <div className="text-sm text-muted">{stat.label}</div>
                   </div>
-                </motion.div>
+                ))}
+              </div>
+
+              {/* Bottom CTA inside stats box */}
+              <div className="mt-8 pt-8 border-t border-black/5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-foreground font-semibold">
+                      {t.about.cta.title}
+                    </p>
+                    <p className="text-sm text-muted">
+                      {t.about.cta.subtitle}
+                    </p>
+                  </div>
+                  <a
+                    href="https://calendly.com/hostmatecostarica-info/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t.a11y.bookOnCalendly}
+                    className="w-12 h-12 rounded-full bg-primary-dark flex items-center justify-center hover:bg-primary transition-colors"
+                  >
+                    <ArrowUpRight className="w-5 h-5 text-white" aria-hidden="true" />
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>

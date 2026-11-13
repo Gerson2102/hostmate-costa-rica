@@ -15,6 +15,8 @@ import {
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
+const FIELDS = ['name', 'country', 'email', 'review'] as const;
+
 interface FieldErrors {
   name?: string;
   country?: string;
@@ -70,6 +72,8 @@ export function Testimonials() {
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
+      const firstInvalid = FIELDS.find((field) => errors[field]);
+      requestAnimationFrame(() => document.getElementById(`testimonial-${firstInvalid}`)?.focus());
       return;
     }
 
@@ -92,10 +96,12 @@ export function Testimonials() {
     }
   };
 
-  // --- Animation presets ---
-  const noMotion = { opacity: 1, y: 0 };
-  const fadeUp = { opacity: 0, y: 20 };
-  const visible = { opacity: 1, y: 0 };
+  // aria-invalid always set (false until an error shows); the error is linked only while shown
+  const errorProps = (field: keyof FieldErrors, describedBy?: string) => ({
+    'aria-invalid': !!fieldErrors[field],
+    'aria-describedby':
+      [describedBy, fieldErrors[field] && `testimonial-${field}-error`].filter(Boolean).join(' ') || undefined,
+  });
 
   // --- Mobile carousel navigation ---
   const goToPrevCard = useCallback(() => {
@@ -122,27 +128,15 @@ export function Testimonials() {
   return (
     <section id="testimonios" className="py-24 lg:py-32 bg-background relative overflow-clip">
       {/* ===== Part A: Section Header ===== */}
-      <motion.div
-        className="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-16"
-        initial={shouldReduceAnimations ? noMotion : fadeUp}
-        whileInView={visible}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={shouldReduceAnimations ? { duration: 0 } : { duration: 0.6, ease: 'easeOut' }}
-      >
-        <span
-          className="inline-block text-primary font-semibold text-sm uppercase tracking-[0.2em] mb-4"
-          suppressHydrationWarning
-        >
-          {t.testimonials.overline}
-        </span>
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] text-foreground text-pretty" suppressHydrationWarning>
+      <div className="reveal max-w-7xl mx-auto px-4 sm:px-6 text-center mb-16">
+        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] text-foreground text-pretty">
           {t.testimonials.headline}{' '}
-          <span className="text-primary" suppressHydrationWarning>{t.testimonials.headlineHighlight}</span>
+          <span className="text-primary">{t.testimonials.headlineHighlight}</span>
         </h2>
-        <p className="text-muted text-lg max-w-2xl mx-auto mt-4" suppressHydrationWarning>
+        <p className="text-muted text-lg max-w-2xl mx-auto mt-4">
           {t.testimonials.subtitle}
         </p>
-      </motion.div>
+      </div>
 
       {/* ===== Part B: Reviews — Animated Stacked Cards ===== */}
 
@@ -174,7 +168,7 @@ export function Testimonials() {
       {!isLoading && reviews.length === 0 && (
         <div className="max-w-md mx-auto px-4 sm:px-6 py-12 text-center">
           <Quote className="w-10 h-10 text-primary/15 mx-auto mb-4" />
-          <p className="text-muted text-lg" suppressHydrationWarning>
+          <p className="text-muted text-lg">
             {t.testimonials.noReviews}
           </p>
         </div>
@@ -241,13 +235,12 @@ export function Testimonials() {
 
               {/* Dot indicators */}
               {reviews.length > 1 && (
-                <div className="flex justify-center gap-1.5 mt-4" role="tablist" aria-label="Review navigation">
+                <div className="flex justify-center gap-1.5 mt-4" role="group" aria-label={language === 'en' ? 'Review navigation' : 'Navegación de reseñas'}>
                   {reviews.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentCard(index)}
-                      role="tab"
-                      aria-selected={index === currentCard}
+                      aria-current={index === currentCard ? 'true' : undefined}
                       className="p-1 cursor-pointer"
                       aria-label={`${language === 'en' ? 'View review' : 'Ver reseña'} ${index + 1}`}
                     >
@@ -299,21 +292,15 @@ export function Testimonials() {
       )}
 
       {/* ===== Part C: Submission Form ===== */}
-      <motion.div
-        className="max-w-2xl mx-auto mt-16 lg:mt-20 px-4 sm:px-6"
-        initial={shouldReduceAnimations ? noMotion : fadeUp}
-        whileInView={visible}
-        viewport={{ once: true }}
-        transition={shouldReduceAnimations ? { duration: 0 } : { duration: 0.5, delay: 0.1 }}
-      >
-        <h3 className="text-2xl lg:text-3xl font-bold text-foreground text-center" suppressHydrationWarning>
+      <div className="reveal max-w-2xl mx-auto mt-16 lg:mt-20 px-4 sm:px-6">
+        <h3 className="text-2xl lg:text-3xl font-bold text-foreground text-center">
           {t.testimonials.formTitle}
         </h3>
-        <p className="text-muted text-center mt-2 mb-8" suppressHydrationWarning>
+        <p className="text-muted text-center mt-2 mb-8">
           {t.testimonials.formSubtitle}
         </p>
 
-        <div className="bg-background-elevated rounded-2xl p-6 lg:p-8" aria-live="polite">
+        <div className="bg-background-elevated rounded-2xl p-6 lg:p-8">
           <AnimatePresence mode="wait">
             {formState === 'success' ? (
               <motion.div
@@ -324,11 +311,12 @@ export function Testimonials() {
                 className="text-center py-8"
                 role="status"
               >
-                <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                <h4 className="text-xl font-bold text-foreground mb-2" suppressHydrationWarning>
+                <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-4" aria-hidden="true" />
+                {/* Focus lands on the confirmation so screen readers announce it */}
+                <h4 tabIndex={-1} autoFocus className="text-xl font-bold text-foreground mb-2 outline-none">
                   {t.testimonials.successTitle}
                 </h4>
-                <p className="text-muted" suppressHydrationWarning>
+                <p className="text-muted">
                   {t.testimonials.successMessage}
                 </p>
               </motion.div>
@@ -345,7 +333,6 @@ export function Testimonials() {
                   <label
                     htmlFor="testimonial-name"
                     className="block text-sm font-medium text-foreground mb-1.5"
-                    suppressHydrationWarning
                   >
                     {t.testimonials.nameLabel}
                   </label>
@@ -362,9 +349,9 @@ export function Testimonials() {
                     placeholder={t.testimonials.namePlaceholder}
                     className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.name ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
-                    suppressHydrationWarning
+                    {...errorProps('name')}
                   />
-                  {fieldErrors.name && <p className="text-red-500 text-sm mt-1" role="alert">{fieldErrors.name}</p>}
+                  {fieldErrors.name && <p id="testimonial-name-error" className="text-red-700 text-sm mt-1">{fieldErrors.name}</p>}
                 </div>
 
                 {/* Country field */}
@@ -372,7 +359,6 @@ export function Testimonials() {
                   <label
                     htmlFor="testimonial-country"
                     className="block text-sm font-medium text-foreground mb-1.5"
-                    suppressHydrationWarning
                   >
                     {t.testimonials.countryLabel}
                   </label>
@@ -389,9 +375,9 @@ export function Testimonials() {
                     placeholder={t.testimonials.countryPlaceholder}
                     className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.country ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
-                    suppressHydrationWarning
+                    {...errorProps('country')}
                   />
-                  {fieldErrors.country && <p className="text-red-500 text-sm mt-1" role="alert">{fieldErrors.country}</p>}
+                  {fieldErrors.country && <p id="testimonial-country-error" className="text-red-700 text-sm mt-1">{fieldErrors.country}</p>}
                 </div>
 
                 {/* Email field */}
@@ -399,7 +385,6 @@ export function Testimonials() {
                   <label
                     htmlFor="testimonial-email"
                     className="block text-sm font-medium text-foreground mb-1.5"
-                    suppressHydrationWarning
                   >
                     {t.testimonials.emailLabel}
                   </label>
@@ -413,9 +398,9 @@ export function Testimonials() {
                     placeholder={t.testimonials.emailPlaceholder}
                     className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${fieldErrors.email ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
-                    suppressHydrationWarning
+                    {...errorProps('email')}
                   />
-                  {fieldErrors.email && <p className="text-red-500 text-sm mt-1" role="alert">{fieldErrors.email}</p>}
+                  {fieldErrors.email && <p id="testimonial-email-error" className="text-red-700 text-sm mt-1">{fieldErrors.email}</p>}
                 </div>
 
                 {/* Review textarea */}
@@ -423,7 +408,6 @@ export function Testimonials() {
                   <label
                     htmlFor="testimonial-review"
                     className="block text-sm font-medium text-foreground mb-1.5"
-                    suppressHydrationWarning
                   >
                     {t.testimonials.reviewLabel}
                   </label>
@@ -431,7 +415,6 @@ export function Testimonials() {
                     id="testimonial-review"
                     required
                     aria-required="true"
-                    aria-describedby="char-count"
                     minLength={10}
                     maxLength={300}
                     rows={4}
@@ -440,19 +423,18 @@ export function Testimonials() {
                     placeholder={t.testimonials.reviewPlaceholder}
                     className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground placeholder:text-muted/50 focus-visible:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors resize-none ${fieldErrors.review ? 'border-red-400' : 'border-border'}`}
                     disabled={formState === 'submitting'}
-                    suppressHydrationWarning
+                    {...errorProps('review', 'char-count')}
                   />
-                  {fieldErrors.review && <p className="text-red-500 text-sm mt-1" role="alert">{fieldErrors.review}</p>}
+                  {fieldErrors.review && <p id="testimonial-review-error" className="text-red-700 text-sm mt-1">{fieldErrors.review}</p>}
                   <p
                     id="char-count"
                     className={`text-right text-sm mt-1 ${
                       300 - fields.review.length > 50
                         ? 'text-muted'
                         : 300 - fields.review.length > 10
-                          ? 'text-amber-500'
-                          : 'text-red-500'
+                          ? 'text-amber-700'
+                          : 'text-red-700'
                     }`}
-                    suppressHydrationWarning
                   >
                     {300 - fields.review.length} {t.testimonials.charCount}
                   </p>
@@ -477,7 +459,6 @@ export function Testimonials() {
                   className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary-dark text-white font-semibold px-8 py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   whileHover={shouldReduceAnimations ? {} : { scale: 1.02 }}
                   whileTap={shouldReduceAnimations ? {} : { scale: 0.98 }}
-                  suppressHydrationWarning
                 >
                   <Send className="w-4 h-4" />
                   {formState === 'submitting' ? t.testimonials.submitting : t.testimonials.submit}
@@ -485,7 +466,7 @@ export function Testimonials() {
 
                 {/* Server error message */}
                 {formState === 'error' && (
-                  <p className="text-red-500 text-sm mt-3" role="alert" suppressHydrationWarning>
+                  <p className="text-red-700 text-sm mt-3" role="alert">
                     {t.testimonials.errorMessage}
                   </p>
                 )}
@@ -493,7 +474,7 @@ export function Testimonials() {
             )}
           </AnimatePresence>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

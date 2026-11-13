@@ -1,15 +1,21 @@
 'use client';
 
+import Link from 'next/link';
 import { useLanguage } from '@/lib/LanguageContext';
 
+const options = [
+  { lang: 'en', label: 'EN', name: 'English', href: '/' },
+  { lang: 'es', label: 'ES', name: 'Español', href: '/es/' },
+] as const;
+
 export function LanguageSwitcher() {
-  const { language, setLanguage } = useLanguage();
+  const { language, t } = useLanguage();
 
   return (
     <div
       className="relative flex items-center bg-black/[0.04] rounded-full p-0.5"
       role="group"
-      aria-label="Language selection"
+      aria-label={t.a11y.languageSelection}
     >
       {/* Sliding indicator */}
       <div
@@ -19,26 +25,22 @@ export function LanguageSwitcher() {
         aria-hidden="true"
       />
 
-      <button
-        onClick={() => setLanguage('en')}
-        aria-pressed={language === 'en'}
-        aria-label="Switch to English"
-        className={`relative z-10 px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-200 cursor-pointer ${
-          language === 'en' ? 'text-white' : 'text-muted hover:text-foreground'
-        }`}
-      >
-        EN
-      </button>
-      <button
-        onClick={() => setLanguage('es')}
-        aria-pressed={language === 'es'}
-        aria-label="Switch to Spanish"
-        className={`relative z-10 px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-200 cursor-pointer ${
-          language === 'es' ? 'text-white' : 'text-muted hover:text-foreground'
-        }`}
-      >
-        ES
-      </button>
+      {options.map((option) => (
+        <Link
+          key={option.lang}
+          href={option.href}
+          scroll={false}
+          hrefLang={option.lang}
+          lang={option.lang}
+          aria-label={option.name}
+          aria-current={language === option.lang ? 'page' : undefined}
+          className={`relative z-10 px-2.5 py-1 text-sm font-medium rounded-full transition-colors duration-200 ${
+            language === option.lang ? 'text-white' : 'text-muted hover:text-foreground'
+          }`}
+        >
+          {option.label}
+        </Link>
+      ))}
     </div>
   );
 }

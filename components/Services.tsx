@@ -1,7 +1,5 @@
 'use client';
 
-import { useState, useMemo, useCallback, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   Globe,
   Calendar,
@@ -11,22 +9,11 @@ import {
   TrendingUp,
   Camera,
   Sparkles,
-  LucideIcon,
-  ChevronDown,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
-import { useIsMobile } from '@/lib/useIsMobile';
 
-// Mobile-optimized animation variants
-const getMobileOptimizedVariants = (isMobile: boolean | undefined, index: number) => ({
-  initial: isMobile !== false ? { opacity: 0 } : { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  transition: isMobile !== false
-    ? { duration: 0.2 } // Faster on mobile
-    : { delay: index * 0.05, duration: 0.4, ease: 'easeOut' },
-});
-
-const serviceIcons: LucideIcon[] = [
+// Same order as t.services.items
+const serviceIcons = [
   Globe,
   Calendar,
   Palette,
@@ -37,190 +24,46 @@ const serviceIcons: LucideIcon[] = [
   Sparkles,
 ];
 
-const serviceColors = [
-  '#E85D4C',
-  '#2D5BFF',
-  '#10B981',
-  '#F59E0B',
-  '#8B5CF6',
-  '#EC4899',
-  '#06B6D4',
-  '#84CC16',
-];
-
-const ServiceAccordionItem = memo(function ServiceAccordionItem({
-  title,
-  description,
-  icon: Icon,
-  color,
-  index,
-  isExpanded,
-  onToggle,
-  isMobile,
-}: {
-  title: string;
-  description: string;
-  icon: LucideIcon;
-  color: string;
-  index: number;
-  isExpanded: boolean;
-  onToggle: () => void;
-  isMobile: boolean | undefined;
-}) {
-  const variants = useMemo(() => getMobileOptimizedVariants(isMobile, index), [isMobile, index]);
-
-  return (
-    <motion.div
-      initial={variants.initial}
-      whileInView={variants.whileInView}
-      viewport={{ once: true, margin: isMobile !== false ? '0px' : '-100px' }}
-      transition={variants.transition}
-      className="group min-w-0"
-    >
-      <div
-        className={`
-          bg-white rounded-2xl overflow-hidden
-          shadow-sm shadow-black/5 border border-black/5
-          transition-shadow duration-300
-          ${isExpanded ? 'shadow-lg shadow-black/10' : 'hover:shadow-md'}
-        `}
-      >
-        {/* Header - Always visible */}
-        <button
-          onClick={onToggle}
-          className="w-full flex items-center gap-4 p-4 sm:p-5 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
-          aria-expanded={isExpanded}
-          aria-controls={`service-content-${index}`}
-        >
-          {/* Icon */}
-          <div
-            className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
-            style={{ backgroundColor: `${color}15` }}
-          >
-            <Icon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color }} />
-          </div>
-
-          {/* Title and Number */}
-          <div className="flex-grow min-w-0">
-            <div className="flex items-center gap-3">
-              <span
-                className="text-xs font-semibold px-2 py-0.5 rounded-full"
-                style={{ backgroundColor: `${color}15`, color }}
-              >
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-foreground" suppressHydrationWarning>
-                {title}
-              </h3>
-            </div>
-          </div>
-
-          {/* Expand/Collapse Icon */}
-          <motion.div
-            animate={{ rotate: isExpanded ? 180 : 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="flex-shrink-0"
-          >
-            <ChevronDown
-              className="w-5 h-5 text-muted transition-colors group-hover:text-foreground"
-            />
-          </motion.div>
-        </button>
-
-        {/* Content - Expandable */}
-        <AnimatePresence initial={false}>
-          {isExpanded && (
-            <motion.div
-              id={`service-content-${index}`}
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="overflow-hidden"
-            >
-              <div className="px-4 sm:px-5 pb-5 pt-0">
-                <div
-                  className="h-px w-full mb-4"
-                  style={{ backgroundColor: `${color}20` }}
-                />
-                <p className="text-muted leading-relaxed pl-16 sm:pl-[4.5rem]" suppressHydrationWarning>
-                  {description}
-                </p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.div>
-  );
-});
-
 export function Services() {
   const { t } = useLanguage();
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const isMobile = useIsMobile();
-
-  const handleToggle = useCallback((index: number) => {
-    setExpandedIndex((prev) => prev === index ? null : index);
-  }, []);
 
   return (
     <section
       id="servicios"
-      className="py-20 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 bg-background-elevated overflow-hidden"
+      className="py-20 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 bg-background-elevated"
     >
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={isMobile !== false ? { opacity: 0 } : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: isMobile !== false ? 0.3 : 0.6, ease: 'easeOut' }}
-          className="text-center mb-12 sm:mb-16"
-        >
-          <span className="text-primary font-medium text-sm uppercase tracking-[0.2em]" suppressHydrationWarning>
-            {t.services.overline}
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 text-foreground text-pretty" suppressHydrationWarning>
-            {t.services.headline}
-          </h2>
-        </motion.div>
+      <div className="max-w-5xl mx-auto">
+        <h2 className="reveal text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground text-center text-pretty mb-12 sm:mb-16">
+          {t.services.headline}
+        </h2>
 
-        {/* Accordion Grid */}
-        <div className="grid gap-3 sm:gap-4">
-          {t.services.items.map((service, index) => (
-            <ServiceAccordionItem
-              key={index}
-              title={service.title}
-              description={service.description}
-              icon={serviceIcons[index]}
-              color={serviceColors[index]}
-              index={index}
-              isExpanded={expandedIndex === index}
-              onToggle={() => handleToggle(index)}
-              isMobile={isMobile}
-            />
-          ))}
-        </div>
+        <ul className="grid sm:grid-cols-2 gap-x-12 gap-y-10">
+          {t.services.items.map((service, index) => {
+            const Icon = serviceIcons[index];
+            return (
+              <li key={service.title} className="reveal flex gap-4">
+                <Icon className="w-6 h-6 mt-1 flex-shrink-0 text-primary-dark" aria-hidden="true" />
+                <div>
+                  <h3 className="text-lg sm:text-xl font-semibold text-foreground">
+                    {service.title}
+                  </h3>
+                  <p className="mt-2 text-muted leading-relaxed">{service.description}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
 
-        {/* Bottom CTA */}
-        <motion.div
-          initial={isMobile !== false ? { opacity: 0 } : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: isMobile !== false ? 0 : 0.3, duration: isMobile !== false ? 0.3 : 0.6, ease: 'easeOut' }}
-          className="mt-12 sm:mt-16 text-center"
-        >
+        <div className="reveal mt-12 sm:mt-16 text-center">
           <a
             href="https://calendly.com/hostmatecostarica-info/30min"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary-dark text-white font-medium rounded-full hover:bg-primary transition-colors shadow-lg shadow-primary/25"
-            suppressHydrationWarning
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary-dark text-white font-medium rounded-full hover:bg-primary transition-colors"
           >
             {t.about.cta.subtitle}
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
