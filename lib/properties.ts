@@ -185,7 +185,7 @@ export const properties: Property[] = [
       '/images/properties/villa-toscana-10.webp',
       '/images/properties/villa-toscana-11.webp',
     ],
-    externalUrl: 'https://www.airbnb.com/rooms/1511310150280023904',
+    externalUrl: 'https://www.airbnb.com/rooms/1780076146892529253',
     externalPlatform: 'airbnb',
     features: {
       guests: 7,
