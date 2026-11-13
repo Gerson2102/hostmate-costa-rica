@@ -120,12 +120,16 @@ export default function RootLayout({
           }}
         />
 
-        {/* Set correct lang for the Spanish route before hydration
-            (single root layout can't vary the lang attribute per route) */}
+        {/* Before first paint:
+            1. Set lang for the Spanish route (one root layout can't vary it per route).
+            2. Pick the hero entrance (CSS in globals.css): "intro" (doors) on the first home
+               visit of the session, "enter" (hero only) after that. No class = no animation
+               (reduced motion, no JS). Classes are dropped once it ends so client-side
+               language switches don't replay it. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "if(location.pathname.indexOf('/es')===0)document.documentElement.lang='es';",
+              "(function(){var d=document.documentElement,p=location.pathname;if(p.indexOf('/es')===0)d.lang='es';if(!/^\\/(es\\/?)?$/.test(p)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;var seen;try{seen=sessionStorage.getItem('hm-intro');sessionStorage.setItem('hm-intro','1')}catch(e){seen=1}d.classList.add(seen?'enter':'intro');setTimeout(function(){d.classList.remove('intro','enter')},3300)})();",
           }}
         />
       </head>

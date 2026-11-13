@@ -15,9 +15,25 @@ export const translations = {
       contact: 'Contact',
     },
 
+    // Screen reader labels
+    a11y: {
+      skipToContent: 'Skip to main content',
+      scrollToAbout: 'Scroll to About section',
+      openMenu: 'Open menu',
+      closeMenu: 'Close menu',
+      languageSelection: 'Language selection',
+      bookOnCalendly: 'Book a free consultation on Calendly',
+      previousImage: 'Previous image of',
+      nextImage: 'Next image of',
+      viewImage: 'View image',
+      of: 'of',
+      vacationRentalIn: 'vacation rental in',
+      propertyNavigation: 'Property navigation',
+      viewProperty: 'View property',
+    },
+
     // Hero Section
     hero: {
-      overline: 'Consulting & Property Management',
       headline1: 'Your Property,',
       headline2: 'Our Passion',
       subtitle: 'Professional property management for Airbnb, Booking, and more. Maximize your revenue without the hassle.',
@@ -37,7 +53,6 @@ export const translations = {
 
     // About Section
     about: {
-      overline: 'Who We Are',
       headline1: 'Your Trusted',
       headline2: 'Partner',
       paragraph1: 'We are a company dedicated to property management for Airbnb, Booking, and other platforms. Our main goal is to provide real estate investors and independent owners the opportunity to',
@@ -61,7 +76,6 @@ export const translations = {
 
     // Team Section
     team: {
-      overline: 'THE TEAM',
       headline: 'Know the',
       headlineHighlight: 'Team',
       vanessa: {
@@ -80,7 +94,6 @@ export const translations = {
 
     // Services Section
     services: {
-      overline: 'What We Do',
       headline: 'Our Services',
       items: [
         {
@@ -120,7 +133,6 @@ export const translations = {
 
     // Properties Section
     properties: {
-      overline: 'Our Portfolio',
       headline: 'Featured Properties',
       subtitle: 'Discover the beautiful properties we manage across Costa Rica',
       viewListing: 'View Listing',
@@ -143,62 +155,8 @@ export const translations = {
       noProperties: 'No properties found matching your criteria.',
     },
 
-    // Plans Section
-    plans: {
-      overline: 'Plans',
-      headline: 'Choose the Perfect Plan for You',
-      subtitle: 'Choose the plan that best fits your needs and your property.',
-      mostPopular: 'Most Popular',
-      items: [
-        {
-          name: 'HOSTMATE VIRTUAL',
-          description: 'Complete digital management',
-          services: [
-            'Property listing',
-            'Guest communication',
-            'Market research and price updates',
-            'Calendar management',
-            'Property marketing',
-            'Review management',
-            'Monthly booking reports',
-          ],
-          cta: 'Choose Virtual',
-        },
-        {
-          name: 'HOSTMATE HYBRID',
-          description: 'Complete service - Digital + On-site',
-          services: [
-            'Property listing',
-            'Guest communication',
-            'Market research and price updates',
-            'Calendar management',
-            'Property marketing',
-            'Review management',
-            'Monthly booking reports',
-            'Decoration consulting',
-            'Professional photography',
-            'Housekeeping',
-            'Welcome Kit',
-          ],
-          cta: 'Choose Hybrid',
-        },
-        {
-          name: 'HOSTMATE CUSTOM',
-          description: 'Tailored to your needs',
-          services: [
-            'Book a free 1:1 session',
-            'We define your specific needs',
-            'We create a personalized plan',
-            'Total flexibility in services',
-          ],
-          cta: 'Book Session',
-        },
-      ],
-    },
-
     // Testimonials Section
     testimonials: {
-      overline: 'TESTIMONIALS',
       headline: 'What Our',
       headlineHighlight: 'Guests Say',
       subtitle: 'Real experiences from guests who\'ve stayed at properties managed by Hostmate.',
@@ -223,7 +181,6 @@ export const translations = {
 
     // Booking Section
     booking: {
-      overline: 'Get Started Now',
       headline: 'Book Your',
       headlineHighlight: 'Free Consultation',
       subtitle: 'Book a free 1:1 session to define your needs and create a tailored plan. No commitment, just a conversation about how we can help you.',
@@ -239,7 +196,6 @@ export const translations = {
 
     // Work With Us Section
     workWithUs: {
-      overline: 'Join Our Team',
       headline: 'Work With Us',
       subtitle: 'Are you passionate about hospitality and property management? We are looking for talented individuals to join our growing team. Apply today and become part of the Hostmate family.',
       buttonText: 'Be Part of Hostmate',
@@ -280,9 +236,25 @@ export const translations = {
       contact: 'Contacto',
     },
 
+    // Screen reader labels
+    a11y: {
+      skipToContent: 'Saltar al contenido principal',
+      scrollToAbout: 'Ir a la sección Nosotros',
+      openMenu: 'Abrir menú',
+      closeMenu: 'Cerrar menú',
+      languageSelection: 'Selección de idioma',
+      bookOnCalendly: 'Agenda una consulta gratuita en Calendly',
+      previousImage: 'Imagen anterior de',
+      nextImage: 'Imagen siguiente de',
+      viewImage: 'Ver imagen',
+      of: 'de',
+      vacationRentalIn: 'alquiler vacacional en',
+      propertyNavigation: 'Navegación de propiedades',
+      viewProperty: 'Ver propiedad',
+    },
+
     // Hero Section
     hero: {
-      overline: 'Consulting & Property Management',
       headline1: 'Tu Propiedad,',
       headline2: 'Nuestra Pasión',
       subtitle: 'Administración profesional de alojamientos para Airbnb, Booking y más. Maximiza tu rentabilidad sin preocupaciones.',
@@ -302,7 +274,6 @@ export const translations = {
 
     // About Section
     about: {
-      overline: 'Quiénes Somos',
       headline1: 'Tu Socio de',
       headline2: 'Confianza',
       paragraph1: 'Somos una empresa dedicada a la administración de alojamientos para Airbnb, Booking y otras aplicaciones. Nuestro principal objetivo es brindarle a inversionistas inmobiliarios y dueños independientes la oportunidad de',
@@ -326,7 +297,6 @@ export const translations = {
 
     // Team Section
     team: {
-      overline: 'EL EQUIPO',
       headline: 'Conozca a Nuestro',
       headlineHighlight: 'Equipo',
       vanessa: {
@@ -345,7 +315,6 @@ export const translations = {
 
     // Services Section
     services: {
-      overline: 'Lo Que Hacemos',
       headline: 'Nuestros Servicios',
       items: [
         {
@@ -385,7 +354,6 @@ export const translations = {
 
     // Properties Section
     properties: {
-      overline: 'Nuestro Portafolio',
       headline: 'Propiedades Destacadas',
       subtitle: 'Descubre las hermosas propiedades que administramos en Costa Rica',
       viewListing: 'Ver Anuncio',
@@ -408,62 +376,8 @@ export const translations = {
       noProperties: 'No se encontraron propiedades que coincidan con tu búsqueda.',
     },
 
-    // Plans Section
-    plans: {
-      overline: 'Planes',
-      headline: 'Elige el Plan Perfecto para Ti',
-      subtitle: 'Elige el plan que más se ajuste a las necesidades tuyas y de tu alojamiento.',
-      mostPopular: 'Más Popular',
-      items: [
-        {
-          name: 'HOSTMATE VIRTUAL',
-          description: 'Gestión digital completa',
-          services: [
-            'Publicación de la propiedad',
-            'Comunicación con los huéspedes',
-            'Estudio de mercado y actualización de precios',
-            'Administración de calendarios',
-            'Publicidad del alojamiento',
-            'Gestión de reviews',
-            'Reportes de reservas mensuales',
-          ],
-          cta: 'Elegir Virtual',
-        },
-        {
-          name: 'HOSTMATE HÍBRIDO',
-          description: 'Servicio completo - Digital + Presencial',
-          services: [
-            'Publicación de la propiedad',
-            'Comunicación con los huéspedes',
-            'Estudio de mercado y actualización de precios',
-            'Administración de calendarios',
-            'Publicidad del alojamiento',
-            'Gestión de reviews',
-            'Reportes de reservas mensuales',
-            'Asesoría de decoración',
-            'Fotografías profesionales',
-            'Housekeeping',
-            'Welcome Kit',
-          ],
-          cta: 'Elegir Híbrido',
-        },
-        {
-          name: 'HOSTMATE PERSONALIZADO',
-          description: 'Plan a tu medida',
-          services: [
-            'Agenda una sesión 1:1 gratuita',
-            'Definimos tus necesidades específicas',
-            'Creamos un plan personalizado',
-            'Flexibilidad total en servicios',
-          ],
-          cta: 'Agendar Sesión',
-        },
-      ],
-    },
-
     // Testimonials Section
     testimonials: {
-      overline: 'TESTIMONIOS',
       headline: 'Lo Que Dicen',
       headlineHighlight: 'Nuestros Huéspedes',
       subtitle: 'Experiencias reales de huéspedes que se han hospedado en propiedades administradas por Hostmate.',
@@ -488,7 +402,6 @@ export const translations = {
 
     // Booking Section
     booking: {
-      overline: 'Comienza Ahora',
       headline: 'Agenda tu Consulta',
       headlineHighlight: 'Gratuita',
       subtitle: 'Agenda una sesión 1:1 gratuita para definir tus necesidades y hacerte un plan a la medida. Sin compromiso, solo conversamos sobre cómo podemos ayudarte.',
@@ -504,7 +417,6 @@ export const translations = {
 
     // Work With Us Section
     workWithUs: {
-      overline: 'Únete a Nuestro Equipo',
       headline: 'Trabaja con Nosotros',
       subtitle: '¿Te apasiona la hospitalidad y la administración de propiedades? Estamos buscando personas talentosas para unirse a nuestro equipo en crecimiento. Aplica hoy y forma parte de la familia Hostmate.',
       buttonText: 'Sé Parte de Hostmate',

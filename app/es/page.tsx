@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { LanguageProvider } from '@/lib/LanguageContext';
 import { HomePage } from '@/components/HomePage';
 
 export const metadata: Metadata = {
@@ -39,9 +38,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomeEs() {
-  return (
-    <LanguageProvider initialLanguage="es">
-      <HomePage />
-    </LanguageProvider>
-  );
+  return <HomePage language="es" />;
 }

@@ -50,7 +50,7 @@ export function Footer() {
                 host<span className="text-primary">mate</span>
               </span>
             </div>
-            <p className="text-muted leading-relaxed" suppressHydrationWarning>
+            <p className="text-muted leading-relaxed">
               {t.footer.description}
             </p>
             <div className="flex items-center gap-2 mt-4 text-muted">
@@ -61,7 +61,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-semibold text-foreground mb-4" suppressHydrationWarning>{t.footer.contact}</h3>
+            <h3 className="font-semibold text-foreground mb-4">{t.footer.contact}</h3>
             <ul className="space-y-3">
               {contactLinks.map((link) => (
                 <li key={link.href}>
@@ -75,7 +75,7 @@ export function Footer() {
                     <span className="flex flex-col">
                       <span>{link.label}</span>
                       {'sublabel' in link && link.sublabel && (
-                        <span className="text-xs text-muted/70">{link.sublabel}</span>
+                        <span className="text-sm text-muted">{link.sublabel}</span>
                       )}
                     </span>
                   </a>
@@ -86,7 +86,7 @@ export function Footer() {
 
           {/* Links */}
           <div>
-            <h3 className="font-semibold text-foreground mb-4" suppressHydrationWarning>{t.footer.linksTitle}</h3>
+            <h3 className="font-semibold text-foreground mb-4">{t.footer.linksTitle}</h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -96,10 +96,9 @@ export function Footer() {
                     rel={'external' in link && link.external ? 'noopener noreferrer' : undefined}
                     className={`block py-1.5 transition-colors ${
                       link.highlight
-                        ? 'text-primary hover:text-primary-glow'
+                        ? 'text-primary-dark hover:text-primary'
                         : 'text-muted hover:text-foreground'
                     }`}
-                    suppressHydrationWarning
                   >
                     {link.label}
                   </a>
@@ -111,6 +110,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-black/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Year is baked in at build time; may differ from the visitor clock around New Year */}
           <p className="text-muted text-sm" suppressHydrationWarning>
             © {new Date().getFullYear()} Hostmate Costa Rica. {t.footer.rights}
           </p>

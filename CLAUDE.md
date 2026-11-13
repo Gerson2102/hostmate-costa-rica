@@ -5,7 +5,7 @@ Bilingual (EN/ES) property management website. Single-page app with cinematic an
 ## Tech Stack
 
 Next.js 15.5.7 | React 19 | TypeScript 5 | Tailwind CSS 4
-GSAP 3.12.5 + ScrollTrigger | Framer Motion 11 | Lenis 1.1.18 | SplitType 0.3.4
+Framer Motion 11 | Lenis 1.3 (smooth scroll, desktop only)
 
 ## Critical Rules
 
@@ -15,15 +15,16 @@ GSAP 3.12.5 + ScrollTrigger | Framer Motion 11 | Lenis 1.1.18 | SplitType 0.3.4
 * { margin: 0; padding: 0; box-sizing: border-box; }  /* DON'T DO THIS */
 ```
 
-### GSAP - ALWAYS Cleanup
-```typescript
-useEffect(() => {
-  const ctx = gsap.context(() => { /* animations */ }, containerRef);
-  return () => ctx.revert();  // CRITICAL
-}, []);
-```
+### Entrances - content visible by default
+Add `className="reveal"` (CSS scroll-driven animation in `globals.css`) for section entrances.
+Do NOT use framer-motion `initial={{ opacity: 0 }}` + `whileInView`: it ships content hidden until JS hydrates.
+`.reveal` tracks the nearest scroll container, so its section must not be `overflow-hidden` (use `overflow-clip`).
+
+Hero entrance: an inline script in `app/layout.tsx` puts `intro` (first home visit of the session: "host" + "mate" doors, ~3s) or `enter` (later visits, ~1s) on `<html>` before first paint and removes it at 3.3s (keep that above the longest animation). All timing lives in `globals.css` (`--entrance-start`, `--entrance-dur`, `--stagger`, per-element `--i`). With no class (reduced motion, no JS) nothing animates.
 
 ### Internationalization
+The route sets the language: `/` = English, `/es/` = Spanish (`<HomePage language="es" />`).
+LanguageSwitcher links between them; nothing is stored in localStorage.
 ```typescript
 const { t, language } = useLanguage();
 <h1>{t.hero.headline1}</h1>
@@ -42,11 +43,11 @@ const { t, language } = useLanguage();
 
 ## Complex Components
 
-**Services.tsx** - GSAP pinned horizontal scroll with `invalidateOnRefresh: true`. Include `language` in useEffect deps.
+**Services.tsx** - Static two-column list of the 8 services (icon, title, description).
 
 **Properties.tsx** - Filter system + carousel. Bilingual fields: `name[language]`, `description[language]`
 
-**SmoothScroll.tsx** - Lenis wrapper integrated with GSAP ticker.
+**SmoothScroll.tsx** - Lenis (`autoRaf`), only >= 768px and without reduced motion.
 
 ## Deployment
 

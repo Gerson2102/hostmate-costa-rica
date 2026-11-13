@@ -155,10 +155,9 @@ export function Navigation() {
                   key={link.href}
                   href={link.href}
                   onClick={handleNavClick}
-                  className={`relative px-3 py-2 text-[13px] font-medium transition-colors duration-200 ${
+                  className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
                     isActive ? 'text-foreground' : 'text-muted hover:text-foreground'
                   }`}
-                  suppressHydrationWarning
                 >
                   {link.label}
                   <span
@@ -179,8 +178,7 @@ export function Navigation() {
               href="https://calendly.com/hostmatecostarica-info/30min"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-primary-dark hover:bg-primary text-white px-4 py-2 rounded-full text-[13px] font-medium transition-all duration-200 hover:shadow-glow-primary ml-2"
-              suppressHydrationWarning
+              className="bg-primary-dark hover:bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ml-2"
             >
               {t.nav.bookConsultation}
             </a>
@@ -192,7 +190,7 @@ export function Navigation() {
             <button
               className="text-foreground p-2 -mr-2"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-label={mobileOpen ? t.a11y.closeMenu : t.a11y.openMenu}
               aria-expanded={mobileOpen}
             >
               <div className="relative w-6 h-6">
@@ -260,7 +258,6 @@ export function Navigation() {
                           : 'text-muted hover:text-foreground hover:bg-black/[0.03]'
                       }`}
                       onClick={() => { handleNavClick(); closeMobileMenu(); }}
-                      suppressHydrationWarning
                     >
                       <span className="flex items-center gap-3">
                         {isActive && (
@@ -285,7 +282,6 @@ export function Navigation() {
                   }}
                   className="block bg-primary-dark text-white px-6 py-3 rounded-full font-medium text-center mt-3"
                   onClick={closeMobileMenu}
-                  suppressHydrationWarning
                 >
                   {t.nav.bookConsultation}
                 </motion.a>
